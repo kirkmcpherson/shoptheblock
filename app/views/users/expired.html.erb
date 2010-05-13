@@ -1,0 +1,27 @@
+<h1>Expired Members</h1>
+
+<p><%=@grouped_users.collect { |status, users| next if status.blank?;
+          if   status ==  'Newsletter'
+             "#{status} :    #{users.length}"
+          elsif status == 'Cardholder'
+            "#{status} :    #{users.length + @count_extracard_cardholders }"
+          elsif status == 'Member'
+             "#{status} :    #{users.length + @count_extracard_members }"
+           end
+} *  ' | '
+ 
+          %></p>
+
+<table id="members_table" cellpadding="5" cellspacing="1" border="0" width="100%">
+  <%= render :partial => 'members_table' %>
+</table>
+
+<% content_for :sidebar do %>
+  <div class="statsContainer">
+    <%= heading_tag('Actions') %>
+
+    <div><%= link_to('Add Member', :signup) %></div>
+    <div><%= link_to('View Pending Requests', :pending_cards) %></div>
+  </div>
+<% end #sidebar %>
+

@@ -1,0 +1,43 @@
+<%
+settings = SiteSettings.get
+%>
+
+<h1>Renew Your Membership</h1>
+<p>
+  Your membership is up for renewal!
+</p>
+<p>
+  Renew your <%= t('site_name') %> card for only $<%=  settings.membership_cost.to_i %> here
+  through our secure site. Please enter your email address or card number to verify your existing 
+  membership.
+</p>
+
+<%= error_messages_for :user, :billing %>
+
+<% form_for(:user) do |f| %>
+
+<table>
+<tr>
+	<td class="label">Email:</td>
+	<td><%= text_field_tag :email, @email, :class => 'inputtextshort', :size => 30 %></td>
+</tr>
+<tr>
+	<td colspan="2" align="center">- OR -</td>
+</tr>
+<tr>
+	<td class="label">Card Number:</td>
+	<td>
+    <%= text_field_tag :card_number, @card_number, :class => 'inputtextshort', :size => 30 %>
+  </td>
+</tr>
+<tr>
+	<td colspan="2"></td>
+</tr>
+<tr>
+  	<td><%= submit_tags(:submit_key=>'users.renew.submit', :cancel_url => root_path) %></td>
+	<td></td>
+</tr>
+</table>
+
+
+<% end #form %>
