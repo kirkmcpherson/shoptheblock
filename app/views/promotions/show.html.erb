@@ -1,0 +1,46 @@
+
+<h1><%= h(@promotion.headline)  %></h1>
+
+<% if !@promotion.photo.nil? && @promotion.photo.file? %>
+  <div><%= image_tag(@promotion.photo.url(:original))  %></div>
+<% end %>
+
+<div>
+  <%= h(@promotion.description) %>
+</div>
+
+<table>
+  <tr>
+    <td class="label">
+      Where:
+    </td>
+    <td>
+      <%= link_to(
+        @promotion.merchant.name,
+        @promotion.store_id.nil? ? merchant_url(@promotion.merchant_id) : store_url(@promotion.store_id)
+      ) %>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="label">When:</td>
+    <td class="value"><%= @promotion.format_dates  %></td>
+  </tr>
+</table>
+
+<%
+#===============================================================================
+# SIDEBAR
+#===============================================================================
+%>
+
+<% if admin_logged_in? %>
+
+  <% content_for :sidebar do %>
+
+    <%= heading_tag('Actions') %>
+    <div><%= link_to("Edit #{@promotion.promotion? ? 'Promotion':'Discount'}", edit_promotion_path(@promotion) + (@promotion.promotion? ? "?promo=true" : ""))  %></div>
+    <div><%= link_to('View Merchant', merchant_path(@promotion.merchant))  %></div>
+  <% end %>
+
+<% end #sidebar %>

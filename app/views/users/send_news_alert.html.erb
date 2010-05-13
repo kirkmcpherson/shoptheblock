@@ -1,0 +1,117 @@
+<h1><%= t('users.action.send_news_alert') %></h1>
+
+<% form_tag() do %>
+
+<div>
+  Enter the text you want to send to news alert recipients:
+</div>
+
+<table>
+  <tr>
+    <td class="label">Subject:</td>
+    <td class="value"><%= text_field_tag('subject', @subject, :size=>40)  %></td>
+  </tr>
+  <tr>
+    <td class="label">Message:</td>
+    <td class="value"><%= text_area_tag('message', @message, :size => '40x20') %></td>
+  </tr>
+</table>
+
+<p>
+  <%= radio_button_tag :recipients, Newsletter::ALL_RECIPIENTS, @news_alert.recipient_method == NewsAlert::ALL_RECIPIENTS %>
+  <%= label_tag :recipients_all_recipients, t('.recipients.all') %>
+</p>
+
+<p>
+  <%= radio_button_tag :recipients, Newsletter::RECIPIENTS_BY_CATEGORY, @news_alert.recipient_method == NewsAlert::RECIPIENTS_BY_CATEGORY %>
+  <%= label_tag :recipients_recipients_by_category, t('.recipients.by_category') %>
+</p>
+
+<p class="recipients"><%= t('.recipients.select') %>: <%= link_to_function t('.recipients.all'), "setChecked('category', true)" %>, <%= link_to_function t('.recipients.none'), "setChecked('category', false)" %></p>
+<table class="recipients">
+  <%- @categories.in_groups_of(2).each do |group| -%>
+    <tr>
+      <%- group.each do |category| -%>
+        <% next unless category %>
+        <td>
+          <%= check_box_tag 'categories[]', category.id, @news_alert.categories.include?(category), :id => "category_#{category.id}", :class => 'category' %>
+          <%= label_tag "category_#{category.id}", category.to_s %>
+        </td>
+      <%- end -%>
+    </tr>
+  <%- end -%>
+</table>
+
+<br/>
+
+<p>
+  <%= radio_button_tag :recipients, NewsAlert::SELECT_RECIPIENTS, @news_alert.recipient_method == NewsAlert::SELECT_RECIPIENTS %>
+  <%= label_tag :recipients_select_recipients, t('.recipients.select_members') %>
+</p>
+
+<h2 class="recipient_header"><%= t('.recipients.members') %></h2>
+<p class="recipients"><%= t('.recipients.select') %>: <%= link_to_function t('.recipients.all'), "setChecked('member', true)" %>, <%= link_to_function t('.recipients.none'), "setChecked('member', false)" %></p>
+<table class="recipients sortable">
+  <thead>
+    <tr>
+      <th class="nosort"></th>
+      <th class="sortfirstasc" style="width: 22px;">#</th>
+      <th style="width: 88px;"><%= t('.recipients.first_name') %></th>
+      <th style="width: 88px;"><%= t('.recipients.last_name') %></th>
+      <th><%= t('.recipients.email') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%- @members.each_with_index do |member, i| -%>
+      <tr>
+        <td><%= check_box_tag 'users[]', member.id, @news_alert.users.include?(member), :id => "subscriber_#{member.id}", :class => 'member' %></td>
+        <td><%= i + 1 %></td>
+        <td><%= member.first_name %></td>
+        <td><%= member.last_name %></td>
+        <td><%= member.email %></td>
+      </tr>
+          <% unless  member.partner_first_name.blank? %>
+           <tr>
+            <td><%= check_box_tag 'users[]', member.id, @news_alert.users.include?(member), :id => "subscriber_#{member.id}", :class => 'member' %></td>
+            <td><%= i + 1 %></td>
+            <td><%= member.partner_first_name %></td>
+            <td><%= member.partner_last_name %></td>
+            <td><%= member.partner_email %></td>
+          </tr>
+           <%- end -%>
+
+    <%- end -%>
+  </tbody>
+</table>
+
+<br/>
+
+<h2 class="recipient_header"><%= t('.recipients.non_members') %></h2>
+<p class="recipients"><%= t('.recipients.select') %>: <%= link_to_function t('.recipients.all'), "setChecked('non_member', true)" %>, <%= link_to_function t('.recipients.none'), "setChecked('non_member', false)" %></p>
+<table class="recipients sortable">
+  <thead>
+    <tr>
+      <th class="nosort"></th>
+      <th class="sortfirstasc" style="width: 22px;">#</th>
+      <th><%= t('.recipients.email') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%- @non_members.each_with_index do |non_member, i| -%>
+      <tr>
+        <td><%= check_box_tag 'users[]', non_member.id, @news_alert.users.include?(non_member), :id => "subscriber_#{non_member.id}", :class => 'non_member' %></td>
+        <td><%= i + 1 %></td>
+        <td><%= non_member.email %></td>
+      </tr>
+    <%- end -%>
+  </tbody>
+</table>
+
+<br/>
+
+<div>
+  <%= submit_tags(:submit_key=>'users.send_news_alert.submit', :cancel_url=>account_path) %>
+</div>
+
+
+<% end # form %>

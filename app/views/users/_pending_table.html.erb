@@ -1,0 +1,51 @@
+<thead>
+  <th></th>
+  <%= sort_th 'Name', 'name', 'pending_table' %>
+  <%= sort_th 'Member ID', 'id', 'pending_table' %>
+  <%= sort_th 'Promo Code', 'promo_code_id', 'pending_table' %>
+	<%= sort_th 'Gift Start Date', 'gift_start_date', 'pending_table' %>
+  <%= sort_th 'Date Requested', 'date_card_requested', 'pending_table', true %>
+  <%= sort_th 'Payment Verified?', 'status', 'pending_table' %>
+  <th>Date Shipped</th>
+</thead>
+
+  <% @pending_users.each do |user| %>
+  <tbody class=<%= cycle('odd', 'even') %>>
+  <tr class="pending_cell">
+    <td>
+      <% if @mode == :view %>
+        <%= check_box_tag("user_#{user.id}", user.id, false, {:class => 'shipped_box'}) %>
+      <%  end %>
+    </td>
+    <td>
+      <strong><%= user.full_name %> </strong>
+    </td>
+    <td><%= user.member_id %></td>
+    <td><%= user.promo_code %></td>
+		<td><%= user.gift_start_date %></td>
+    <td><%= user.date_card_requested.to_date %></td>
+    <td><%= (user.status == User::StatusFlags[:needs_card]) ? 'Yes' : 'No' %></td>
+    <td style="white-space:nowrap;">
+      <%= calendar_date_select_tag("ship_date_#{user.id}", 
+                                   user.date_card_shipped || '', 
+                                   :popup => true,
+                                   :style => 'width: 140px;',
+                                   :name => "ship_dates[#{user.id}][date_card_shipped]") %>
+    </td>
+  </tr>
+  <tr class="pending_cell pending_divider">
+    <td></td>
+    <td colspan="4">
+      <%= user.shipping_location.full_address if user.shipping_location && !user.gift_location%>
+			<%= user.gift_location.full_address if user.gift_location %> <br>
+        <% unless   user.gift_shipping_full_name.blank?   %>           
+            ( Attention: <%=  user.gift_shipping_full_name %> )
+        <% end %>
+    </td>
+    <td colspan="2">
+      cards requested: <%= user.card_num %><%= " (#{user.partner_name})" if user.card_num == 2 %>
+    </td>
+  </tr>
+  </tbody>
+  <% end %>
+

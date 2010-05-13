@@ -1,0 +1,112 @@
+<h1>Complete Your Gift Registration</h1>
+
+<p>
+  Activate your membership today and start saving up to 20% at some of the best stores in your neighbourhood. 
+</p>
+
+<p>
+	Each card is valid for one year from the registration date. Your card will be shipped to you within 72 hours after registration and a temporary one will be activated immediately. 
+</p>
+
+<%= validation_errors @user, :sub => {:shipping_postalcode => :shipping_postal_code, :base => nil} %>
+
+<% form_for(
+  :user,
+  :url => { :action => 'update' },
+  :html => { :multipart => true, :method => :put }
+)  do |f| -%>
+
+
+<table cellpadding="0" cellspacing="0" class="account_details miscTable" width="100%">
+  <tr>
+  <td class="label mandatory">First Name:</td>
+  <td class="value"><%= f.text_field :first_name, :class => 'inputtext' %></td>
+</tr>
+<tr>
+  <td class="label mandatory">Last Name:</td>
+  <td class="value" ><%= f.text_field :last_name, :class => 'inputtext' %></td>
+</tr>
+<tr>
+  <td class="label mandatory">Email:</td>
+  <td class="value" ><%= f.text_field :email, :class => 'inputtext' %></td>
+</tr>
+<tr>
+  <td class="label mandatory">Phone Number:</td>
+  <td class="value" ><%= f.text_field :phone_number, :class => 'inputtext' %></td>
+</tr>
+<tr>
+  <td class="label mandatory">Password:</td>
+  <td class="value"><%= f.password_field :password, :class => 'inputtext' %></td>
+</tr>
+<tr>
+  <td class="label mandatory">Confirm Password:</td>
+  <td class="value"><%= f.password_field :password_confirmation, :class => 'inputtext' %></td>
+</tr>
+
+	<%#render :partial => 'users/edit_member_account_info', :locals => {:f => f, :is_admin => false, :is_signup => false, :settings => @site_settings, :gift => false}%>
+
+<% if ! @user.partner_name.blank? %>
+   <tr>
+    <td class="label">Spouse First Name:</td>
+    <td class="value"><%= f.text_field :partner_first_name %></td>
+  </tr>
+  <tr>
+    <td class="label">Spouse Last Name:</td>
+    <td class="value"><%= f.text_field :partner_last_name %></td>
+  </tr>
+  <tr>
+    <td class="label">Spouse Email:</td>
+    <td class="value"><%= f.text_field :partner_email %></td>
+  </tr>
+<% else %>
+  <tr>
+    <td colspan="2">
+      <div>
+          <fieldset ><legend>Optional</legend>
+            <table cellpadding="0" cellspacing="0" class="account_details miscTable"  width="100%">
+            <tr>
+            <td class="label">Spouse First Name:</td>
+            <td class="value"><%= f.text_field :partner_first_name %></td>
+          </tr>
+          <tr>
+            <td class="label">Spouse Last Name:</td>
+            <td class="value"><%= f.text_field :partner_last_name %></td>
+          </tr>
+          <tr>
+            <td class="label">Spouse Email:</td>
+            <td class="value"><%= f.text_field :partner_email %></td>
+          </tr>
+            </table>
+         
+          </fieldset>
+       </div>
+    </td>
+  </tr>
+ <% end -%>
+
+  <tr>
+    <td class="label">Promo Code:</td>
+    <td class="value"><%= f.text_field :promo_code_code, :class => 'inputtext' %></td>
+  </tr>
+
+	<%=render :partial => 'users/edit_member_preferences', :locals => {:f => f, :is_admin => false, :is_signup => false, :settings => @site_settings, :gift => false}%>
+
+	<%=render :partial => 'users/edit_member_referrals', :locals => {:f => f, :is_admin => false, :is_signup => false, :settings => @site_settings, :gift => false}  %>
+
+	<%=render :partial => 'users/edit_member_shipping_address', :locals => {:f => f, :is_admin => false, :is_signup => false, :settings => @site_settings, :gift => true} %>
+
+	<%=render :partial => 'users/edit_member_terms_and_conditions', :locals => {:f => f, :is_admin => false, :is_signup => false, :settings => @site_settings, :gift => false} %>
+
+	<tr>
+	  <td colspan="2">
+	  <%= submit_tags(
+	    :submit_key => 'users.gift.complete_registration',
+	    :cancel_url => welcome_path
+	  ) %>
+
+	  </td>
+	</tr>
+	
+</table>
+
+<% end #form -%>

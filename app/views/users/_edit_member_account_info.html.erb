@@ -1,0 +1,103 @@
+
+<!--
+==============================================================================
+ACCOUNT INFO
+==============================================================================
+-->
+<tr>
+  <td class="label mandatory">First Name:</td>
+  <td class="value"><%= f.text_field :first_name, :class => 'inputtext' %></td>
+</tr>
+<tr>
+  <td class="label mandatory">Last Name:</td>
+  <td class="value" ><%= f.text_field :last_name, :class => 'inputtext' %></td>
+</tr>
+<tr>
+  <td class="label mandatory">Email:</td>
+  <td class="value" ><%= f.text_field :email, :class => 'inputtext' %></td>
+</tr>
+   <% if is_signup %>
+    <tr>
+      <td class="label mandatory">Confirm Email:</td>
+      <td class="value" ><%= f.text_field  :confirm_email, :class => 'inputtext',:onblur =>'compare_emails();' %></td>      
+    </tr>
+    <tr>
+      <td></td>
+      <td class='error_match' id='email_error' style='display:none'>
+        <%= t('users.create.compare_emails_error') %>
+      </td>
+    </tr>
+   <% end %>
+<tr>
+  <td class="label mandatory">Phone Number:</td>
+  <td class="value" ><%= f.text_field :phone_number, :class => 'inputtext' %></td>
+</tr>
+
+<% unless gift %>
+<tr>
+  <td class="label mandatory">Password:</td>
+  <td class="value"><%= f.password_field :password, :class => 'inputtext' %></td>
+</tr>
+<tr>
+  <td class="label mandatory">Confirm Password:</td>
+  <td class="value"><%= f.password_field :password_confirmation, :class => 'inputtext' %></td>
+</tr>
+<% end -%>
+
+<% if is_admin %>
+    <tr>
+      <td class="label">Newsletter sign-up :</td>
+      <td><%= calendar_date_select_tag('user[created_at]', @user.created_at, :popup=>true) %></td>
+   </tr>
+  <tr>
+      <td class="label">Member sign-up date:</td>
+      <td><%= calendar_date_select_tag('user[date_card_requested]', @user.date_card_requested, :popup=>true) %></td>
+   </tr>
+  <tr>
+    <td class="label">Membership since:</td>
+    <td class="value">
+      <%= calendar_date_select_tag('user[member_since]', @user.member_since, :popup=>true) %>
+    </td>
+  </tr>
+  <tr>
+    <td class="label">Membership Expiration:</td>
+    <td class="value">
+      <%= calendar_date_select_tag('user[membership_expiration]', @user.membership_expiration, :popup=>true) %>
+    </td>
+  </tr>  
+<% end %>
+
+  <%  unless is_signup   %>
+    <tr>
+    <td class="label">Spouse First Name:</td>
+    <td class="value"><%= f.text_field :partner_first_name %></td>
+  </tr>
+  <tr>
+    <td class="label">Spouse Last Name:</td>
+    <td class="value"><%= f.text_field :partner_last_name %></td>
+  </tr>
+  <tr>
+    <td class="label">Spouse Email:</td>
+    <td class="value"><%= f.text_field :partner_email %></td>
+  </tr> 
+  <% end %>
+
+<% if is_signup %>
+  <tr>
+    <td class="label">
+      Purchase An Extra Card<br/>(for spouse only)
+    </td>
+    <td class="value">
+      <%= f.check_box :card_num, { :onclick => "if(this.checked) $('extra_names').show(); else $('extra_names').hide();" }, 2, 1 %> Buy an extra card for an additional $10<br/>
+      <div id="extra_names" style="<%= 'display: none;' if @user.card_num != 2 %>">
+      First name: <%= f.text_field :partner_first_name %><br/>
+      Last name: <%= f. text_field :partner_last_name %><br/>
+      E-mail: <%= f.text_field :partner_email %>
+    </div>
+    </td>
+  </tr>
+  <tr>
+    <td class="label">Promo Code:</td>
+    <td class="value"><%= f.text_field :promo_code_code, :class => 'inputtext' %></td>
+  </tr>
+<% end %>

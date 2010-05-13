@@ -1,0 +1,41 @@
+<%
+
+store = promotion.store
+merch = store.merchant
+
+-%>
+<% mapped_content_tag(
+  :div,
+  store.location,
+  :marker => 'promotion_marker.png',
+  :popup => { :class => 'map_popup' }
+) do %>
+<table cellpadding="0" cellspacing="0" class="item_container">
+  <tr>
+    <td rowspan="5" class="item_image" valign="top">
+      <%= image_tag(merch.logo.url(:thumb), :size => '160x80>') %>
+    </td>
+    <td class="item_title" width="100%"><%= link_to(promotion.headline, promotion)  %></td>
+    <td class="item_date" rowspan="5" valign="middle">&nbsp;<%= sprintf('%1$.1fkm', promotion.distance)  %></td>
+  </tr>
+  <tr>
+    <td class="item_description"><%= h(promotion.description) %></td>
+  </tr>
+  <tr>
+    <td class="item_description"><%= h(merch.name) -%></td>
+  </tr>
+  <% unless promotion.start_date.nil? && promotion.end_date.nil? -%>
+  <tr>
+    <td class="item_date">
+      <%= promotion.format_dates %>
+    </td>
+  </tr>
+  <% end -%>
+  <tr>
+    <td class="item_date">
+      <%= h(store.location.address) %>
+    </td>
+  </tr>
+</table>
+
+<% end %>

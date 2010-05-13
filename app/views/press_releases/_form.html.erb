@@ -1,0 +1,26 @@
+<%= f.error_messages %>
+
+<p>
+  <%= f.label :title %><br />
+  <%= f.text_field :title %>
+</p>
+<p>
+  <%= f.label :publication %><br />
+  <%= f.text_field :publication %>
+</p>
+<p>
+  <%= f.label :publication_date %><br />
+  <%= calendar_date_select_tag("press_release_publication_date", 
+                               @press_release.publication_date || '', 
+                               :popup => true,
+                               :style => 'width: 140px;',
+                               :name => "press_release[publication_date]") %>
+</p>
+<p>
+  <%= f.label :url, t('press_releases.url.name') %><br />
+  <%= f.text_field :url, :value => @press_release.url || 'http://' %>
+</p>
+<p>
+  <%= f.label :article %><br />
+  <%= f.text_area :article %>
+</p>

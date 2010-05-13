@@ -1,0 +1,32 @@
+<%
+
+merch = item.merchant
+merch = item.store.merchant if merch == nil
+
+-%>
+<table cellpadding="0" cellspacing="0">
+  <tr>
+    <% if (@location != nil) %>
+    <td rowspan="4" class="item_image">
+      <%= image_tag(merch.logo.url(:style => :thumbnail), :size => '50x50') %>
+    </td>
+    <% end #if %>
+    <td class="item_title"><h2><%= link_to(item.headline, item)  %></h2></td>
+  </tr>
+  <tr>
+    <td class="item_description"><%= h(item.description) %></td>
+  </tr>
+  <tr>
+    <td class="item_date">
+      <% if (item.start_date != nil && item.end_date != nil) -%>
+        <%= item.format_dates %>
+      <% end -%>
+    </td>
+  </tr>
+  <tr>
+    <td class="item_date">
+      <%= link_to(merch.name, item.store) -%>
+    </td>
+  </tr>
+</table>
+

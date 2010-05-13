@@ -1,0 +1,25 @@
+<%#image_tag 'shopping-bags.png', :align=>"left" %><h1>The Road to Savings...</h1>
+<div class="welcome_message">
+
+	<p class="promoText" style="font-size: 22px !important;">Shop the Block is Toronto’s only exclusive <strong style="font-size: 22px !important;">discount card</strong> designed to help savvy shoppers <strong style="font-size: 22px !important;">save money</strong> while <strong style="font-size: 22px !important;">supporting independent businesses</strong> in their neighbourhood.</p>
+         <br>
+  <%= render :partial => 'search' %>
+<div style="width:520px; height:220px; margin-top:40px; margin-bottom:40px; text-align: center;">
+
+	<div style="width:255px; float:left;">
+	<%= link_to (image_tag 'card-signup.jpg'), signup_path %>                
+	<center><p style="color: #3B1771;">Sign up and start saving in your neighbourhood today!</p></center>
+	</div>
+
+	<div style="width:255px; float:left; margin-left:10px;">
+	<%= link_to (image_tag 'card-gift.jpg'), give_a_gift_path %>                
+	<center><p style="color: #3B1771;">Buy a gift for a friend or loved one!</p></center>
+	</div>
+
+</div>
+
+
+
+<%= link_to (image_tag ('newsletter-promo.jpg', :style=>'float:left;')), news_items_path %><div style="width:500px;height:200px; margin-top:35px;"><p class="promoText">Sign up for <strong>Best of the Block</strong>, our FREE bi-weekly newsletter, to find out what’s new in your neighbourhood!</p><%= link_to (image_tag 'click-here.jpg', :style => 'margin-bottom:50px;'), news_items_path %>
+</div>
+</div>

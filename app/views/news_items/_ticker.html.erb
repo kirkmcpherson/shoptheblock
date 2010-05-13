@@ -1,0 +1,28 @@
+<%
+#
+# Displays a rotating list of recent news items
+#
+max_items = 20
+recent_items = nil
+
+if defined?(@location)
+    recent_items = NewsItem.find_nearby(@location, 10, max_items)
+else
+    recent_items = NewsItem.find(:all, :limit => max_items)
+end
+%>
+
+<div id="newsItemContainer">
+  <% recent_items.each do %>
+  <% end %>
+</div>
+
+<% javascript_tag do %>
+
+  function rotateItems()
+  {
+  }
+  
+  
+
+<% end %>

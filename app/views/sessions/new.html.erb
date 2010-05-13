@@ -1,0 +1,30 @@
+<h1>Log In</h1>
+
+<% form_tag session_path do -%>
+
+<table>
+<tr>
+	<td class="label">Email:</td>
+	<td><%= text_field_tag :email, @email, :class => 'inputtextshort', :size => 30 %></td>
+</tr>
+<tr>
+	<td class="label">Password:</td>
+	<td>
+    <%= password_field_tag :password, nil, :class => 'inputtextshort', :size => 30 %>
+    <br/><%= link_to("Forgot your password?", :forgot_password) %>
+  </td>
+</tr>
+<tr>
+	<td class="label"><%= check_box_tag 'remember_me', '1', @remember_me %> Remember me</td>
+	<td></td>
+</tr>
+<tr>
+	<td colspan="2"></td>
+</tr>
+<tr>
+	<td><%= submit_tag 'Log in' %></td>
+	<td></td>
+</tr>
+</table>
+
+<% end -%>

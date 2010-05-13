@@ -1,0 +1,17 @@
+# TODO Operate on the page object
+
+if  @type == 'all_store'
+   page[:myneighbourhood_content].replace_html  :partial => '/home/allstores'  , :layout => false
+
+  if page[:search_content]
+     page[:search_content].hide()
+   end
+ 
+elsif @type == 'myneighbourhood'
+      page[:myneighbourhood_content].replace_html  :partial => 'home/myneighbourhood'  , :layout => false
+    if page[:search_content]
+       page[:search_content].show()
+       page<<'doSearch(0);'
+     end
+
+ end

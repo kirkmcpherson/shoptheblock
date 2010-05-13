@@ -1,0 +1,64 @@
+<% settings = SiteSettings.get%>
+
+<h1>GIVE A GIFT</h1>
+<p>
+  Looking for the perfect present? Give the gift of Shop the Block and spread the savings.  Friends and family can save up to 20% off every purchase all year long while supporting independent retailers in their neighbourhood.
+</p>
+<p>
+  Purchase a  <%= t('site_name') %> gift card here for only $<%=  settings.membership_cost.to_i %>
+  through our secure site. Each card is valid for one year from the date you select as the Gift Start Date. Your gift recipient will be able to print
+  a temporary card on the Gift Start Date and their permanent card  will be shipped to them within 72 hours from then.
+</p>
+
+<%= validation_errors @user, :sub => {:gift_giver_first_name => :your_first_name, :gift_giver_last_name => :your_last_name, :gift_giver_email => :your_email, :categories => nil, :gift_address => :shipping_addressaaa, :gift_city => :shipping_cityaaa, :gift_province => :shipping_provinceaaa, :gift_postalcode => :shipping_postal_codeaaa} %>
+<% error_messages_for :user, :billing %>
+
+<% form_for(
+  :user,
+  :url => { :action => 'create' },
+  :html => { :multipart => true, :method => :post }
+)  do |f| -%>
+
+<table cellpadding="0" cellspacing="0" class="account_details miscTable" width="100%">
+
+	<tr>
+	  <th colspan="2">Recipient Info</th>
+	</tr>
+	<%=render :partial => 'users/edit_member_account_info', :locals => {:f => f, :is_admin => false, :is_signup => true, :settings => settings, :gift => true}%>
+	<tr>
+		<td class="label mandatory">Gift Start Date:<br/>
+                 (date recipient receives<br/> notification of gift)</td>
+		<td class="value"><%= calendar_date_select_tag('user[gift_start_date]', Date.today, :popup=>true, :valid_date_check => "date >= (new Date()).stripTime()") %>
+	</tr>
+
+        
+	<tr>
+	  <th colspan="2">Your Info</th>
+	</tr>
+	<tr>
+	  <td class="label mandatory">First Name:</td>
+	  <td class="value"><%= f.text_field :gift_giver_first_name, :class => 'inputtext' %></td>
+	</tr>
+	<tr>
+	  <td class="label mandatory">Last Name:</td>
+	  <td class="value" ><%= f.text_field :gift_giver_last_name, :class => 'inputtext' %></td>
+	</tr>
+	<tr>
+	  <td class="label mandatory">Email:</td>
+	  <td class="value" ><%= f.text_field :gift_giver_email, :class => 'inputtext' %></td>
+	</tr>	
+
+	<%=render :partial => 'users/edit_member_gift_address', :locals => {:f => f, :is_admin => false, :is_signup => true, :settings => settings, :gift => true}  %>
+
+
+	<tr>
+	  <td colspan="2">
+	  <%= submit_tags(
+	    :submit_key => 'users.action.register',
+	    :cancel_url => root_path
+	  ) %>
+	  </td>
+	</tr>	
+</table>	
+	
+<% end -%>

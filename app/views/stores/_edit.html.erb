@@ -1,0 +1,104 @@
+
+<% form_for(
+  @store,
+  :url => @store.new_record? ? merchant_stores_path(@store.merchant_id) : store_path(@store),
+  :html => { :multipart => true }
+) do |f| %>
+
+  <%= f.error_messages  %>
+
+
+  <table class="editform">
+
+    <tr>
+      <td class="label">Merchant:</td>
+      <td class="value"><%= @store.merchant.name %></td>
+    </tr>
+    <tr>
+      <td class="label">Online Merchant:</td>
+      <td class="value"> <%=check_box_tag  'store[online]',1 , !@store.online? ,
+                                          :onclick => "toogleElement ($('store_online').checked); "  %>
+   <% if @merchant %> <%= @merchant.web_site_url   %><%  end %> </td>
+    </tr>
+    
+    <tr>
+      <td class="label">Address:</td>
+      <td class="value"><%= f.text_field  :address  %></td>
+    </tr>
+    <tr>
+      <td class="label">City:</td>
+      <td ><%= text_field_tag('store[city]', @store.city,:class => "phone_field short") -%><b>  Postal Code:</b>
+                <%= text_field_tag('store[postalcode]', @store.postalcode  , :maxlength => 8, :class => "phone_extension_field short")  -%>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="label">Phone Number:</td>
+      <td ><%= text_field_tag('store[phone]',@store.phone,:class => "phone_field short")  -%><b> Ext:</b>
+                <%= text_field_tag('store[phone_extension]', @store.phone_extension  , :maxlength => 6, :class => "phone_extension_field short")  -%></td>
+    </tr>
+
+          <tr>
+            
+                    <td class="label">Hours:</td>
+                    <% index = 0 %>
+                     
+                        <td class="value">
+                           <div id="hideShow">                            
+                                  <div id="hours_container">
+                                      <% @store.hours.items.each do |hi| %>
+                                            <% index = index + 1 %>
+                                       <%= render :partial => 'edit_hours_item', :locals => { :hours => hi,:index => index} %>
+                                      <% end %>
+                                  </div>
+                                  <% index = index + 1  %>
+                                  <%=  link_to_function 'Add' do |page|
+                                            page.insert_html(
+                                              :bottom,
+                                              'hours_container',
+                                              :partial => 'edit_hours_item',
+                                              :locals => { :hours => StoresHelper::HoursItem.new([0,4,9,0,17,0])  , :index => index }
+                                            )
+                                          end
+                                   %>
+                                 </div>
+                           <div id="online"><%=   t  "merchants.online"  %></div>
+                           </td>     
+    <tr>
+      <td class="label">Photo:</td>
+      <td class="value">
+        <div><%= f.file_field :photo, :class => 'inputtext' %></div>
+        <% if !@store.photo.nil? && @store.photo.file? %>
+          <div><%=  image_tag( @store.photo.url(:original) ) %></div>
+        <% end %>
+      </td>     
+    </tr>
+
+  </table>
+<% javascript_tag  do%>
+  function toogleElement( online )
+  {
+      if( online == 0 )
+      {
+          $('hideShow').show();
+          if(  $('online')  ) {  $('online').hide(); }
+      }
+      else
+      {
+          if( $('hideShow') )
+          {
+              $('hideShow').hide();
+           }
+          $('online').show();
+      }
+  }
+
+
+  toogleElement( $('store_online').checked );
+ <%end %>
+      
+  <p>
+    <%= submit_tags(:cancel_url => @store.new_record? ? merchant_path(@store.merchant) : store_path(@store)) %>
+  </p>
+
+<% end %>

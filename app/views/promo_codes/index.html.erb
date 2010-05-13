@@ -1,0 +1,68 @@
+<h1>Active Promo Codes</h1>
+
+<table cellpadding="5" cellspacing="1" border="0" width="100%">
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>Description</th>
+      <th>Expiration Date</th>
+      <th>&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <% @promo_codes.each do |promo_code| %>
+      <% if promo_code.expiration_date.nil? or promo_code.expiration_date > Date.today %>
+        <tr class=<%= cycle('odd','even') %>>
+          <td><%= h promo_code.code %></td>
+          <td><div class="clippingColumn"><%= h promo_code.description %></div></td>
+          <td><%= h promo_code.expiration_date %></td>
+          <td>
+            <%= link_to('edit', edit_promo_code_path(promo_code)) %>
+            <%= link_to('remove', promo_code_path(promo_code), :confirm => 'Are you sure?', :method => :delete) %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+
+  </tbody>
+</table>
+
+<br>
+<br>
+<% if  @expired_promo_codes.length > 0 %>
+          <h1>Expired Promo Codes</h1>
+
+          <table cellpadding="5" cellspacing="1" border="0" width="100%">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Description</th>
+                <th>Expiration Date</th>
+                <th>&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <%   @expired_promo_codes.each do |promo_code| %>
+                   <tr class=<%= cycle('odd','even') %>>
+                    <td><%= h promo_code.code %></td>
+                    <td><div class="clippingColumn"><%= h promo_code.description %></div></td>
+                    <td><%= h promo_code.expiration_date %></td>
+                    <td>
+                      <%= link_to('edit', edit_promo_code_path(promo_code)) %>
+                      <%= link_to('remove', promo_code_path(promo_code), :confirm => 'Are you sure?', :method => :delete) %>
+                    </td>
+                  </tr>               
+              <% end %>
+
+            </tbody>
+          </table>
+<% end %>
+<% content_for :sidebar do %>
+<div class="statsContainer">
+  <%= heading_tag('Actions') %>
+
+  <div><%= link_to('Add Promo Code', new_promo_code_path) %></div>
+</div>
+<% end #sidebar %>

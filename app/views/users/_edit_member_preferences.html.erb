@@ -1,0 +1,94 @@
+<!--
+==============================================================================
+PROFILE
+==============================================================================
+-->
+
+<tr>
+  <th colspan="2">
+  Preferences
+  </th>
+</tr>
+<tr><td colspan="2">
+<p>Please provide us with your address, select a search distance and the types of stores you're most interested in. This will help us to create your My Neighbourhood page which will display information that is within that distance and relevant to you every time you log in.</p>
+</td></tr>
+<tr>
+  <td class="label mandatory">Address:</td>
+  <td class="value">
+    <%= f.text_field :neighbourhood_location %><br/>
+    <span class="example">1 Elm Street, Toronto, Ontario M5N 2P4</span>
+  </td>
+</tr>
+<tr>
+  <td class="label mandatory">Search Distance:</td>
+  <td class="value"><%= f.select :search_distance, search_distances, :selected => @user.search_distance || search_distances.last[1] %></td>
+</tr>
+<tr>
+  <td class="label">Interests:</td>
+  <td class="value">
+    <!--div>Select what types of stores you're interested in. This will help
+    us display information that is more relevant to you.
+    </div-->
+  </td>
+</tr>
+<tr>
+  <td colspan=3>
+    <%= render :partial=>'/categories/checklist', :locals => {:categories => @user.categories, :field_name=>'user[category_ids][]'} %>
+  </td>
+</tr>
+<tr>
+  <td class="label">Email Format:</td>
+  <td class="value">
+    <% User::EmailFormat.each_value do |index| %>
+    <%= f.radio_button(:email_format, index) %> <%= t("users.email_format.format_#{index}") %>
+    <% end %>
+  </td>
+
+</tr>
+
+<% if is_admin %>
+<tr>
+  <td class="label">Newsletter:</td>
+  <td class="value">
+    <% User::NewsletterPreference.each_value do |index| %>
+    <%= f.radio_button(:newsletter, index) %> <%= t("users.newsletter.subscribe_#{index}") %>
+    <% end %>
+  </td>
+</tr>
+<% end %>
+
+<% if is_signup || admin_logged_in? %>
+
+<tr>
+  <td class="label" colspan="2">How did you hear about us?</td>
+</tr>
+<tr>
+  <td class="value" colspan="2">
+    <%
+    heard_about = [['Select', '']]
+    heard_about_named = [:friend, :merchant].collect{|v| User::HEARD_ABOUT_FROM.index(v) }
+    
+    t('users.heard_about_from').each {|val|
+      heard_about << [val, heard_about.length-1]
+    }
+    %>
+    <%= select_tag(
+     'user[heard_about_from]',
+      options_for_select(heard_about ,  @user.heard_about_from && @user.heard_about_from > -1 ? @user.heard_about_from  : -1 ),
+      :onchange => %{
+        if (#{ array_or_string_for_javascript(heard_about_named) }.indexOf($(this).getValue()) >= 0) {
+          $('user_heard_about_from_name').show();
+          $('user_heard_about_from_name').focus();
+        } else {
+          $('user_heard_about_from_name').hide();
+        }
+      }
+    ) %>
+    <%= f.text_field(
+      :heard_about_from_name,
+      :style => 'display:none'
+    ) %>
+  </td>
+</tr>
+<% end -%>
+<%# new user && not an admin %>

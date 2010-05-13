@@ -1,0 +1,49 @@
+<thead>
+  <%= sort_th 'Name', 'name', 'members_table' %>
+  <%= sort_th 'Email', 'email', 'members_table' %>
+  <%= sort_th 'Status', 'status', 'members_table' %>
+  <%= sort_th 'Heard About', 'heard_about_from', 'members_table' %>
+  <%= sort_th 'Card Requested', 'date_card_requested', 'members_table' %>
+  <%= sort_th 'Card Shipped', 'date_card_shipped', 'members_table' %>
+  <th>&nbsp;</th>
+</thead>
+<tbody>
+  <% @grouped_users.each do |status, users| %>
+    <% users.each do |user| %>
+
+      <tr class=<%= cycle('odd','even') %>>
+        <% if user.partner_name.blank?  %>  <%# for old version of users  %>
+            <% extra_card_text = !user.partner_first_name.blank? ? "(extra card: #{user.partner_first_name} #{user.partner_last_name})" : "" %>
+        <% else %>
+            <% extra_card_text = !user.partner_name.blank? ? "(extra card: #{user.partner_name} )" : "" %>
+        <% end  %>
+        <td>
+          <%= user.user_type == User::ROLES[:newsletter_only] ? '-' : link_to(h("#{user.last_name}, #{user.first_name} #{extra_card_text}"), user) %>
+        </td>
+        <td><%= user.email %><%= user.partner_email? ? '<br/>' + user.partner_email + ' (spouse)' : '' %></td>
+        <td><%= user.friendly_status %></td>
+        <td>
+          <% if user.heard_about_from != nil %>
+            <%= t('users.heard_about_from')[user.heard_about_from] %>
+          <% else %>
+            -
+          <% end %>
+        </td>        
+        <td>
+         <% date =   user.date_card_requested != nil ? user.date_card_requested.to_date  : '-' %>
+         <%=  user.user_cardholder?  ? date : "-" %>
+        </td>
+        <td>
+           <% date =  user.date_card_shipped != nil ? user.date_card_shipped.utc.to_date : '-'    %>
+          <%=  user.user_cardholder?  ? date : "-" %>
+        </td>       
+        <td>
+          <%= link_to('view', user) %>          
+          <%= link_to('edit', edit_user_path(user)) %>         
+          <%= link_to('delete', user_path(user), :method => :delete, :confirm => 'Are you sure?') %>
+        </td>
+      </tr>
+    <% end %>
+
+  <% end %>
+</tbody>

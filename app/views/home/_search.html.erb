@@ -1,0 +1,87 @@
+<%#
+# Standard location search form
+%>
+
+<div class="welcomepage">          
+       <% if @text.blank?  %>
+           <p><%= t('search.welcome')   %></p>
+       <% elsif @controller.action_name == 'participating_stores_neighbourhood' %>
+            <p><%= @text  +  email_link(:info,"know")   +"." %></p>
+        <% else %>
+            <p><%= @text  %></p>
+       <% end %>
+    
+    <% form_remote_tag(
+        :url => :validate_address ,
+        :update => 'searchError',
+        201 => 'validateFailed(request)',
+        200 => 'validateSucceeded(request)',
+        :failure => 'validateFailed(request)',
+        :method => :get
+    ) do -%>
+
+        <p style="white-space:nowrap;">
+                <%= hidden_field_tag('address_valid', '0') %>
+                <%= text_field_tag('address', nil, :maxlength => 80, :class => "address_field long")  -%>
+                <%= hidden_field_tag('city_valid', '0') %>
+                <%= text_field_tag('city', nil, :maxlength => 80, :class => "address_field short")  -%>
+                <%= hidden_field_tag('postal_valid', '0') %>
+                <%= text_field_tag('postal', nil, :maxlength => 6, :class => "address_field short")  -%>
+            <%= submit_tag('Search', :class=>"formBtn") -%>
+            <% if defined?(oncancel) -%>
+              <%= link_to_function('cancel', oncancel, :class=> "btn") %>
+            <% end -%>
+            </p>
+          <% javascript_tag do %>
+            function addressField_onFocus(event)
+            {
+              var field = event.element();
+              var field_valid = field.previous();
+              
+              field.value = '';
+              field.removeClassName("placeholder");
+              field.stopObserving("focus", addressField_onFocus);
+              field_valid.value = '1';
+            }
+            function addressField_init(field, placeholderText)
+            {
+              field_valid = field.previous();
+
+              if ((field_valid.value == '0') || (field.value == ''))
+              {
+                field.addClassName("placeholder");
+                field.value = placeholderText;
+                field.observe("focus", addressField_onFocus);
+                field_valid.value = '0';
+              }
+            }
+
+            <% ['address','city','postal'].each do |field_id| %>
+
+              addressField_init(
+                  $(<%= array_or_string_for_javascript(field_id) %>),
+                  <%= array_or_string_for_javascript(t("input.placeholder.#{field_id}")) %>
+                  );
+
+            <% end %>
+          <% end %>
+       
+
+    <p id="searchError" class="error"></p>
+
+    <% end %>
+
+    <% if @controller.controller_name == 'home' && ( @controller.action_name == 'welcome' || @controller.action_name == 'neighbourhood' ) %>
+      <% form_tag(:neighbourhood, :method => :get, :id => 'searchForm') do -%>
+      <% end %>
+    <% else %>
+      <%#  # start the search from home/participating stores ( tab myneighbourhood)
+           # the form is submited in the file 'application.js' in the function 'validateSucceeded(request)' e%>
+      <%  form_tag( :myneighbourhood, :method => :get, :id => 'searchForm') do -%>
+      <% end %>
+   <% end %>
+
+
+    
+</div>
+  

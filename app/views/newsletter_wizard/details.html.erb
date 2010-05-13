@@ -1,0 +1,55 @@
+<h1><%= t('.title') %></h1>
+
+<p><%= t('.help') %></p>
+
+<% form_tag newsletter_wizard_details_path, :multipart => true do %>
+  <div id="newsletter_details_form">
+    <%= hidden_field_tag :newsletter_id, params[:newsletter_id] %>
+    <% fields_for @newsletter do |f| %>
+      <fieldset>
+        <legend><%= t('.heading') %></legend>
+        <%= error_messages_for :newsletter %>
+        <table>
+          <tr>
+            <td class="label"><%= f.label :volume %></td>
+            <td class="value"><%= f.text_field :volume %></td>
+          </tr>
+          <tr>
+            <td class="label"><%= f.label :issue %></td>
+            <td class="value"><%= f.text_field :issue %></td>
+          </tr>
+          <tr>
+            <td class="label"><%= f.label :title %></td>
+            <td class="value"><%= f.text_field :title %></td>
+          </tr>
+        </table>
+      </fieldset>
+    <%- end -%>
+
+    <%- @newsletter_stories.each do |ns| -%>
+      <%= render :partial => 'newsletter_story', :locals => { :ns => ns } %>
+    <%- end -%>
+    <%- @new_newsletter_stories.each do |ns| -%>
+      <%= render :partial => 'newsletter_story', :locals => { :ns => ns } %>
+    <%- end -%>
+  </div>
+
+  <br/>
+
+  <p>
+    <%= link_to_function t('.add_story'), "new Ajax.Request('/newsletter_wizard/new_story', { method: 'get' });" %>
+  </p>
+
+  <br/>
+
+  <p>
+    <%= submit_tag t('newsletter_wizard.next') %>
+    <span class="cancel_link">
+      <%= link_to t('newsletter_wizard.cancel'), account_path %>
+    </span>
+  </p>
+<% end %>
+
+<%= sidebar :details %>
+
+<%= javascript_tag "disableMoveNewsletterItemLinks();" %>

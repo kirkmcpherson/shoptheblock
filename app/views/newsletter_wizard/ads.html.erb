@@ -1,0 +1,51 @@
+<h1><%= t('.title') %></h1>
+
+<p><%= t('.help') %></p>
+
+<% form_tag newsletter_wizard_ads_path, :multipart => true do %>
+  <%= hidden_field_tag :newsletter_id, params[:newsletter_id] %>
+  <div id="newsletter_ads_form">
+    <%- @newsletter.ads.each do |na| -%>
+      <%= render :partial => 'newsletter_ad', :locals => { :na => na } %>
+    <%- end -%>
+    <%- @new_newsletter_ads.each do |na| -%>
+      <%= render :partial => 'newsletter_ad', :locals => { :na => na } %>
+    <%- end -%>
+  </div>
+
+  <p>
+    <%= link_to_function t('.add_ad'), "new Ajax.Request('/newsletter_wizard/new_ad?newsletter_id=#{params[:newsletter_id]}', { method: 'get' });" %>
+  </p>
+
+  <br/>
+
+  <fieldset>
+    <legend><%= t('.featured_stores') %></legend>
+    <p><%= t('.featured_stores_help') %></p>
+    <%- @merchants.each do |merchant| -%>
+      <p><%= merchant.name %></p>
+      <%- merchant.stores.each do |store| -%>
+        <p class="newsletter_store">
+          <%= check_box_tag 'stores[]', store.id, @newsletter.stores.include?(store), :id => "store_#{store.id}" %>
+          <%= label_tag "store_#{store.id}", store.address %>
+        </p>
+      <%- end -%>
+    <%- end -%>
+  </fieldset>
+
+  <br/>
+
+  <br/>
+
+  <p>
+    <%= submit_tag t('newsletter_wizard.back') %>
+    <%= submit_tag t('newsletter_wizard.next') %>
+    <span class="cancel_link">
+      <%= link_to t('newsletter_wizard.cancel'), account_path %>
+    </span>
+  </p>
+<% end %>
+
+<%= sidebar :ads %>
+
+<%= javascript_tag "disableMoveNewsletterItemLinks();" %>

@@ -1,0 +1,76 @@
+
+<% throw 'Requires hours local variable' unless defined?(hours)
+
+
+  day_options = names_of_days.collect{|name| [ names_of_days.index(name), name ]}
+  minute_options = []
+  (0..59).step(5) { |m| minute_options << [m, sprintf("%02d", m)] }
+  hour_options = []
+  (0..23).step { |h| hour_options << [h, sprintf("%d %s", (h % 12)==0 ? 12 : h % 12, h>=12 ? 'PM' : 'AM' )]}
+  select_tag_id =  '_select_tag_' + index.to_s
+  %>
+ 
+  <div class="store_hours_edit">
+    <div  id="hours_boxes"  style="width: 70%; float: left">
+      <%= select_tag(
+        'store[hours_from_form][][start_day]',
+        options_from_collection_for_select(day_options, 'first', 'last', hours.start_day),
+        :class => 'inputselect',:id => "day" + select_tag_id
+      ) %> 
+      to
+      <%= select_tag(
+        'store[hours_from_form][][end_day]',
+        options_from_collection_for_select(day_options, 'first', 'last', hours.end_day),
+        :class => 'inputselect' , :id =>  "day" + select_tag_id
+      ) %><br/>
+      <%= check_box_tag  'store[hours_from_form][][enable_hours]' ,'1' ,hours.has_hours?  , :id => select_tag_id ,
+        :onclick => "enable_store_hours ( $(this).checked , $(this).id ) " %>  Hours
+        
+
+      <%= select_tag(
+        'store[hours_from_form][][start_hour]',
+        options_from_collection_for_select(hour_options, 'first', 'last', hours.start_hour),
+        :class => 'inputselect' , :id => "start_hour"  + select_tag_id
+      ) %>
+      <%= select_tag(
+        'store[hours_from_form][][start_minute]',
+        options_from_collection_for_select(minute_options, 'first', 'last', hours.start_minute),
+        :class => 'inputselect', :id => "start_minute" + select_tag_id
+
+      ) %>
+      to
+      <%= select_tag(
+        'store[hours_from_form][][end_hour]',
+        options_from_collection_for_select(hour_options, 'first', 'last', hours.end_hour),
+        :class => 'inputselect', :id => "end_hour"  + select_tag_id
+
+      ) %>
+      <%= select_tag(
+        'store[hours_from_form][][end_minute]',
+        options_from_collection_for_select(minute_options, 'first', 'last', hours.end_minute),
+        :class => 'inputselect',:id => "end_minute" + select_tag_id
+
+      ) %>
+    
+
+        <div >
+
+              <%= check_box_tag( 'store[hours_from_form][][by_appointment]', 'A' ,hours.by_appointment? ) %> By appointment only
+              <%= check_box_tag( 'store[hours_from_form][][close]', 'C' ,hours.closed? ) %> Closed
+        </div>
+    </div>
+    <div style="width: 20%; float: right; padding: 5px; height: 30px;">
+      <%=
+      link_to_function(
+        'Remove',
+        "$(this).up('.store_hours_edit').remove();"
+      )
+      %>
+    </div>
+
+    
+
+  </div>
+  
+  
+

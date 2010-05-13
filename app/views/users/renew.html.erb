@@ -1,0 +1,91 @@
+
+<h1>Renew Your Membership</h1>
+
+<%= error_messages_for :user, :billing %>
+
+<% form_for(:user) do |f| %>
+
+<table cellpadding="5" cellspacing="0" class="account_details" width="100%">
+
+  <tr>
+    <td class="label">Membership Cost:</td>
+    <td class="value"><%= sprintf("$%.2f", @site_settings.membership_cost)  %></td>
+  </tr>
+
+  <tr>
+    <td class="label">New Expiration Date:</td>
+    <td class="value"><%= @user.membership_expiration.advance(:months => @site_settings.membership_length).strftime("%B %d, %Y") %></td>
+  </tr>
+  
+  <tr>
+    <td class="label">
+      Purchase An Extra Card<br/>for a Family Member<br/>(Child or Spouse)
+    </td>
+    <td class="value">
+      <%= f.check_box :card_num, { :onclick => "if(this.checked) $('extra_names').show(); else $('extra_names').hide();" }, 2, 1 %> Buy an extra card for an additional $10<br/>
+      <%  if @user.card_num != 2 %>
+           <div id="extra_names"">
+      First name: <%= f.text_field :partner_first_name %><br/>
+      Last name: <%= f. text_field :partner_last_name %><br/>
+      E-mail: <%= f.text_field :partner_email %>
+          </div>
+    <% end %>
+    </td>
+  </tr>
+
+  
+  <!--
+  ==============================================================================
+  SHIPPING ADDRESS
+  ==============================================================================
+  -->
+  <tr>
+    <td colspan="2" style="padding-top: 15px">
+	  <div class="searchBar">Shipping Address</div>
+	  </td>
+  </tr>
+  <tr>
+    <td class="label">Address:</td>
+    <td class="value">
+      <%= text_field_tag('user[shipping_location][address]', @user.shipping_address, :size => 40) %>
+      <br/>
+      <span class="example">20 Some Street</span>
+    </td>
+  </tr>
+  <tr>
+    <td class="label">Address 2:</td>
+    <td class="value">
+      <%= text_field_tag('user[shipping_location][address2]', @user.shipping_address2, :size => 40) %>
+      <br/>
+      <span class="example">Apt 123, Suite B, etc</span>
+    </td>
+  </tr>
+  <tr>
+    <td class="label">City:</td>
+    <td class="value"><%= text_field_tag('user[shipping_location][city]', @user.shipping_city, :size => 20) %></td>
+  </tr>
+  <tr>
+    <td class="label">Province:</td>
+    <td class="value"><%= select_tag(
+      'user[shipping_location][province]',
+      options_for_select(BillingHelper::BILLING_PROVINCES_OPTIONS_FOR_SELECT, @user.shipping_province)
+    ) %></td>
+  </tr>
+  <tr>
+    <td class="label">Postal Code:</td>
+    <td class="value"><%= text_field_tag('user[shipping_location][postalcode]', @user.shipping_postalcode, :size => 20) %></td>
+  </tr>
+  <tr>
+    <td colspan=2>
+      <%= check_box_tag('billing_use_shipping', "1", false) %>
+      Billing address is the same as shipping address
+    </td>
+  </tr>
+</table>
+
+<div>
+  <%= submit_tags(:submit_key=>'users.renew.submit', :cancel_url => user_path(@user)) %>
+</div>
+
+
+<% end #form %>

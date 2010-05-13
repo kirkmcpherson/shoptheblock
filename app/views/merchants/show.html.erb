@@ -1,0 +1,147 @@
+<h1><%= h(@merchant.name)  %></h1>
+<% unless @merchant.web_site.nil? %>
+<p><%= link_to_merchant_web_site(@merchant) %></p>
+<% end %>
+
+
+<%
+#===============================================================================
+#  GENERAL
+#===============================================================================
+%>
+<div class="container">
+	<%= image_tag(@merchant.logo.url(:thumb), :align=>"left", :style=>"padding: 5px; border: 1px solid #8d9266; background-color: #fff; margin: 5px;") %>
+	<p><b><%= h(@merchant.description) %></b></p>
+</div>
+<br clear="all"/>
+				<%
+				#===============================================================================
+				#  STORES
+				#===============================================================================
+				%>
+        <% if @merchant.stores.count == 0 %>
+          <div class="StoreList">
+            <div class="searchBar">Stores</div>
+              <div id="search_results"><div>
+                No stores available at this time.
+              </div>
+            </div>
+          </div>
+        <% else %>
+
+          <% @merchant.stores.all.each do |store| %>
+            <div class="StoreList">
+              <div class="searchBar">
+                <b>Store Location</b><br/>
+                   <%  unless store.address.blank? %> <%= h(store.address) %><br/><% end %>
+                   <%  unless store.online? %><%=   t  "merchants.online"   %><br/><% end %>
+                <%= h(store.phone) %>
+                <%  unless store.phone_extension.blank? %>
+                    ext: <%= h(store.phone_extension) %>
+                <% end %><br/>
+              </div>
+                <div id="search_results"><div>
+                    <% if store.online? %>
+                        <%= render :partial => 'stores/hours', :object => store.hours %>
+                    <% else %>
+                        <table class="store_hours">
+                                      <tr><th colspan="2">Store Hours</th></tr>
+                                      <tr> <td class="store_hours_days"><%= t'merchants.online' %>   </td></tr>
+                        </table>
+                    <% end %>
+                  <table width="100%">
+                  <% discounts = store.all_discounts %>
+                  <% if !discounts.empty? %>
+                    <tr style="background-color: #D0F283">
+                      <td>
+                        <b>Member Discounts</b><br/>
+                      </td>
+                    </tr>
+                  <% end %>
+                  <% store.all_discounts.each do |dis| %>
+                    <tr>
+                      <td class="item_title">
+                        <%= link_to dis.headline, promotion_path(dis) %>
+                        <% if admin_logged_in? %>
+                          - <%= link_to 'Edit', edit_promotion_path(dis) %>
+                          <%= link_to 'Remove', dis, :confirm => 'Are you sure?', :method => :delete %>
+                        <% end %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="item_description">
+                        <%= dis.description %>
+                      </td>
+                    </tr>
+                  <% end %>
+                  <% promotions = store.all_promo_except_discounts %>
+                  <% if !promotions.empty? %>
+                    <tr style="background-color: #D0F283">
+                      <td>
+                        <b>Promotions</b><br/>
+                      </td>
+                    </tr>
+                  <% end %>
+                  <% promotions.each do |promo| %>
+                    <tr>
+                      <td class="item_title">
+                        <%= link_to promo.headline, promotion_path(promo) %>
+                        <% if admin_logged_in? %>
+                          - <%= link_to 'Edit', edit_promotion_path(promo) %>
+                          <%= link_to 'Remove', promo, :confirm => 'Are you sure?', :method => :delete %>
+                        <% end %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="item_description">
+                        <%= promo.description %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="item_date">
+                        <%= promo.format_dates %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </table>
+                <p>
+                  <br/><%= link_to 'View', store %>
+                  <% if admin_logged_in? %>
+                      | <%= link_to 'Edit', edit_store_path(store) %>
+                      | <%= link_to 'Remove', store, :confirm => 'Are you sure?', :method => :delete %>
+                  <% end %>
+                </p>
+              </div>
+            </div>
+          </div>
+           <% unless store.address.blank?  %>
+                  <% add_map_marker(store.location, 'store_marker.png') do %>
+                    <div><%= store.location %></div>
+                    <div><%= store.phone %></div>
+                    <% unless @merchant.web_site.nil? %>
+                      <div><%= link_to_merchant_web_site(@merchant) %></div>
+                      <br>
+                    <% end %>
+                  <% end %>
+
+             <% end  %>
+        <% end %>
+
+      <% end %>
+<p><br/></p>
+
+<% create_map('map', @merchant.stores.first.location) if @merchant.has_stores_with_location?%>
+<%
+#===============================================================================
+#  SIDEBAR
+#===============================================================================
+%>
+<% if admin_logged_in? %>
+  <% content_for :sidebar do %>
+    <%# heading_tag('Actions') %>
+    <div><%= link_to 'Edit Merchant', edit_merchant_path(@merchant) %></div>
+    <div><%= link_to 'Add Store', new_merchant_store_path(@merchant) %></div>
+    <div><%= link_to 'Add Discount', new_merchant_promotion_path(@merchant) %></div>
+    <div><%= link_to 'Add Promotion', new_merchant_promotion_path(@merchant) + "?promo=true" %></div>
+  <% end %>
+<% end %>

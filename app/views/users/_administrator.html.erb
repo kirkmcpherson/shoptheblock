@@ -1,0 +1,77 @@
+<h1>Administration</h1>
+
+<%= heading_tag('Members') %>
+
+<ul>
+  <li><%= link_to(t('users.action.pending_cards'), :pending_cards)  %> (<%= User.needs_card.count %>)</li>
+  <li><%= link_to(t('users.action.index'), :action => 'index') %></li>
+  <li><%= link_to(t('users.action.new'), :action => 'new') %></li>
+</ul>
+<%= heading_tag('News') %>
+
+<ul>
+  <li><%= link_to(t('news_items.action.index'), :controller => 'news_items', :action => 'index') %></li>
+  <li><%= link_to(t('news_items.action.new'), :controller => 'news_items', :action => 'new') %></li>
+  <li><%= link_to(t('users.action.send_news_alert'), :action => 'send_news_alert') %></li>
+  <li><%= link_to(t('users.action.view_past_newsletters'), newsletters_path) %></li>
+  <li><%= link_to(t('users.action.send_newsletter'), newsletter_wizard_details_path) %></li>
+  <li><%= link_to(t('users.action.edit_newsletter_recipients'), :action => 'edit_newsletter_recipients') %></li>
+</ul>
+
+<%= heading_tag('Merchants') %>
+
+<ul>
+  <li><%= link_to t('merchants.action.index'), :controller => 'merchants', :action => 'index' %></li>
+  <li><%= link_to t('merchants.action.new'), :controller => 'merchants', :action => 'new' %></li>
+  <li><%= link_to t('categories.action.index'), :controller => 'categories', :action => 'index' %></li>
+  <li><%= link_to t('categories.action.new'), :controller => 'categories', :action => 'new' %></li>
+</ul>
+
+<%= heading_tag('Promo Codes') %>
+
+<ul>
+  <li><%= link_to t('promo_codes.action.index'), :controller => 'promo_codes', :action => 'index' %></li>
+  <li><%= link_to t('promo_codes.action.new'), :controller => 'promo_codes', :action => 'new' %></li>
+</ul>
+
+<%= heading_tag('Testimonials') %>
+<ul>
+  <li><%= link_to t('testimonials.action.index'), :controller => 'testimonials', :action => 'index' %></li>
+  <li><%= link_to t('testimonials.action.new'), :controller => 'testimonials', :action => 'new' %></li>
+</ul>
+
+<%= heading_tag('Media & Press') %>
+<ul>
+  <li><%= link_to t('press_releases.action.index'), :controller => 'press_releases', :action => 'index' %></li>
+  <li><%= link_to t('press_releases.action.new'), :controller => 'press_releases', :action => 'new' %></li>
+</ul>
+
+<%= heading_tag('Site Settings') %>
+
+<%
+site_settings = SiteSettings.get
+%>
+<ul>
+  <li><%= link_to(t('users.action.edit'), edit_user_path(@user))  %></li>
+</ul>
+
+<table class="grid" cellspacing="0" cellpadding="0" width="100%">
+  <tr>
+    <td class="label">Membership Cost:</td>
+    <td class="value"><%= sprintf("$%.2f", site_settings.membership_cost) %></td>
+  </tr>
+  <tr>
+    <td class="label">Membership Length:</td>
+    <td class="value"><%= site_settings.membership_length %> months</td>
+  </tr>
+  <% if false %>
+  <tr>
+    <td class="label">Referral Discount Amount:</td>
+    <td class="value"><%= sprintf("$%.2f", site_settings.signup_discount_amount) %></td>
+  </tr>
+  <% end %>
+  <tr>
+    <td class="label">Number of Referral Fields on the Signup Form:</td>
+    <td class="value"><%= site_settings.signup_discount_referrals %></td>
+  </tr>
+</table>

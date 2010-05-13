@@ -1,0 +1,66 @@
+<p><%=  @sent_on.strftime("%B %d, %Y") %> </p>
+
+<p>Dear <%=@user.name%>,</p>
+
+<p>Congratulations! You have received a gift membership to Shop the Block from<br/>
+ <%=@user.gift_giver_name %>  and your card will be shipped within 72 hours to<br/>
+ <%= @user.shipping_location.full_address if @user.shipping_location && !@user.gift_location %><% if @user.gift_location %><%= @user.gift_location.full_address   %><%  end %>.
+</p>
+
+<p>Shop the Block is Toronto’s only exclusive discount card designed to help you<br/>
+save money while supporting independent businesses in your neighbourhood. By<br/>
+flashing your wallet-sized card each time you shop, you’re entitled to discounts of<br/>
+as much as 20% off of every purchase at some of your favourite local stores.</p>
+
+<p>
+<b>How It Works</b><br/>
+Your one-year membership to Shop the Block begins TODAY.  Once you<br/>
+complete your online registration, you will be able to immediately print your<br/>
+temporary card.  </p>
+
+<p>
+<b>Our Participating Merchants</b><br/>
+We have over 100 businesses participating in Shop the Block across the GTA<br/>
+from specialty grocers to fashion boutiques and the list of merchants keeps<br/>
+growing every week. Visit <a href="http://www.shoptheblock.ca/">www.shoptheblock.ca</a> to view a complete list<br/>
+of participating stores and associated discounts.
+</p>
+
+<p>
+<b>Personalize Your Membership</b><br/>
+A benefit of being a Shop the Block member is your ability to create a customized<br/>
+list of shops, tailored to your preferences. Be sure to login to  your personalized<br/>
+My neighbourhood page every time you visit <a href="http://www.shoptheblock.ca/">www.shoptheblock.ca</a>. You can<br/>
+always see the complete list of shops by clicking on Participating Stores. 
+</p>
+
+<p>
+<b>The Latest News</b><br/>
+Now that you’re a member, you’ll receive our bi-weekly Best of the Block e-newsletter<br/>
+full of fun finds, shopping trends, boutique news and special promotions.
+</p>
+
+<p>
+Fall in love with your neighbourhood shops all over again. We truly hope Shop<br/>
+the Block helps make shopping more convenient and cost-effective for you and<br/>
+your family. 
+</p>
+
+<p>
+<b>Get Started  NOW!</b><br/>
+Please click  <%=  link_to  "here" , confirm_gift_url(@code) %> to complete your online registration and  print your<br/>
+temporary card.
+</p>
+
+
+
+<p>
+Happy shopping and saving!
+</p>
+
+
+<p>
+Shop the Block<br/>
+<a href="mailto:info@shoptheblock.ca">info@shoptheblock.ca</a><br/>
+<a href="http://www.shoptheblock.ca">www.shoptheblock.ca</a><br/>
+</p>

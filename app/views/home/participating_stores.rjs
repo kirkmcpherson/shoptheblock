@@ -1,0 +1,9 @@
+# TODO Operate on the page object
+
+if  @type == 'all_store'
+  page[:tabs_content].replace_html :partial => '/home/allstores' 
+elsif @type == 'myneighbourhood'
+  page[:tabs_content].replace_html  :partial => 'home/myneighbourhood'
+end
+
+

@@ -1,0 +1,11 @@
+<% unless @newsletters.empty? %>
+  <p><b style="font-size: 12pt;">Past Newsletters</b><br/>
+  <ul>
+    <%- @newsletters.each do |newsletter| -%>
+    <% date = newsletter.publication_date.nil?  ?  newsletter.created_at.strftime('%B %d, %Y') :  newsletter.publication_date.strftime('%B %d, %Y') %>
+      <li><%= link_to_preview_newsletter(newsletter.id, "Vol #{newsletter.volume} Issue #{newsletter.issue}, #{date}, #{newsletter.title},") %></li>
+    <%- end -%>
+  </ul>
+  <br>
+<%- end -%>
+

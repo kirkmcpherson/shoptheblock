@@ -1,0 +1,9 @@
+<%=image_tag "how_it_works_card.gif", :align=>"right", :style=>"margin-right: 30px;"%>
+<h1>How it Works </h1>
+<h4>The Road to Savings...</h4>
+<br clear="all" />
+<p>By flashing your wallet-sized Shop the Block card each time you shop, you’re entitled to a discount of as much as 20% off of every purchase at some of your favourite local stores. Signing up for a one-year $<%= SiteSettings.get.membership_cost.to_i %> membership is quick and easy – <%= link_to "click here", signup_path %> to order your Shop the Block card today!</p>
+<p>Once you’ve purchased your Shop the Block card, be sure to log in every time you visit the website to see a customized list of shops near you, tailored to your preferences, all on your personalized My Neighbourhood page. A foodie? You’ll see great neighbourhood restaurants. Love fashion? We’ll show you the closest clothing boutiques. Got kids? You’ll find unique places to outfit and entertain them. And you can always see the complete list of Shop the Block businesses by clicking on <%= link_to "Participating Stores", :participating_stores  %>.</p>
+<p>Merchants sign up for free by agreeing to offer our fabulous members a discount on every purchase made at their establishment. <%=link_to "Click here", merchant_info_path %> for more information.</p>
+
+

@@ -1,0 +1,227 @@
+<%
+#
+# Initialize menu/toolbar items
+#
+menu_links = []
+
+is_admin = admin_logged_in?
+
+unless is_admin
+  menu_links << ['Home', :root]
+end
+
+if logged_in?
+  if is_admin
+    menu_links << ['Administration', :account]
+  else
+    menu_links << ['My Account', :account]
+  end
+  menu_links << ['Logout', :logout]
+else
+  menu_links << ['Login', :login]
+end
+
+footer_links = [
+  ['Home', :root],
+  ['About', :company_info],
+  ['FAQ', :faq],
+  ['Participating Stores', :participating_stores],
+  ['Terms & Conditions', :legal],
+  ['Privacy', :privacy],
+  ['Contact Us', :contact]
+]
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title><%= t('site_name')  %></title>   
+    <%= stylesheet_link_tag 'application' %>
+     <%= stylesheet_link_tag 'print', :media => :print %>
+    <%= javascript_include_tag :defaults, 'lowpro', 'tablekit' %>
+    <%= include_map_scripts %>
+    <%= calendar_date_select_includes nil %>
+    <%= include_tiny_mce_if_needed 'init_instance_callback' => 'setTabIndex' %>
+  </head>
+  <body onload="Application_Load('TODO')" onunload="Application_Unload()">
+
+      <div id="main"
+			  <% if (@controller.controller_name=='home' && @controller.action_name=='welcome')  %>
+			  class="welcomepage"
+			  <% else %>
+			  class="interiorpage"			
+			  <% end %>	
+      >
+        <%# HEADER %>
+        <div class="headerMiddle">
+           <%=link_to "", welcome_path, :id=>"headerLogo" %>
+
+           <%# MENU/TOOLBAR %>
+           <div id="menuBar">
+             <% 0.step(menu_links.length-1,1) do |i| -%>
+               <% if i > 0 -%>
+                 <span class="separator">&bull;</span>
+               <% end #if -%>
+               <%= link_to(menu_links[i][0], menu_links[i][1]) -%>
+             <% end #step -%>
+           </div>
+
+           <% if !logged_in? %>
+             <%= link_to("sign up today!", signup_path, :id=>"signupButton") -%>
+           
+	   <% end %>
+
+           <div id="buttonContainer">
+              <%= link_to("merchants", :merchant_info, { :id=>"merchantButton", :class => params[:controller] == "merchants" ? "" : "inactive" } ) -%>
+              <%= link_to("consumers", :consumer_info, {:id=>"consumerButton", :class => params[:controller] == "merchants" ? "inactive" : "" } ) -%>
+            </div>
+            <%# if params[:action] != "welcome" -%>
+              <!--div class="submenu">
+                 <%# link_to "Participating Stores", :participating_stores, :class => 'normal' %> | 
+                 <%# link_to "Latest News", news_items_path , :class => 'normal' %>
+              </div-->
+            <%# end -%>
+          </div>
+
+
+
+
+          <%# CONTENT %>
+          <div>
+             <table>
+               <tr>
+
+                 <td valign="top" id="sidebar-left">
+                   <div id="sidebar_content">
+                     <%- out = yield :sidebar -%>
+                     <%- if out -%>
+                       <%= out %>
+                     <%- else -%>
+                       <%- if params[:controller] == 'users' && logged_in? # if on user page -%>
+
+                         <%- if current_user.administrator? -%>
+                           <div id="sidebar_stats" class="statsContainer">
+                             <%= heading_tag('Site Stats') %>
+                             <ul>
+                               <%   members_count = User.count(:conditions => { :user_type => User::ROLES[:member] })    +  User.extra_cards_cardholders.count  + User.extra_cards_members.count %>
+                               <li><%= link_to("#{members_count} members", users_path) %></li>
+                               <li><%= link_to("#{Merchant.count} merchants", merchants_path) %></li>
+                             </ul>
+                           </div>
+                           <%- if params[:action] == 'show' -%>                              
+                                     <div><%= link_to("Edit Member", edit_user_path(@user))  %></div>                                
+                           <%- end -%>
+                         <%- else # if not administrator -%>
+                           <div><%= link_to(t('users.action.edit'), edit_user_path(current_user))  %></div>
+                           <div><%= link_to(t('users.action.renew'), :renew_user)  %></div>
+                         <%- end -%>
+                       <%- else -%>
+                          <ul class="sidelinks">
+													  <li class="margin"><%= link_to("About", company_info_path) %></li>
+													  <li class="margin"><%= link_to("How It Works", how_it_works_path) %></li>
+													  <li class="margin"><%= link_to("Testimonials", testimonials_path) %></li>
+													  <li class="margin"><%= link_to("Media & Press", press_releases_path) %></li>
+                           <% if true %>
+													  <li class="margin"><%= link_to("Participating Stores", participating_stores_path) %></li>
+													  <li class="margin"><%= link_to("Latest News", news_items_path) %></li>
+                           <% end %>
+													  <li class="margin"><%= link_to("FAQ", faq_path) %></li>
+													  <li class="margin"><%= link_to("Contact Us", contact_path) %></li>
+												           <% if !logged_in? %>
+														<li><%= link_to("sign up today!", signup_path, :id=>"MenuSignupButton") -%></li>
+
+													<% end %>
+
+
+                          </ul>
+
+                       <%- end -%>
+                     <%- end -%>
+                     <%- if admin_logged_in? && !(@controller.controller_name == 'users' && @controller.action_name == 'view' && @user != current_user ) -%>
+                     <br/>
+                     <ul class="sidelinks">
+                       <li><%= link_to "Administration", account_path %></li>
+                     </ul>
+                     <%- end -%>
+                   </div>
+                 </td>
+
+                 <td valign="top" id="content">
+                   <!-- flash divs -->
+                   <%- flash.each do |name, msg| -%>
+                   <%= content_tag :div, msg, :id => "flash_#{name}" %>
+                   <%- end -%>
+                   <!-- end flash divs -->
+
+                   <%= yield :layout %>
+
+                   <br clear="all" />
+                 </td>
+                 <% hide_sidebar = @controller.controller_name=='news_items' && @controller.action_name=='index' || 
+                                   @controller.controller_name=='users' && @controller.action_name=='edit' && @user == current_user || 
+                                   @controller.controller_name=='newsletter_wizard' ||
+                                   @controller.controller_name=='users' && ['index', 'send_news_alert', 'pending_cards'].include?(@controller.action_name) ||
+                                   @controller.controller_name=='promotions' && ['new', 'edit'].include?(@controller.action_name) ||
+                                   @controller.controller_name=='testimonials' ||
+                                   @controller.controller_name=='merchants' && ['index', 'new', 'edit'].include?(@controller.action_name)  || 
+                                   @user && @user.is_role?(:administrator) %>
+								 <% unless hide_sidebar %>
+                   <td valign="top" id="sidebar-right">
+                     <%= render :partial => "news_items/news_items", :locals => { :news_items => @news_items_for_sidebar || NewsItem.for_sidebar.active } %>
+                     <br/>
+                     <br/>
+                    
+                     <%= yield :sidebar_right %>
+                   </td>
+               <% end %>
+               <%- if @controller.controller_name=='newsletter_wizard' -%>
+                 <td valign="top" id="sidebar-right">
+                   <p>Steps</p>
+                   <%= yield :sidebar_right %>
+                 </td>
+               <%- end -%>
+               </tr>
+               <tr>
+	                <td><%=image_tag 'spacer.gif', :width=>"165", :height=>"1"%></td>
+	                <td></td>
+	                <td><%=image_tag 'spacer.gif', :width=>"245", :height=>"1" unless hide_sidebar %></td>
+	             </tr>
+             </table>
+
+           </div>
+
+          <%# FOOTER %>
+
+                  <div id="footerMiddle">
+                    <% 0.step(footer_links.length-1,1) do |i| -%>
+                      <% if i > 0 -%>
+                        <span class="separator">&bull;</span>
+                      <% end #if -%>
+                      <%= link_to(footer_links[i][0], footer_links[i][1]) -%>
+                    <% end #step -%>
+                  </div>
+
+						      <div id="poweredBy">
+						         <%=link_to image_tag("powered_by_brightspark.gif", :border=>"0"), "http://www.brightspark.com", :target=>"_blank"%> 
+						      </div>
+						<br clear="all"/>
+
+      </div>
+
+<%
+# === GOOGLE ANALYTICS ===
+-%>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-8640742-1");
+pageTracker._setDomainName(".shoptheblock.ca");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<%
+# === GOOGLE ANALYTICS ===
+-%>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+<h1>Category Information</h1>
+
+<table>
+  <tr>
+    <td class="label">Name:</td>
+    <td class="value"><%=h @category.name %></td>
+  </tr>
+  <tr>
+    <td class="label">Merchants:</td>
+    <td class="value"><%= @category.merchants.all(:order => :name).collect { |m| link_to h(m.name), merchant_path(m) } * ', ' %></td>
+  </tr>
+  <tr>
+    <td class="label">Interested Members:</td>
+    <td class="value"><%=h @category.users.count %></td>
+  </tr>
+</table>
+
+<% content_for :sidebar do %>
+
+<%= heading_tag(t('heading.actions')) %>
+<div><%= link_to(t('categories.action.edit'), edit_category_path(@category)) %></div>
+<div><%= link_to(t('categories.action.destroy'), @category, :confirm => 'Are you sure?', :method => :delete) %></div>
+<div><%= link_to(t('categories.action.index'), categories_path) %></div>
+
+<% end %>

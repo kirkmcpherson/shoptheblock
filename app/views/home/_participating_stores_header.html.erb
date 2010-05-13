@@ -1,0 +1,11 @@
+<h1>Participating Stores</h1>
+<%- if current_user -%>
+  <p>For a customized list of shops near you, check out the <%= link_to 'My Neighbourhood', neighbourhood_path %> page.</p>
+<%- else -%>
+  <p>Already a Shop the Block member? To see a customized list of shops near you, tailored to your preferences, log in <%= link_to "now", :login %>.</p>
+<%- end -%>
+
+ <p>Below is a complete alphabetical list of all of our fantastic participating merchants. Click on each business name for more information, their location and specific Shop the Block discount.
+  Have a shop to suggest? Let us <%=  email_link(:info,"know")  %>.</p>
+
+<p>Click on My Neighbourhood to search for stores by category or location and to view additional merchant promotions happening near you.</p>

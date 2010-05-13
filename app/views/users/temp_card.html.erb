@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <%= stylesheet_link_tag 'application', :media => 'all'  %>
+  </head>
+  <body>
+    <div class="membership_card_instructions">
+      <p>
+        <%= link_to_function(
+          'Click here to print your temporary card',
+          "window.print();return false;"
+        ) %>
+      </p>
+      <p>
+        <b>Important:</b> You must use the link above to ensure your temporary
+        cards are printed correctly. Do not use Print option in your browser's menu
+        or toolbar.
+      </p>
+    </div>
+    <p>
+      <%= image_tag(
+        temp_card_image_path(:id=> current_user.id),
+        :alt=>t('users.temp_card.wait'),
+        :class => 'membership_card_image'
+      ) %>
+    </p>
+    <% if  current_user  && current_user.partner_name? %>
+      <p>
+        <%= image_tag(
+          temp_card_image_path(:partner => 1,:id=> current_user.id),
+          :alt=>t('users.temp_card.wait'),
+          :class => 'membership_card_image'
+          
+        ) %>
+      </p>
+    <% end %>
+  </body>
+</html>

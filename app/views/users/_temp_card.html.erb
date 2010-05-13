@@ -1,0 +1,12 @@
+<%= content_tag(
+  :iframe,
+  '',
+  :id => "temp_card_frame",
+  :class => current_user.partner_name? ? "membership_card_frame with_partner" : "membership_card_frame",
+  :src => url_for(:temp_card),
+  :border => '0',
+  :hspace => '0',
+  :vspace => '0',
+  :frameBorder => '0',
+  :frameSpacing => '0'
+) %>

@@ -1,0 +1,81 @@
+<%
+now_year = Time.now.year
+expiration_months = Array.new(12){|i| sprintf("%02d", i+1) }
+expiration_years = Array.new(20){|i| (now_year+i).to_s }
+%>
+<% fields_for 'billing', @billing do |f| %>
+<tr>
+  <td class="label">First Name:</td>
+  <td class="value"><%= f.text_field(:first_name , :size => 20)  %></td>
+</tr>
+<tr>
+  <td class="label">Last Name:</td>
+  <td class="value"><%= f.text_field(:last_name , :size => 20)  %></td>
+</tr>
+<tr>
+  <td class="label">Payment Type:</td>
+  <td class="value"><%= f.select(
+        :payment_type,
+        BillingHelper::PAYMENT_OPTIONS
+        )  %></td>
+</tr>
+<tr>
+  <td class="label">Card Number:</td>
+  <td class="value"><%= f.text_field(:card_number, :size => 20)  %></td>
+</tr>
+<tr>
+  <td class="label">Expiration:</td>
+  <td class="value">
+    <%= f.select(:card_month, expiration_months) %>
+    <%= f.select(:card_year, expiration_years) %>
+  </td>
+</tr>
+<tr>
+  <td class="label">CVV:</td>
+  <td class="value"><%= f.text_field(:card_verification, :maxlength => 5, :size => 5) %></td>
+</tr>
+<tr>
+  <td class="value" colspan="2">
+    <% javascript_tag do %>
+      function onBillingUseShippingClicked(elem)
+      {
+        if (elem.checked)
+        {
+          $('billing_address_group').hide();
+        }
+        else
+        {
+          $('billing_address_group').show();
+        }
+      }
+    <% end %>
+    <%= check_box_tag('billing_use_shipping', "1", false, :onclick => 'onBillingUseShippingClicked($(this));') %>
+    Billing address is the same as shipping address
+  </td>
+</tr>
+<tbody id="billing_address_group" style="display:none">
+<tr>
+  <td class="label">Address:</td>
+  <td class="value"><%= f.text_field(:address, :size => 40)  %></td>
+</tr>
+<tr>
+  <td class="label">Address 2:</td>
+  <td class="value"><%= f.text_field(:address2, :size => 40)  %></td>
+</tr>
+<tr>
+  <td class="label">City:</td>
+  <td class="value"><%= f.text_field(:city)  %></td>
+</tr>
+<tr>
+  <td class="label">Province:</td>
+  <td class="value"><%= f.select(:state_province, BillingHelper::BILLING_PROVINCES_OPTIONS_FOR_SELECT)  %></td>
+</tr>
+<tr>
+  <td class="label">Postal Code:</td>
+  <td class="value"><%= f.text_field(:postal_code, :size => 7, :maxlength => 7)  %></td>
+</tr>
+</tbody>
+  <% javascript_tag do %>
+    onBillingUseShippingClicked($('billing_use_shipping'))
+  <% end %>
+<% end %>

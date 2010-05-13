@@ -1,0 +1,16 @@
+<h4>Archived News Alert:</h4>
+<h1>
+  <%=h @news_alert.title %>
+</h1>
+
+<p>
+  <strong>Date:</strong>
+  <%= @news_alert.created_at.to_date %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= simple_format @news_alert.body %>
+</p>
+
+<%= link_to 'Back to Index', news_alerts_path %>

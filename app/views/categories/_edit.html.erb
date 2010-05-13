@@ -1,0 +1,21 @@
+
+<% form_for(@category) do |f| %>
+  <%= f.error_messages %>
+
+<table>
+  <tr>
+    <td class="label">Name:</td>
+    <td class="value"><%= f.text_field(:name, :size => 20, :maxlength => 40) %></td>
+  </tr>
+</table>
+
+<div>
+  <%= submit_tags(:cancel_url => @category.new_record? ? account_path : category_path(@category)) %>
+</div>
+
+<% end %>
+
+
+<% content_for :sidebar do %>
+  <div><%= link_to(t('categories.action.index'), categories_path)%></div>
+<% end %>

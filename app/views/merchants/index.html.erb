@@ -1,0 +1,33 @@
+<h1>Merchants</h1>
+
+<table cellpadding="5" cellspacing="1" border="0" width="100%">
+  <thead>
+    <tr>
+	    <th>Logo</th> 
+      <th>Name</th>
+      <th colspan="2">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+<% for merchant in @merchants %>
+  <tr class=<%= cycle('odd','even') %>>
+    <td><%= image_tag(merchant.logo.url(:thumb), :size => '50x50')  %></td>
+    <td><%= link_to merchant.name, merchant %></td>
+    <td><%= merchant.description %></td>
+    <% if admin_logged_in? %>
+    <td>
+      <%= link_to 'edit', edit_merchant_path(merchant) %> 
+      <%= link_to 'remove', merchant, :confirm => 'Are you sure?', :method => :delete %>
+    </td>
+    <% end %>
+  </tr>
+<% end %>
+  </tbody>
+</table>
+
+<% content_for :sidebar do %>
+<div class="statsContainer">
+  <%= heading_tag('Actions') %>
+  <%= link_to 'New Merchant', new_merchant_path %>
+</div>
+<% end %>

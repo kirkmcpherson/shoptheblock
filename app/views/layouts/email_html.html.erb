@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title><%= t('site_name')  %></title>
+  </head>
+  <body class="email">
+
+		<style type="text/css">
+		<!--
+		  * { font-family: times, serif; font-size:11pt;  color: #333; }
+
+		  p, div, td, th, h1, h2, h3, body, img, span, ul, ol { margin-top:0px; margin-bottom:0px; border:0px; }
+
+		  a, img, div, body
+		  {
+		    margin:0px;
+		    padding:0px;
+		    border:0px;
+		  }
+
+		  p {margin: 10pt 0;}
+
+		  li
+		  {
+		    margin-bottom:11pt;
+		    line-height: 14pt;
+		  }
+
+		  body, div#body
+		  {
+		    background-image: url('<%= File.join(root_url, "images/email-whitebackground.png") %>');
+		    background-color:#3b1771;
+		    background-repeat: repeat-y;
+		    background-position: 40px 0px;
+		  }
+
+		  #main {
+		    width: 680px;
+		    margin:0;
+		    margin-left:40px;
+		    overflow: auto;
+		    background-color:#fff;
+		  }
+
+		  #content
+		  {
+		    padding:20px;
+		    min-height:300px;
+		  }
+
+		  .headerMiddle
+		  {
+		    position: relative;
+		    height: 179px;
+		    width: 680px;
+		    overflow: hidden;
+		    position: relative;
+		  }
+
+		  .headerMiddle a#headerLogo {
+		    display:block;
+		    height: 179px;
+		    width: 680px;
+		    outline: none;
+		  }
+
+		  h1
+		  {
+		    font-family:arial,helvetica, sans-serif;
+		    color: #482a7f;
+		    font-size:16pt;
+		    font-weight:bold;
+		    margin-bottom:10px;
+		    text-transform: uppercase;
+		  }
+
+		  h2
+		  {
+		    font-size:18pt;
+		    margin-bottom:3pt;
+		    margin-top:12pt;
+		    font-weight:bold;
+		  }
+
+		  a
+		  {
+		    font-weight:bold;
+		    text-decoration:underline;
+		  }
+
+		  .fineprint
+		  {
+		    font-size:8pt;
+		    margin-top:20px;
+		  }
+
+		  .fineprint a
+		  {
+		    font-weight:normal;
+		    font-size:8pt;
+		  }
+
+		  <%= yield :style %>
+		-->
+		</style>
+
+
+
+		 <table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
+		   <tr>
+			   <td valign="top" align="center" bgcolor="#3b1771" style="padding: 0 20px;">
+
+		         <table width="680" cellpadding="0" cellspacing="0" border="0">
+			         <tr>
+			           <td bgcolor="#ffffff"><a href="<%= @url %>" id="headerLogo"><%= image_tag(
+			              File.join(root_url, 'images/newsletter-header.jpg'),
+			              :class => 'header',
+			              :alt => 'Shop The Block'
+			            ) %>
+			          </a></td> 
+			         </tr>
+			
+			         <tr>
+			           <td bgcolor="#ffffff" style="padding: 20px;">
+
+
+                      <%= yield %>
+
+
+						          <div style=" font-family:Times,serif;">
+								        <h2 style="font-family:Times,serif; font-size:36px; font-weight:normal !important; color:#aaaaaa; text-transform:none !important; margin-top:15px; margin-bottom:15px; margin-left:0px; padding:0px; text-align:left;">
+								          Contact Us
+								        </h2>
+								
+												<p>
+													<strong><%=link_to "Shop the Block", "http://www.shoptheblock.ca"%></strong> - <%=link_to "www.shoptheblock.ca", "http://www.shoptheblock.ca", :style=>"font-weight: normal;"%>
+												</p>
+												<p>
+													Follow Shop the Block on <strong><%=link_to "Twitter", "http://www.twitter.com/IShopTheBlock"%></strong> - <%=link_to "www.twitter.com/IShopTheBlock", "http://www.twitter.com/IShopTheBlock", :style=>"font-weight: normal;"%>
+												</p>
+												<p>
+													Find us on <strong><%=link_to "Facebook", "http://www.facebook.com/pages/Toronto-ON/Shop-The-Block/84919174635?ref=mf"%></strong> - <%=link_to "www.facebook.com", "http://www.facebook.com/pages/Toronto-ON/Shop-The-Block/84919174635?ref=mf", :style=>"font-weight: normal;"%>
+												</p>												
+								
+											</div>
+
+						          <%- if @user.user_type == User::ROLES[:newsletter_only] -%>
+						            <div class="fineprint" style="border-top: 1px solid #cccccc; margin-top: 10px; padding: 10px;">
+						              If you wish to unsubscribe from this newsletter please <%= link_to "click here", unsubscribe_url(:code => @user.activation_code) %> and you will be removed immediately.
+						            </div>
+						          <%- end -%>									
+
+
+
+
+			           </td> 
+			         </tr>	
+			       </table> 
+
+		     </td>
+		   </tr>
+		  </table>
+		
+  </body>
+</html>

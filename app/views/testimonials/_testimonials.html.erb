@@ -1,0 +1,16 @@
+<% unless testimonials.empty? %>
+  <b style="font-size: 13pt">TESTIMONIALS</b>
+  <div id="testimonials">
+    <% testimonials.each_with_index do |ni,i| %>
+      <div class="testimonial <%= cycle('odd','even') %>" style="<%= i >= 5 ? 'display: none;' : '' %>">
+
+        <p style="font-size: 10pt; line-height: 14pt; margin-bottom: 10px;">
+          <strong><%= link_to("#{truncate ni.person, :length => 40}", testimonial_path(ni)) %></strong><br/>
+          <%= truncate ni.quote, :length => 44 %>
+        </p>
+
+      </div>
+    <% end %>
+  </div>
+  <%= link_to "More testimonials...", testimonials_path %>
+<% end %>

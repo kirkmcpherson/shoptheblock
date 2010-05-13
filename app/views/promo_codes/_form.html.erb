@@ -1,0 +1,18 @@
+<%= f.error_messages %>
+
+<p>
+  <%= f.label :code %><br />
+  <%= f.text_field :code %>
+</p>
+<p>
+  <%= f.label :expiration_date %><br />
+  <%= calendar_date_select_tag("promo_code_expiration_date", 
+                               @promo_code.expiration_date || '', 
+                               :popup => true,
+                               :style => 'width: 140px;',
+                               :name => "promo_code[expiration_date]") %>
+</p>
+<p>
+  <%= f.label :description %><br />
+  <%= f.text_area :description %>
+</p>

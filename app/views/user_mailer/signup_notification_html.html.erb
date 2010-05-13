@@ -1,0 +1,12 @@
+<p>Thank you for signing up at <%= link_to_site(t('site_name'))  %>.  Your account has been created.</p>
+
+<p><b>Your member number is:</b> <%=h @user.member_id %></p>
+
+<p>
+  Your card will be shipped to you within the next 72 hours.
+</p>
+<p>
+  You can print out a temporary card by using the following link:
+  <br/>
+  <%= link_to(nil, return_from_paypal_url(:code => @user.activation_code)) %>
+</p>

@@ -1,0 +1,23 @@
+<h1><%= t('.heading') %></h1>
+<table class="newsletters">
+  <tr>
+    <th><%= t('.volume') %></th>
+    <th><%= t('.issue') %></th>
+    <th><%= t('.title') %></th>
+    <th><%= t('.date_published') %></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+  <%- @newsletters.each do |newsletter| -%>
+    <tr>
+      <td><%= newsletter.volume %></td>
+      <td><%= newsletter.issue %></td>
+      <td><%= newsletter.title %></td>
+      <td> <%= newsletter.publication_date.nil?  ?  newsletter.created_at.strftime('%B %d, %Y') :  newsletter. publication_date.to_date.to_s(:long) %> </td>
+      <td><%= link_to_preview_newsletter newsletter.id, t('.preview') %></td>
+      <td><%= link_to t('.edit'), newsletter_wizard_details_path+"?newsletter_id=#{newsletter.id}" %></td>
+      <td><%= link_to t('.delete.link'), newsletter_path(newsletter), :method => :delete, :confirm => t('.delete.confirm') %></td>
+    </tr>
+  <%- end -%>
+</table>

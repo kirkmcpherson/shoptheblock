@@ -1,0 +1,21 @@
+<% if @user == current_user %>
+<h1>My Account</h1>
+<% else %>
+<h1><%= @user.email %></h1>
+<% end %>
+
+<table cellpadding="5" cellspacing="0" class="account_details" width="100%">
+  <colgroup>
+    <col/>
+    <col width="100%"/>
+  </colgroup>
+  <tr>
+    <td class="label">Registered on:</td>
+    <td><%= l(@user.created_at, :format => :long_date)  %></td>
+  </tr>
+  <tr>
+    <td class="label">Member type:</td>
+    <td>Electronic Newsletter Only</td>
+  </tr>
+</table>
+

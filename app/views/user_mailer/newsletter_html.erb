@@ -1,0 +1,74 @@
+<%- content_for :style do -%>
+
+
+<%- end -%>
+
+<div style="width: 100%; text-align: right; font-size:11px; font-style:italic; font-family:Arial,Helvetica,sans-serif; border-bottom: 1px solid #cccccc">
+  Vol <%= @newsletter.volume %>, Issue <%= @newsletter.issue %> -  <%= Date.today.to_s(:long) %>
+  
+</div>
+
+<h1 style="font-family:Times,serif; font-size:30px; line-height: 26px; font-weight:normal !important; color:#666666; text-transform:none !important; margin-top: 10px;">
+  Best Of The Block: <%= @newsletter.title %>
+</h1>
+
+<table width="100%">
+  <tr>
+    <td width="440" valign="top" style="padding-right: 20px;">
+      <%- @newsletter.stories.each do |story| -%>
+        <h2 style="font-family:Times,serif; font-size:36px; font-weight:normal !important; color:#aaaaaa; text-transform:none !important; margin-top:15px; margin-bottom:15px; margin-left:0px; padding:0px; text-align:left;">
+          <%= story.header %>
+        </h2>
+
+        <% if story.header_image? %>
+          <% if story.header_image_position == "Top" %>
+            <p align="center"><%= image_tag story.header_image.url(:original), :style=>'display:block;' %></p>
+          <% else %>
+            <%= image_tag story.header_image.url(:original), :align=>story.header_image_position, :style=>'display:block;', :hspace=>"5", :style=>"margin: 0 5px !important;" %>
+          <% end %>
+        <%- end -%>
+
+        <h3 style="color:#4a2980; font-style:italic; font-weight:normal; font-size:24px; font-family:Times,serif; text-align:left; margin: 10px 0 0 0">
+          <%= story.title %>
+        </h3>
+
+        <p style="color:#4a2980; font-style:italic; font-size:16px; line-height:20px;font-family:Times,serif; text-align:left;">
+          <%= story.subtitle %>
+        </p>
+        <br clear="all"/>
+
+        <div class="newsletterStoryBody" style="font-family: arial, helvetica, sans-serif; font-size: 9pt; color: #000">
+          <% if story.body_image? %>
+            <%= image_tag story.body_image.url(:original), :align=>story.body_image_position.downcase, :hspace=>"5", :style=>"margin: 0 5px !important;" %>
+          <% end %>
+          <%= story.body %>
+        </div>
+        <div style="font-family:Times,serif !important; color:#333333; font-size:16px !important; line-height:22px; font-style:italic; text-decoration:none; margin-left:10px; margin-right:10px;">
+          <%= story.quote %>
+        </div>
+
+        <%= image_tag '/images/newsletter-divider.jpg', :style=>'display:block; margin-left:auto; margin-right:auto; margin-top:20px; margin-bottom:20px;' %>
+
+      <%- end -%>
+    </td>
+    <td style="width: 200px; vertical-align: top; display:block; margin-left:auto; margin-right:auto; text-align:center;">
+      <%- @newsletter.stores.each do |store| -%>
+        <div>
+          <%= image_tag store.photo.url(:original) if store.photo? %>
+          <br/>
+          <%= store.merchant.name %>
+          <br/>
+          <%= store.address %>
+          <br/>
+          <%= store.all_promotions.collect(&:headline) * ', ' %>
+          <br/>
+        </div>
+        <br/>
+      <%- end -%>
+
+      <%- @newsletter.ads.each do |ad| -%>
+        <%= link_to image_tag(ad.image.url(:original)), ad.url, :style=>"margin: 5px 0 !important", :target => '_blank' if ad.image? %>
+      <%- end -%>
+    </td>
+  </tr>
+</table>

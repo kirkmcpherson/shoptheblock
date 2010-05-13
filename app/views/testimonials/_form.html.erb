@@ -1,0 +1,17 @@
+<%= f.error_messages %>
+
+<p>
+  <%= f.label :person %><br />
+  <%= f.text_field :person %>
+</p>
+<p>
+  <%= f.label :quote %><br />
+  <%= f.text_area :quote %>
+</p>
+<p>
+  <%= f.label :visibility %>
+  <select name="testimonial[visibility]">
+    <%= options_for_select(Testimonial::VISIBILITY_LEVELS.map{ |x| [x.titlecase, x] }, 
+                            @testimonial.visibility || 'Hidden') %>
+  </select>
+<p>

@@ -1,0 +1,14 @@
+<%- if !logged_in? -%>
+  <%- form_tag(
+      {:controller => 'users',
+       :action => 'edit_newsletter_recipients'},
+      {:method => :post}
+  ) do |f| -%>
+    <%= hidden_field_tag('subscribe') %>
+    <h4>Enter your email address to subscribe to the Best of the Block e-newsletter:</h4>
+    <%= text_field_tag('add_recipients') %> 
+    <%= submit_tag "Subscribe" %>
+    
+    <p><br/></p><br/>
+  <%- end -%>
+<%- end -%>

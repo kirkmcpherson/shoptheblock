@@ -1,0 +1,47 @@
+<%=  @sent_on.strftime("%B %d, %Y") %> 
+
+Dear <%=@user.name %>,
+
+Congratulations! You have received a gift membership to Shop the Block from
+<%=@user.gift_giver_name%>  and your card will be shipped within 72 hours to
+<%= @user.shipping_location.full_address if @user.shipping_location && !@user.gift_location %><% if @user.gift_location %> <%= @user.gift_location.full_address   %><%  end %>.
+
+Shop the Block is Toronto’s only exclusive discount card designed to help you
+save money while supporting independent businesses in your neighbourhood. By
+flashing your wallet-sized card each time you shop, you’re entitled to discounts of
+as much as 20% off of every purchase at some of your favourite local stores.
+
+How It Works
+Your one-year membership to Shop the Block begins TODAY.  Once you
+complete your online registration, you will be able to immediately print your
+temporary card.
+
+Our Participating Merchants
+We have over 100 businesses participating in Shop the Block across the GTA
+from specialty grocers to fashion boutiques and the list of merchants keeps
+growing every week. Visit www.shoptheblock.ca to view a complete list of participating
+stores and associated discounts.
+
+Personalize Your Membership
+A benefit of being a Shop the Block member is your ability to create a customized
+list of shops, tailored to your preferences.  Be sure to login to your personalized
+My Neighborhood page every time you visit www.shoptheblock.ca.  You can
+always see the complete list of shops by clicking on Participating Stores.
+
+The Latest News
+Now that you’re a member, you’ll receive our bi-weekly Best of the Block e-newsletter
+full of fun finds, shopping trends, boutique news and special promotions.
+
+Fall in love with your neighbourhood shops all over again. We truly hope Shop the Block
+helps make shopping more convenient and cost-effective for you and your family.
+
+Get Started  NOW!
+Please click  here <%=confirm_gift_url(@code)%> to complete your online registration
+and  print your temporary card.
+
+
+Happy shopping and saving!
+
+Shop the Block
+info@shoptheblock.ca
+www.shoptheblock.ca

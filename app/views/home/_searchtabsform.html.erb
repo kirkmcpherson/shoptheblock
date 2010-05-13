@@ -1,0 +1,65 @@
+
+
+ <%  categories = Category.all(:order => 'name ASC');
+
+  category_options = [["All Categories", '*']]
+  if logged_in?
+    category_options << [ "My Categories", sprintf("@%s", current_user.category_ids.join(',')) ]
+  end
+
+  default_category = category_options.last[1]
+  category_options.concat(categories.collect{|c| [c.name, c.id]})
+
+-%>
+
+
+<div class="StoreList">
+<% form_remote_tag(:url => :neighbourhood_search, :update => 'search_results', :html => {:id => 'search_form'}) do -%>
+<div id="searchTabs">
+  <%= hidden_field_tag('type', 'store', :id => 'search_type') %>
+  <div id="storesTab" class="searchTab" onclick="searchTabs_setActive(this,'store');return false;">All Stores</div>
+  <div id="discountsTab" class="searchTab" onclick="searchTabs_setActive(this,'discount');return false;">Discounts</div>
+  <div id="promosTab" class="searchTab" onclick="searchTabs_setActive(this,'promo');return false;">Additional Promotions</div>
+
+<% javascript_tag do %>
+
+  searchTabs_setActive($($('search_type').getValue()+'sTab'), null);
+<% end %>
+  
+</div>
+<br clear="all"/>
+ <div class="searchBar">
+
+  Show:
+  <%= select_tag(
+    'category',
+    options_for_select(category_options, default_category),
+    :onchange => 'doSearch()',
+    :style => 'width: 350px;'
+  ) %>
+  within
+  <%= select_tag(
+    'distance',
+    options_for_select(search_distances, current_user.try(:search_distance) || search_distances.last[1]),
+    :onchange => 'doSearch()'
+  ) %>
+  <%= hidden_field_tag('pageIndex', '0') %>
+  <%= submit_tag('Goooooooooooooo', :id => 'search_button', :style=>'display:none;') %>
+</div>
+<% end #form -%>
+
+<div id="search_results">
+
+</div>
+
+</div>
+
+<% javascript_tag do -%>
+    doSearch(0);
+<% end #javascript -%>
+
+
+
+
+
+

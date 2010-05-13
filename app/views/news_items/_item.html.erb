@@ -1,0 +1,12 @@
+<table cellpadding="0" cellspacing="0" class="item_container">
+    <tr>
+      <td class="item_image" rowspan="3"><%= image_tag(item.merchant.logo.url(:thumb), :size=>'50x50') %></td>
+      <td class="item_title"><%= h(item.title) %></td>
+    </tr>
+    <tr>
+      <td class="item_date"><%= h(item.created_at.strftime('%b %d')) %> <%= link_to(item.merchant.name, (item.store == nil) ? item.merchant : item.store)  %></td>
+    </tr>
+    <tr height="100%">
+      <td class="item_description"><%= h(item.description) %></td>
+    </tr>
+</table>

@@ -1,0 +1,346 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+    site_name:              "Shop the Block"
+
+    time:
+        formats:
+            long_date:      "%B %d, %Y"
+
+    heading:
+        actions:            "Actions"
+        user_preferences:   "Preferences"
+        user_account_info:  "Account Info"
+
+    input:
+        submit:             "Save"
+        cancel:             "cancel"
+        submitted:          "Please wait..."
+        submit_or_cancel:   "{{submit}}<span> or {{cancel}}</span>"
+        add:                "Add"
+        remove:             "Remove"
+        placeholder:
+            address:        "Street address"
+            city:           "City"
+            postal:         "Postal code"
+
+    
+    search:
+        welcome:   "Enter your location to find the closest businesses to you."
+        participating_store_after_search:  "Here are the closest businesses to you... Don't see what you are looking for in your neighbourhood? Let us "
+
+    newsletters:
+        preview:          "Preview Full Newsletter In New Window"
+        index:
+            heading:      "Past Newsletters"
+            volume:       "Volume"
+            issue:        "Issue"
+            title:        "Title"
+            date_created: "Date Created"
+            date_published: "   Date Published"
+            preview:      "Preview"
+            edit:         "Edit"
+            delete:
+                link:     "Delete"
+                confirm:  "Are you sure you'd like to delete this newsletter?"
+                flash_success: "The newsletter was successfully deleted."
+                flash_error:   "There was a problem deleting the newsletter, please try again."
+
+    newsletter_ad:
+        create:
+            invalid_url:  "is invalid"
+
+    newsletter_wizard:
+        back:           "Back"
+        next:           "Next"
+        cancel:         "Cancel"
+        sidebar:
+            details:    "Details/Stories"
+            ads:        "Ads"
+            recipients: "Recipients"
+            last_step:  "Summary/Preview/Send"
+        newsletter_story:
+            heading:    "Story"
+            header:     "Header"
+            body:       "Body"
+            image:      "Image"
+            image_pos:  "Image Pos."
+        newsletter_ad:
+            heading:    "Ad"
+        details:
+            title:      "Newsletter Wizard - Details/Stories"
+            help:       "Enter general details and add stories to the newsletter. Click 'Add another Story' below to add more stories."
+            heading:    "Details"
+            add_story:  "Add another Story"
+        ads:
+            title:      "Newsletter Wizard - Ads"
+            help:       "Click 'Create an Ad' below to create ads. Enter the ad's URL and upload an image to display in the newsletter."
+            add_ad:     "Create an Ad"
+            featured_stores: "Featured Stores"
+            featured_stores_help: "Choose the stores to feature in the ads section in the newsletter."
+        recipients:
+            title:      "Newsletter Wizard - Recipients"
+            help:       "Choose whether to send the newsletter to all subscribers or only target members interested in specific categories."
+            all:        "Send to all newsletter subscribers"
+            by_category: "Send only to newsletter subscribers interested in:"
+            select_members: "Send only to select members/newsletter subscribers"
+            members:    "Members"
+            non_members: "Newsletter Subscribers"
+            first_name: "First Name"
+            last_name:  "Last Name"
+            email:      "E-mail"
+            select:     "Select"
+            all:        "All"
+            none:       "None"
+        last_step:
+            title:      "Newsletter Wizard - Summary/Preview/Send"
+            help:       "Review the newsletter, preview it and click Finish to send it."
+            volume:     "Volume:"
+            issue:      "Issue:"
+            title_col:  "Title:"
+            stories:    "Stories:"
+            ads:        "Ads:"
+            recipients: "Recipients:"
+            categories: "Subscribers interested in {{categories}}"
+            all:        "All Newsletter Subscribers"
+            finish:     "Finish (Send Newsletter)"
+            publicly_viewable: "Publicly Viewable?"
+            save_success: "The newsletter has been saved successfully"
+            save_failed: "There was a problem saving the newsletter. Please try again."
+            save_without_sending: "Save Without Sending"
+        send:
+            flash:      "Newsletter Volume {{volume}}, Issue {{issue}} Sent"
+        items:
+            remove:     "remove"
+            remove_confirm: "Are you sure you want to remove this item?"
+            move_up:    "move up"
+            move_down:  "move down"
+
+    users:
+      action:
+          pending_cards:    "Pending Card Requests"
+          index:            "View Members"
+          new:              "Add a Member"
+          send_news_alert:  "Create/Send News Alert e-mail"
+          view_past_newsletters: "View Past Newsletters"
+          send_newsletter:  "Create/Send Newsletter"
+          edit:             "Edit Settings"
+          register:         "Proceed to Payment"
+          admin_register:   "Register"
+          lost_card:        "Report a Lost Card"
+          renew:            "Renew Your Membership"
+          edit_newsletter_recipients: "Manage Newsletter Subscribers"
+          send_signup_email:  "Send signup email"
+
+      create:
+          invalid_promo_code: "is invalid"
+          expired_promo_code: "has expired"
+          legal_not_accepted: "You must accept the terms and conditions to register"
+          success:          "Thanks for signing up!  You should receive a confirmation email shortly."
+          failed:           "We couldn't set up that account, sorry.  Please try again, or contact an admin (link is above)."
+          referral_invalid: "The referral email address {{email}} is invalid."
+          referral_exists:  "The referral email address {{email}} is already a registered user."
+          referral_self:    "You cannot refer yourself."
+          compare_emails_error: "Your emails don't match. Please enter them again."
+      update:
+          success:          "Your account information has been updated."
+          failed:           "There was a problem updating your account details."
+      renew:
+          submit:           "Renew"
+          success:          "Your account was successfully renewed."
+      forgot_password:
+          no_email:         "You must enter an email address"
+          no_match:         "Could not find an account for that address"
+          success:          "Your password reset request has been processed. You should receive an email shortly."
+          failed:           "An error occurred processing your request. Please try again later."
+      reset_password:
+          submit:           "Submit"
+          email_mismatch:   "The email address does not match the reset code."
+          no_password:      "Please enter a new password for your account."
+          success:          "Your password was successfully changed."
+      send_news_alert:
+          submit:           "Send"
+          no_subject:       "Please enter a subject"
+          no_message:       "Please enter a message"
+          success:          "Successfully sent email to {{count}} members"
+          failed:           "Failed to send email to {{count}} members"
+          error_saving:     "We couldn't set up the news alert. Please try again."
+          recipients:
+              title:      "News Alert Recipients"
+              help:       "Choose whether to send the news alert to all subscribers or only target members interested in specific categories."
+              all:        "Send to all newsletter subscribers"
+              by_category: "Send only to newsletter subscribers interested in:"
+              select_members: "Send only to select members/newsletter subscribers"
+              members:    "Members"
+              non_members: "Newsletter Subscribers"
+              first_name: "First Name"
+              last_name:  "Last Name"
+              email:      "E-mail"
+              select:     "Select"
+              all:        "All"
+              none:       "None"
+      email_format:
+          format_0:         "Plain Text"
+          format_1:         "HTML"
+      newsletter:
+          subscribe_0:    "Unsubscribed"
+          subscribe_1:    "Subscribed"
+      view:
+          all_categories:   "All"
+      temp_card:
+          wait:             "Please wait while your temporary card is generated..."
+      edit_newsletter_recipients:
+          skipped_emails:   "<div>The following recipients were skipped:<ul>{{emails}}</ul></div>"
+          failed_emails:    "<div>The following recipients could not be added:<ul>{{emails}}</ul></div>"
+          succeeded_emails: "<div>Successfully added {{count}} recipients</div>"
+          member_emails:    "<div>The following member accounts were updated:<ul>{{emails}}</ul></div>"
+          skipped_member:   "<li>{{email}}: Member is already receiving e-newsletters</li>"
+          skipped_role:     "<li>{{email}}: User already exists and is a {{role}}</li>"
+          failed_email:     "<li>{{email}}: {{error}}</li>"
+          added_email:      "<li>{{email}}</li>"
+          removed_emails:   "<div>Successfully removed {{count}} recipients</div>"
+          add_empty:        "Please enter at least one recipient to add"
+          remove_empty:     "Please select at least one recipient to remove"
+          subscribe_success: "You have subscribed to Shop the Block e-newsletter"
+          subscribe_fail_exists: "You are already receiving e-newsletters."
+          subscribe_fail_email: "Email should be valid."
+      unsubscribe:
+          success:          "Your subscription has been removed."
+          fail_member:      "You cannot remove an account."
+          fail_invalid_id:  "User does not exist."
+          fail_error:       "An error occurred. Please try again."
+      destroy:
+          success:          "User successfully deleted."
+          fail_error:       "An error occurred. Please try again."
+      lost_card:
+          fail_not_found:   "Sorry, Your account could not be found"
+      return_from_paypal:
+          fail_not_found:   "Sorry, Your account could not be found"
+      heard_about_from:
+          - From a Friend
+          - From a Merchant
+          - Television
+          - Newspaper
+          - Magazine
+          - Internet
+          - Other
+      gift:
+          start_date:   "can't be blank"
+          first_name:   "can't be blank"
+          last_name:    "can't be blank"
+          email:    "can't be blank"
+          complete_registration: "Complete Registration"
+
+    merchants:
+      action:
+          index:            "View Merchants"
+          new:              "Add a Merchant"
+      create:
+          succeeded:        "The merchant was successfully created."
+      update:
+          succeeded:        "The merchant was successfully updated."
+      online:                 "Online Merchant"
+
+    promo_codes:
+      action:
+          index:            "View Promo Codes"
+          new:              "Add a Promo Code"
+      create:
+          succeeded:        "The promo code was successfully created."
+      update:
+          succeeded:        "The promo code was successfully updated."
+
+    testimonials:
+      action:
+          index:            "View Testimonials"
+          new:              "Add a Testimonial"
+      create:
+          succeeded:        "The testimonial was successfully created."
+      update:
+          succeeded:        "The testimonial was successfully updated."
+
+    press_releases:
+      action:
+          index:            "View Press Releases"
+          new:              "Add a Press Release"
+      create:
+          succeeded:        "The press release was successfully created."
+      update:
+          succeeded:        "The press release was successfully updated."
+      url:
+          name:             "Article Link"
+
+    stores:
+      action:
+          new:              "Add a Store"
+          destroy:          "Remove Store"
+      create:
+          succeeded:        "The store was successfully created."
+      update:
+          succeeded:        "The store was successfully updated."
+
+
+    categories:
+        action:
+            new:            "Add a Category"
+            destroy:        "Remove Category"
+            index:          "View Categories"
+            edit:           "Edit Category"
+        create:
+            succeeded:      'Category was successfully created.'
+        update:
+            succeeded:      'Category was successfully updated.'
+
+    news_items:
+        action:
+            index:          "View News Alerts"
+            new:            "Add a News Alert"
+        url:
+            name:           "Merchant Link"
+
+    home:
+        page:
+            next:           Next >
+            back:           < Back
+        validate_address:
+            failed:         'The address is invalid or too vague.'
+            city_or_postal: 'Please enter a city or postal code.'
+
+    session:
+        logged_in:          "Logged in successfully"
+        logged_out:         "You have been logged out."
+        login_failed:       "Couldn't log you in as '{{email}}'"
+        pending:
+          Registration for this account was not completed successfully.
+          Please try again.
+
+    user_mailer:
+        signup_notification:
+            subject:        "Welcome to Shop the Block"
+        activation:
+            subject:        "Your account has been activated!"
+        lost_card:
+            subject:        "Lost card reported"
+        daily_status:
+            subject:        "Shop the Block Daily Status"
+        account_expired:
+            subject:        "Your account has expired"
+        renewal_reminder:
+            subject:        "Renew your account now!"
+        forgot_password:
+            subject:        "Password reset request"
+        referrer_mail:
+            subject:        "Check out Shop the Block"
+
+    legal:
+        "<p><strong>IMPORTANT:</strong> By purchasing the Shop the Block Card (&#34;<strong>STB Card</strong>&#34;), you agree to and accept the following terms and conditions set out below.</p> 
+        <p>1.Eligibility:  Any individual who is 18 years or older is eligible to purchase the card.  If you are under 18 years old, you must receive consent from your parent or guardian and Shop the Block (&#34;<strong>STB</strong>&#34;) reserves the right to limit the availability of the Shop the Block Card. </p>
+        <p>2.Use:  Each order for a STB Card is for a single cardholder, unless otherwise specified therein.  STB does not permit the sharing of the STB Card.  The STB Card is non-transferable and may only be used by the person whose name is printed on the STB Card.  For use of your STB Card at a participating merchant you must show your STB Card to the participating merchant prior to payment.  A merchant has the right to deny a discount if you do not present your STB Card prior to payment.  Merchants may reserve the right to ask for personal identification to verify you are the rightful cardholder.  STB and participating merchants are independent contractors.  STB is not liable for any products or services provided by these merchants. </p>
+        <p>3.Expiration of the Card:  Your STB Card will expire on the date printed on the front of the card.  STB reserves the right to terminate your STB Card at any time if it is determined that you have violated any of the Terms and Conditions set out herein. </p>
+        <p>4.Refunds:  There will be no refunds or exchanges</p>
+        <p>5.Lost Cards:  If your STB Card is lost or stolen, you will be entitled to one free replacement STB Card in a contract year.  For any additional lost or stolen STB Card throughout that same contract year, STB shall charge a replacement fee of $65.  Notwithstanding anything herein, all replacement cards, including those that have been replaced at no additional charge will be subject to a nominal shipping and handling charge.  You can report lost or stolen cards to <a href='mailto:admin@shoptheblock.ca'>admin@shoptheblock.ca</a>.</p>
+        <p>6.Changes to offers or Merchants:  Offers made available by STB may change from time to time and some restrictions may apply.  STB reserves the right in its sole discretion to change the offers and or participating merchants.  In addition, participating merchants may elect to change offers from time to time.  STB will make commercially reasonable efforts to make appropriate updates to its website to reflect offer and/or merchant changes.  STB undertakes no obligation to provide a replacement or substitute offer for any offer discontinued.  STB is not responsible if a merchant changes its discount due to new ownership or acquisition. </p>
+        <p>7.Merchants and STB are independent contractors:  STB is not liable for any products or services provided by or through any merchant participating in the STB Program and for any error, omission or inaccuracy in advertising material or for any liability resulting directly or indirectly from a product or service provided by any merchant or other third party in connection with the STB Program. </p>"
+
+

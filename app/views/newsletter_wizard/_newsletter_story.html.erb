@@ -1,0 +1,57 @@
+<%- @newsletter_story = ns -%>
+<div class="newsletter_item_container">
+  <br/>
+  <% fields_for @newsletter_story.new_record? ? "new_newsletter_stories[]" : "newsletter_stories[]", @newsletter_story do |f| %>
+    <fieldset>
+      <legend><%= t('.heading') %> <%= link_to_remove_item 'story' %> | <%= move_item_link('up') %> | <%= move_item_link('down') %></legend>
+      <%= error_messages_for :newsletter_story %>
+      <fieldset>
+        <legend><%= t('.header') %></legend>
+        <%= f.hidden_field :position, :class => 'position' %>
+        <table>
+          <tr>
+            <td class="label"><%= f.label :header_image, t('.image') %></td>
+            <td class="value"><% image_field f, @newsletter_story, :header_image %></td>
+          </tr>
+          <tr>
+            <td class="label"><%= f.label :header_image_position, t('.image_pos') %></td>
+            <td class="value"><%= f.select :header_image_position, NewsletterStory::HEADER_IMAGE_POSITIONS %></td>
+          </tr>
+          <tr>
+            <td class="label"><%= f.label :header %></td>
+            <td class="value"><%= f.text_field :header %></td>
+          </tr>
+          <tr>
+            <td class="label"><%= f.label :title %></td>
+            <td class="value"><%= f.text_field :title %></td>
+          </tr>
+          <tr>
+            <td class="label"><%= f.label :subtitle %></td>
+            <td class="value"><%= f.text_field :subtitle %></td>
+          </tr>
+        </table>
+      </fieldset>
+      <fieldset>
+        <legend><%= t('.body') %></legend>
+        <table>
+          <tr>
+            <td class="label"><%= f.label :body_image, t('.image') %></td>
+            <td class="value"><% image_field f, @newsletter_story, :body_image %></td>
+          </tr>
+          <tr>
+            <td class="label"><%= f.label :body_image_position, t('.image_pos') %></td>
+            <td class="value"><%= f.select :body_image_position, NewsletterStory::BODY_IMAGE_POSITIONS %></td>
+          </tr>
+          <tr>
+            <td class="label"><%= f.label :body %></td>
+            <td class="value"><%= f.text_area :body, :class => 'mceEditor', :id => 'newsletter_story_body_' + ActiveSupport::SecureRandom.hex(2) %></td>
+          </tr>
+          <tr>
+            <td class="label"><%= f.label :quote %></td>
+            <td class="value"><%= f.text_area :quote, :size => '20x8' %></td>
+          </tr>
+        </table>
+      </fieldset>
+    </fieldset>
+  <%- end -%>
+</div>

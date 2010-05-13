@@ -1,0 +1,7 @@
+Dear <%= @user.first_name %>,
+
+This is a reminder from <%= t('site_name') %> that your membership is due
+to expire on <%= @user.membership_expiration.strftime("%B %d, %Y") %>.
+
+To renew, login to <%= root_url %> and go to your My Account page.
+

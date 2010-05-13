@@ -1,0 +1,22 @@
+<%- @newsletter_ad = na -%>
+<div class="newsletter_item_container">
+  <br/>
+  <% fields_for @newsletter_ad.new_record? ? "new_newsletter_ads[]" : "newsletter_ads[]", @newsletter_ad do |f| %>
+    <%= f.hidden_field :newsletter_id %>
+    <fieldset>
+      <legend><%= t('.heading') %> <%= link_to_remove_item 'ad' %> | <%= move_item_link('up') %> | <%= move_item_link('down') %></legend>
+      <%= error_messages_for :newsletter_ad %>
+      <%= f.hidden_field :position, :class => 'position' %>
+      <table>
+        <tr>
+          <td class="label"><%= f.label :url %></td>
+          <td class="value"><%= f.text_field :url, :value => @newsletter_ad.url || 'http://' %></td>
+        </tr>
+        <tr>
+          <td class="label"><%= f.label :image %></td>
+          <td class="value"><% image_field f, @newsletter_ad, :image %></td>
+        </tr>
+      </table>
+    </fieldset>
+  <%- end -%>
+</div>

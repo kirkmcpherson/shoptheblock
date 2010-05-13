@@ -1,0 +1,48 @@
+<h1>My Neighbourhood</h1>
+
+<h4>This page is all about you! </h4>
+
+<p>
+  Here are the closest businesses to you...
+  <% unless logged_in? %>
+  Don't see what you're looking for in your neighborhood?
+  <%=  email_link(
+    :admin,
+    'Let us know!',
+    :subject => 'Neighbourhood suggestions',
+    :body =>
+%{Thanks for your interest in Shop the Block! Shop the Block will be expanding to more neighborhoods around the GTA soon.
+
+What's your name?
+
+What neighbourhood are you interested in?
+
+What merchants would you like to see?
+}) %>
+  <% end %>
+</p>
+<% if @location == nil %>
+ <% concat render :partial => 'search' %>
+<% end %>
+
+<div>
+  <div class="neighbourhood_location"><h4><%= @location %> <%= link_to_function(
+  'change',
+  "$(this).up('.neighbourhood_location').hide();$(this).up('.neighbourhood_location').next().show();"
+  ) %></h4></div>
+
+  <div class="neighbourhood_change" style="display:none;">
+    <%= render :partial => 'search', :locals => {
+      :oncancel => "$(this).up('.neighbourhood_change').hide();$(this).up('.neighbourhood_change').previous().show();"
+    } %>
+  </div>
+</div>
+
+<% create_map('map', @location) %>
+
+<%# heading_tag('In Your Neighbourhood') %>
+
+
+<%=  render :partial => 'home/searchtabsform' %>
+
+

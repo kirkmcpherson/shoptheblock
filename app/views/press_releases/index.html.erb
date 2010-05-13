@@ -1,0 +1,60 @@
+<h1>Media & Press</h1>
+
+<% if current_user and current_user.is_role?(:administrator) %>
+  <table cellpadding="5" cellspacing="1" border="0" width="100%">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Publication Name</th>
+        <th>Title</th>              
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <% @press_releases.each do |press_release| %>
+        <tr class=<%= cycle('odd','even') %>>
+          <td><div><%= h press_release.publication_date.strftime("%B %d, %Y") %></div></td>
+          <td><div><%= h press_release.publication %></div></td>
+          <td><div class="clippingColumn"><%= h press_release.title %></div></td> 
+          <td>
+            <%= link_to('edit', edit_press_release_path(press_release)) %>
+            <%= link_to('remove', press_release_path(press_release), :confirm => 'Are you sure?', :method => :delete) %>
+          </td>
+        </tr>
+      <% end %>
+
+    </tbody>
+  </table>
+
+  <% content_for :sidebar do %>
+    <div class="statsContainer">
+      <%= heading_tag('Actions') %>
+
+      <div><%= link_to('Add Press Release', new_press_release_path) %></div>
+    </div>
+  <% end %>
+<% else %>
+  <% if PressRelease.count == 0 %>
+    <p> There are currently no press releases. </p>
+  <% else %>    
+     <table cellpadding="5" cellspacing="1" border="0" width="100%">
+          <% @press_releases.each do |press_release| %>
+             <tr class=<%= cycle('odd','even') %>>
+                <td><%= h(press_release.publication_date.to_date) %></td>
+                <td><%= h press_release.publication %></td>
+                <td> <% if press_release.url %>
+                                <%= link_to(h(press_release.title), press_release.url, :target => '_blank')  %>
+                          <% else %>
+                                <%= h(press_release.title) %>
+                          <% end %>
+                </td>
+                <td> <%= truncate( press_release.article,:length => 35)  %><br/>
+                           <%= link_to 'continue' ,press_release %>
+                </td>
+          </tr>
+        <% end %>
+     </table>         
+  <% end %>
+<% end %>
+

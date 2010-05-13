@@ -1,0 +1,25 @@
+<h1>Shop the Block News Alerts</h1>
+<table cellpadding="5" cellspacing="1" border="0" width="100%">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Title</th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for news_alert in @news_alerts %>
+      <tr valign="top" class=<%= cycle('odd','even') %>>
+        <td><%= news_alert.created_at.to_date %></td>
+        <td><%= h news_alert.title %></td>
+        <td>
+          <%= link_to 'Show', news_alert %>
+          <%- if admin_logged_in? -%>
+            <%= link_to 'Remove', news_alert, :confirm => 'Are you sure?', :method => :delete %>
+          <%- end -%>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

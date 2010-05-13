@@ -1,0 +1,60 @@
+<h1><%= t('.title') %></h1>
+
+<p><%= t('.help') %></p>
+
+<% form_tag newsletter_wizard_save_without_sending_path do %>
+<table>
+  <tr>
+    <td class="label"><%= t('.volume') %></td>
+    <td class="value"><%= @newsletter.volume %></td>
+  </tr>
+  <tr>
+    <td class="label"><%= t('.issue') %></td>
+    <td class="value"><%= @newsletter.issue %></td>
+  </tr>
+  <tr>
+    <td class="label"><%= t('.title_col') %></td>
+    <td class="value"><%= @newsletter.title %></td>
+  </tr>
+  <tr>
+    <td class="label"><%= t('.stories') %></td>
+    <td class="value"><%= @newsletter.stories.collect(&:title) * ', ' %></td>
+  </tr>
+  <tr>
+    <td class="label"><%= t('.ads') %></td>
+    <td class="value"><%= @newsletter.ads.collect(&:url) * ', ' %></td>
+  </tr>
+  <tr>
+    <td class="label"><%= t('.recipients') %></td>
+    <td class="value"><%= @recipients %></td>
+  </tr>
+  <tr>
+    <td class="label"><%= t('.publicly_viewable') %></td>
+    <td class="value">
+        <%= hidden_field_tag :newsletter_id, params[:newsletter_id] %>
+        <%= select_tag 'newsletter[expired]', 
+             options_for_select({ "Yes" => true, "No" => false }, @newsletter.expired) %>
+    
+      <%= calendar_date_select_tag('newsletter[publication_date]',  @newsletter.publication_date, :popup=>true , :style => 'width: 140px;') %>
+    </td>
+
+  </tr>
+</table>
+
+<p>
+  <%= link_to_preview_newsletter params[:newsletter_id] %>
+</p>
+
+<br/>
+
+<p>
+  <%= button_to_function t('newsletter_wizard.back'), "window.location.href='#{newsletter_wizard_recipients_path}?newsletter_id=#{params[:newsletter_id]}'" %>
+  <%= submit_tag t('.save_without_sending') %>
+<% end %>
+  <%= button_to_function t('.finish'), "window.location.href='#{newsletter_wizard_send_newsletter_path}?newsletter_id=#{params[:newsletter_id]}'" %>
+  <span class="cancel_link">
+    <%= link_to t('newsletter_wizard.cancel'), account_path %>
+  </span>
+</p>
+
+<%= sidebar :last_step %>

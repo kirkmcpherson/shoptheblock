@@ -1,0 +1,61 @@
+<%
+#
+# Locals:
+#   items       = collection to render
+#   template    = name of partial to render each item
+#   columns     = # of columns
+#   rows        = # rows
+#   more_url    = URL if more items
+#   empty_message = Text to display if list is empty
+#
+empty_message = nil if empty_message == nil
+items = nil if items == nil
+
+if ((items != nil) && (items.length > 0))
+    index = 0
+    more = false
+
+    columns = 1 if columns == nil
+    rows = 999 if rows == nil
+    more_url = nil if more_url == nil
+    
+    content_tag(:table) do
+
+        for item in items
+
+            if index == (columns * rows)
+                more = true
+                break
+            end
+
+
+            if ((index % columns) == 0)
+                concat('</tr>') if index > 0
+                concat('<tr>')
+            end
+
+            content_tag(:td, :width => '10%') do
+                concat render :partial => template_name, :object => item
+            end
+
+            index = index + 1
+
+        end
+
+        concat('</tr>')
+
+        if (more and (more_url != nil))
+            content_tag(:tr) do
+                content_tag(:td, :colspan => columns) do
+                    concat link_to('More...', more_url)
+                end
+            end
+
+        end
+    end
+else
+  #if (empty_message != nil)
+    content_tag(:p, empty_message)
+  #end
+end
+%>

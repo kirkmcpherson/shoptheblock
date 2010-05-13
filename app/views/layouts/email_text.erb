@@ -1,0 +1,14 @@
+<%= yield %>
+
+-----------------------------------------------------------
+
+Contact Us:
+Shop the Block - www.shoptheblock.ca
+Follow Shop the Block on Twitter - www.twitter.com/IShopTheBlock
+Find us on Facebook - www.facebook.com/pages/Toronto-ON/Shop-The-Block/84919174635?ref=mf
+
+
+<%- if @user.user_type == User::ROLES[:newsletter_only] -%>
+If you wish to unsubscribe from this newsletter please go to the following link and you will be removed immediately.
+<%= unsubscribe_url(:code => @user.activation_code) %> 
+<%- end -%>

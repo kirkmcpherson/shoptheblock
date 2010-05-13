@@ -1,0 +1,13 @@
+<script type="text/javascript">
+  onload = function() {
+    document.getElementById('wait_text').innerHTML = "Please Wait...";
+    document.getElementById('submit_form').style.visibility = "hidden"; 
+    document.getElementById('paypal_form').submit();
+  }
+</script>
+<span id="wait_text"></span>
+<%- form_tag PAYPAL_URL, :id => "paypal_form" do -%>
+  <%= hidden_field_tag :cmd, "_s-xclick" %>
+  <%= hidden_field_tag :encrypted, params[:encrypted] %>
+  <%= submit_tag "Checkout", :id => "submit_form" %>
+<%- end -%>

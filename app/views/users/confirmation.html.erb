@@ -1,0 +1,15 @@
+<h1>Registration Complete</h1>
+
+<p>
+  Welcome to Shop the Block! You should be receiving a confirmation email at
+  <b><%= @user.email  %></b> in a few minutes.
+</p>
+
+<p>Print your temporary Shop the Block card now and start saving immediately. Happy Shopping!</p>
+
+<%= render :partial => 'temp_card' %>
+
+<p>
+  <%= link_to "Go to My Neighbourhood Page", :neighbourhood %>
+</p>
+

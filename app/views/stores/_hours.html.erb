@@ -1,0 +1,36 @@
+<%
+days = %w{Monday Tueday Wednesday Thursday Friday Saturday Sunday}
+
+if hours.items.blank?
+%>
+<div><b>By Appointment only</b></div>
+<% else %>
+
+<table class="store_hours">
+ <tr><th colspan="2">Store Hours</th></tr>
+    <% hours.items.each do |h| %>
+      <tr>
+        <td class="store_hours_days">
+          <%= names_of_days[h.start_day] -%>
+          <% unless h.end_day == h.start_day %>
+            - <%= names_of_days[h.end_day] -%>
+          <% end -%>:
+        </td>
+        <td class="store_hours_hours">
+           <% if h.closed? %>
+            Closed
+          <% elsif  h.has_hours?  == false  &&  h.by_appointment?  %>
+            By appointment only
+          <% else %>           
+                <%= Time.local(2000, 1, 1, h.start_hour, h.start_minute).strftime('%I:%M%p') %>
+                -
+                <%= Time.local(2000, 1, 1, h.end_hour, h.end_minute).strftime('%I:%M%p') %>
+             <% if  h.by_appointment? %>
+              - By appointment only
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+</table>
+<% end #if %>

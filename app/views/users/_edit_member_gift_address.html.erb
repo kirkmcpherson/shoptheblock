@@ -1,0 +1,81 @@
+
+<!--
+==============================================================================
+SHIPPING ADDRESS
+==============================================================================
+-->
+<tr>
+  <th colspan="2">Shipping Address (Address where card will be mailed to)</th>
+</tr>
+<tr>
+  <td class="label">First Name:</td>
+  <td class="value">
+     <%= text_field_tag("user[gift_shipping_first_name]", @user.gift_shipping_first_name, :size => 60 ) %>
+  </td>
+</tr>
+<tr>
+  <td class="label">Last Name:</td>
+  <td class="value">
+     <%= text_field_tag("user[gift_shipping_last_name]", @user.gift_shipping_last_name, :size => 60 ) %>
+  </td>
+</tr>
+<tr>
+  <td class="label">Address:</td>
+  <td class="value">
+    <%= text_field_tag("user[gift_location][address]", @user.gift_address, :size => 40 ) %>
+    <br/>
+    <span class="example">20 Some Street</span>
+  </td>
+</tr>
+<tr>
+  <td class="label">Address 2:</td>
+  <td class="value">
+    <%= text_field_tag("user[gift_location][address2]", @user.gift_address2, :size => 40) %>
+    <br/>
+    <span class="example">Apt 123, Suite B, etc. (optional)</span>
+  </td>
+</tr>
+<tr>
+  <td class="label">City:</td>
+  <td class="value">
+    <%= text_field_tag("user[gift_location][city]", @user.gift_city, :size => 20) %>
+    <br/>
+    <span class="example">Toronto, Montreal, etc.</span>
+  </td>
+</tr>
+<tr>
+  <td class="label">Province:</td>
+  <td class="value"><%= select_tag(
+    "user[gift_location][province]",
+    options_for_select(BillingHelper::BILLING_PROVINCES_OPTIONS_FOR_SELECT, @user.gift_province || "ON")
+  ) %></td>
+</tr>
+<tr>
+  <td class="label">Postal Code:</td>
+  <td class="value">
+    <%= text_field_tag("user[gift_location][postalcode]", @user.gift_postalcode, :size => 20) %>
+    <br/>
+    <span class="example">M5N 2P4, M2N 5X9, etc</span>
+  </td>
+</tr>
+<% if is_signup %>
+	<tr>
+	  <td colspan=2>
+			<%=f.check_box :gift_address_is_receivers, {}, true, false -%>
+	    Shipping address belongs to the gift recipient
+	  </td>
+	</tr>
+
+  <tr>
+    <td colspan=2>
+      <%= check_box_tag('billing_use_shipping', "1", false) %>
+      Billing address is the same as shipping address
+    </td>
+  </tr>
+  <tr>
+    <td colspan=2>
+      After clicking  <b><%= t(is_admin ? 'users.action.admin_register' : 'users.action.register') %></b>  you will be redirected to Paypal to complete this transaction.       Please note that you can use your credit
+      card to purchase a Shop the Block card without logging in to Paypal by clicking the <b>"Continue" and "Continue without logging in" </b>buttons.
+    </td>
+  </tr>
+<% end %>

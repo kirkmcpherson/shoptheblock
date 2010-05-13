@@ -1,0 +1,191 @@
+<% if @user == current_user %>
+<h1>My Account</h1>
+<% else %>
+<h1><%= @user.full_name %></h1>
+<% end %>
+
+<table cellpadding="5" cellspacing="0" class="account_details" width="100%">
+  <colgroup>
+    <col/>
+    <col width="100%"/>
+  </colgroup>
+
+
+  <tr>
+    <td class="label">Member number:</td>
+    <td><%= @user.member_id  %></td>
+  </tr>
+  <% unless  @user.date_card_requested.nil?   %>
+  <% time_diff =   ( @user.created_at.to_date  -  @user.date_card_requested.to_date ).to_i %>  
+  <% if  time_diff  != 0  %>
+      <tr>
+        <td class="label">Newsletter sign-up date:</td>
+            <td><%= l(@user.created_at, :format => :long_date)  %></td>
+      </tr>
+  <% end %>
+  <% end %>  
+  <tr>
+    <td class="label">Member sign-up date:</td>
+        <td><%=  l(@user.date_card_requested, :format => :long_date)  %></td>
+  </tr>    
+    <tr>
+      <td class="label">Cardholder sign-up date:</td>
+        <td><%= @user.member_since.strftime("%B %d, %Y")  unless @user.member_since.nil? %></td>      
+    </tr>  
+  <tr>
+    <td class="label">Cardholder expiration date:</td>
+    <td><%= l(@user.membership_expiration, :format => :long_date)  unless @user.membership_expiration.nil?%></td>
+  </tr>
+  <% unless @user.heard_about_from.nil? %>
+  <tr>
+    <td class="label">Heard about from:</td>
+    <td><%= t('users.heard_about_from')[@user.heard_about_from] %><%
+    unless @user.heard_about_from_name.nil?
+    %>: <%= @user.heard_about_from_name %>
+    <% end %></td>
+  </tr>
+  <% end %>
+  <% if admin_logged_in? %>
+    <tr>
+      <td class="label">Lost Card URL:</td>
+      <td><%= lost_card_url :code => @user.activation_code %></td>
+    </tr>
+  <% end %>
+  <tr>
+    <td colspan="2" style="padding-top: 15px">
+	  <div class="searchBar">Account Info</div>
+	  </td>
+  </tr>
+  <tr>
+    <td class="label">First Name:</td>
+    <td class="value"><%= @user.first_name  %></td>
+  </tr>
+  <tr>
+    <td class="label">Last Name:</td>
+    <td class="value"><%= @user.last_name  %></td>
+  </tr>
+  <tr>
+    <td class="label">Email:</td>
+    <td class="value"><%= @user.email  %></td>
+  </tr>
+  <tr>
+    <td class="label">Phone Number:</td>
+    <td class="value"><%= @user.phone_number.present? ? @user.phone_number : "(none)" %></td>
+  </tr>
+  <tr>
+    <td class="label">Shipping Address:</td>
+    <td class="value"><%= @user.shipping_location  %></td>
+  </tr>
+
+  <tr>
+    <td class="label">Spouse First Name:</td>
+    <td class="value"><%= @user.partner_first_name.present? ? @user.partner_first_name : "(none)" %></td>
+  </tr>
+  <tr>
+    <td class="label">Spouse Last Name:</td>
+    <td class="value"><%= @user.partner_last_name.present? ? @user.partner_last_name : "(none)" %></td>
+  </tr>
+  <tr>
+    <td class="label">Spouse Email:</td>
+    <td class="value"><%= @user.partner_email.present? ? @user.partner_email : "(none)" %></td>
+  </tr>
+
+  <tr>
+    <td class="label">Heard About:</td>
+    <td class="value">
+      <% if @user.heard_about_from != nil %>
+        <%= t('users.heard_about_from')[@user.heard_about_from] %>
+      <% else %>
+        (none)
+      <% end %>
+    </td>
+  </tr>
+
+  <% if @user.promo_code %>
+    <tr>
+      <td class="label">Promo Code Used:</td>
+      <td class="value">
+        <%= @user.promo_code.code %>
+      </td>
+    </tr>
+  <% end %>
+
+  <% if @user.gift_giver_first_name? %>
+    <tr>
+      <td class="label">Gift Giver First Name:</td>
+      <td class="value">
+        <%= @user.gift_giver_first_name %>
+      </td>
+    </tr>
+  <% end %>
+
+  <% if @user.gift_giver_last_name? %>
+    <tr>
+      <td class="label">Gift Giver Last Name:</td>
+      <td class="value">
+        <%= @user.gift_giver_last_name %>
+      </td>
+    </tr>
+  <% end %>
+
+  <% if @user.gift_giver_email? %>
+    <tr>
+      <td class="label">Gift Giver Email:</td>
+      <td class="value">
+        <%= @user.gift_giver_email %>
+      </td>
+    </tr>
+  <% end %>
+
+    
+    <tr>
+          <td colspan="2" style="padding-top: 15px">
+                 <div class="searchBar">User Preferences</div>
+           </td>
+    </tr>
+   <%  if@user.neighbourhood_location  %>
+        <tr>
+          <td class="label">Neighbourhood:</td>
+          <td class="value"><%= @user.neighbourhood_location %></td>
+        </tr>
+    <% end %>    
+   <%  if @user.search_distance %>
+          <tr>
+            <td class="label">Search Distance:</td>
+            <td class="value"><%=  @user.search_distance %>km</td>
+          </tr>
+    <% end %>
+
+    <tr>
+      <td class="label">Interested in:</td>
+      <td class="value">
+        <%
+        categories = @user.categories.all
+        if (categories.nil? || categories.empty?)
+          concat(t('users.view.all_categories'))
+        else
+          categories.each do |c|
+            concat(', ') unless c == categories.first
+            concat(c.name)
+          end
+        end
+        %>
+      </td>
+    </tr>
+
+
+
+  <tr>
+    <td class="label">Email Format:</td>
+    <td class="value"><%= t("users.email_format.format_#{@user.email_format}") %></td>
+  </tr>
+   <tr>
+    <td class="label">Newsletter:</td>
+    <td class="value"><%= t("users.newsletter.subscribe_#{@user.newsletter}") %></td>
+  </tr>
+  <tr>
+    <td class="label">Lost Your Card?</td>
+    <td class="value"><%= email_link(:admin, 'Report a Lost Card', :subject => 'Reporting a Lost Card') %></td>
+  </tr>
+</table>
+

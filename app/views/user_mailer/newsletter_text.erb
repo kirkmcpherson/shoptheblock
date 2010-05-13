@@ -1,0 +1,31 @@
+Best Of The Block: <%= @newsletter.title %>
+
+Vol <%= @newsletter.volume %>, Issue <%= @newsletter.issue %> -  <%= Date.today.to_s(:long) %>
+===========================================================
+
+<%- @newsletter.stories.each do |story| -%>
+<%= story.header %>
+<%= story.title %>
+<%= story.subtitle %> 
+
+<%= strip_tags story.sanitized_body %>
+
+<%= story.quote %>  
+<%- end -%>
+
+<% unless @newsletter.ads.empty? and @newsletter.stores.empty?  %>
+-----------------------------------------------------------
+
+SPONSORS
+<% end %>
+<%- @newsletter.stores.each do |store| -%>
+<%= store.merchant.name %>
+<%= store.address %>
+<%= store.all_promotions.collect(&:headline) * ', ' %>
+
+<%- end -%>
+
+<%- @newsletter.ads.each do |ad| -%>
+<%= ad.url %>
+  
+<%- end -%>

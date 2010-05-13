@@ -1,0 +1,30 @@
+<h1>Pending Card Requests</h1>
+
+<% if @pending_users.empty? %>
+  <p>There are no pending requests at this time</p>
+<% else %>
+  <% if @mode == :view %>
+    <div>
+      <%= link_to('Print', pending_cards_path(:mode => 'print'), :target=>'_blank') %> |
+      <%= link_to_function('Select All') do |page|
+        page << "$('the_form').getInputs('checkbox').each(function(cb){cb.checked=true;})"
+      end %>
+    </div>
+  <% end %>
+
+  <% form_tag(pending_cards_path(:mode => 'update'), :id => 'the_form') do |f| %>
+    <table id="pending_table" class="datatable" cellspacing="0">
+      <%= render :partial => 'pending_table' %>
+    </table>
+
+    <% if @mode == :view %>
+      <div> <%= submit_tags(:cancel_url => account_path) %> </div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if @mode == :print %>
+  <% javascript_tag do %>
+    window.print(); window.close();
+  <% end %>
+<% end %>

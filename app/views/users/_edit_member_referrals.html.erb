@@ -1,0 +1,49 @@
+<!--
+==============================================================================
+REFERRALS
+==============================================================================
+-->
+
+<% if false %>
+  <tr>
+    <th colspan="2">Tell your friends and save!</td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      Refer <b><%= settings.signup_discount_referrals %></b> friends and save
+      <b><%= sprintf('$%0.2f', settings.signup_discount_amount) %></b> instantly!<br/>
+      Please enter your friends' emails below:
+    </td>
+  </tr>
+<% else %>
+  <tr>
+    <th colspan="2">Tell your friends about Shop the Block!</td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      Please enter your friends' email addresses below (optional):
+    </td>
+  </tr>
+
+<% end %>
+  <%
+  @referrals ||= []
+  settings.signup_discount_referrals.times do |i|
+  %>
+    <tr>
+        <td class="label">Friend #<%= i+1 %>'s email address:</td>
+        <td class="value">
+            <%
+            referral = @referrals[i] || ''
+            if referral.start_with?('!')
+                referral = referral[1..-1]
+            %>
+              <div class="fieldWithErrors">
+                  <%= text_field_tag('referrals[]', referral, :class => 'inputtext', :size => 30, :value => params[:referrals] ? params[:referrals][i] : '') %>
+              </div>
+            <% else %>
+              <%= text_field_tag('referrals[]', referral, :class => 'inputtext', :size => 30, :value => params[:referrals] ? params[:referrals][i] : '') %>
+            <% end %>
+        </td>
+    </tr>
+    <% end # num referrals %>

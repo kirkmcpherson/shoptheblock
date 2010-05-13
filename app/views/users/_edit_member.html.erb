@@ -1,0 +1,101 @@
+<%
+is_admin = admin_logged_in?
+# Can't use normal new_record? logic here as we may be updating
+# an existing account (pending or newsletter_only)
+is_signup = ['new', 'create'].include?(@controller.action_name)
+settings = SiteSettings.get
+%>
+
+<% if is_signup %>
+<h1>Sign Up</h1>
+<p>
+  Join today to start saving up to 20% at some of the best stores in your neighbourhood.
+</p>
+<p>
+  Purchase your <%= t('site_name') %> card for only $<%=  settings.membership_cost.to_i %> here
+  through our secure site. Each card is valid for one year from date of purchase. Your card
+  will be shipped to you within 72 hours after purchase, but a temporary one will be activated
+  immediately.
+</p>
+<% else %>
+<h1>My Account</h1>
+<% end %>
+
+<%= validation_errors @user, :sub => {:shipping_postalcode => :shipping_postal_code, :base => nil} %>
+
+<% form_for(
+  :user,
+  :url => { :action => is_signup ? 'create' : 'update' },
+  :html => { :multipart => true, :method => is_signup ? :post : :put, :id =>'form_signup' }
+)  do |f| -%>
+
+
+<table cellpadding="0" cellspacing="0" class="account_details miscTable" width="100%">
+
+	<%=render :partial => 'users/edit_member_account_info', :locals => {:f => f, :is_admin => is_admin, :is_signup => is_signup, :settings => settings, :gift => false}%>
+
+	<%=render :partial => 'users/edit_member_preferences', :locals => {:f => f, :is_admin => is_admin, :is_signup => is_signup, :settings => settings, :gift => false}%>
+
+	<%=render :partial => 'users/edit_member_referrals', :locals => {:f => f, :is_admin => is_admin, :is_signup => is_signup, :settings => settings, :gift => false} if is_signup && !is_admin %>
+
+	<%=render :partial => 'users/edit_member_shipping_address', :locals => {:f => f, :is_admin => is_admin, :is_signup => is_signup, :settings => settings, :gift => false} %>
+
+	<%=render :partial => 'users/edit_member_terms_and_conditions', :locals => {:f => f, :is_admin => is_admin, :is_signup => is_signup, :settings => settings, :gift => false} if is_signup && !is_admin %>
+
+
+<% if admin_logged_in? && is_signup %>
+  <tr>
+    <td><%= check_box_tag('bypass_billing', "1", true) %>Bypass Billing</td>
+  </tr>
+<% end %>
+
+<% if is_signup && !is_admin %>
+<tr>
+  <td colspan="2">
+    After clicking <b><%= t(is_admin ? 'users.action.admin_register' : 'users.action.register') %></b>
+    you will be redirected to Paypal to complete this transaction.       Please note that you can use your credit
+    card to purchase a Shop the Block card without logging in to Paypal by clicking the <b>"Continue" and "Continue without logging in" </b>buttons.
+     </td>
+</tr>
+<% end %>
+
+<tr>
+  <td colspan="2" id="submit_buttons">
+  <%= submit_tags(
+    :submit_key => is_signup ? (is_admin ? 'users.action.admin_register' : 'users.action.register') : nil,
+    :cancel_url => is_signup ? (is_admin ? users_path : root_path) : user_path(@user)
+  ) %>
+
+  </td>
+</tr>
+
+<% end -%>
+<tr>
+  <td>
+  <%  unless is_signup -%>
+    <% form_for(  :user, :url => { :action => 'send_signup_email',:id => @user.id },
+                :html => { :method =>  :post  } )  do-%>
+         <%= submit_tag t( 'users.action.send_signup_email') ,:disable_with => t('input.submitted') %>
+    <% end -%>
+  <% end %>
+  </td>
+</tr>
+</table>
+
+<% javascript_tag do -%>
+  function setfocus()
+  {
+    $$('form').first().focusFirstElement();
+  }
+  setfocus();
+<% end %>
+
+
+
+ 
+
+
+
+
+
+

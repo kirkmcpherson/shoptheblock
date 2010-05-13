@@ -1,0 +1,79 @@
+<h1>Latest News from the Block</h1>
+<%- if !logged_in? -%>
+<b style="font-size: 12pt;">e-Newsletter</b>
+  <p>
+	Subscribe to Best of the Block. You won’t want to miss our e-newsletter full of fun finds, designer profiles, shopping trends, boutique news and special promotions to give you a behind the scenes look at your favourite shops.
+	</p>
+<%- end -%>
+<%= render :partial => "/users/subscribe" %>
+
+<%= render :partial => "/newsletters/latest" %>
+
+
+<p><b style="font-size: 12pt;">News Alerts</b><br/>
+What’s happening at Shop the Block merchants right now:</p>
+
+<table cellpadding="5" cellspacing="1" border="0" width="100%">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Title</th>
+      <th colspan="2">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for news_item in @active_news_items %>
+      <tr valign="top" class=<%= cycle('odd','even') %>>
+        <td><%= news_item.created_at.to_date %></td>
+        <td><%= h news_item.title %></td>
+        <td> <%= simple_format(news_item.description)  %></td>
+        <td>
+	        <%= link_to 'Show', news_item %>
+	        <%- if admin_logged_in? -%>
+	          <%= link_to 'Edit', edit_news_item_path(news_item) %>
+	          <%= link_to 'Remove', news_item, :confirm => 'Are you sure?', :method => :delete %>
+	        <%- end -%>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<br>
+<br>
+
+<% if admin_logged_in? %>
+  <p><b style="font-size: 12pt;">Old News Alerts</b><br/>
+
+  <table cellpadding="5" cellspacing="1" border="0" width="100%">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Title</th>
+        <th colspan="2">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for news_item in @expired_news_items %>
+        <tr valign="top" class=<%= cycle('odd','even') %>>
+          <td><%= news_item.created_at.to_date %></td>
+          <td><%= h news_item.title %></td>
+          <td><%= simple_format news_item.description %></td>
+          <td>
+            <%= link_to 'Show', news_item %>
+            <%= link_to 'Edit', edit_news_item_path(news_item) %>
+            <%= link_to 'Remove', news_item, :confirm => 'Are you sure?', :method => :delete %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <% content_for :sidebar do %>
+    <div class="statsContainer">
+      <%= heading_tag('Actions') %>
+      <%= link_to('Add news item', new_news_item_path) %>
+    </div>
+  <% end %>
+<% end %>

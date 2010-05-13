@@ -1,0 +1,44 @@
+<%
+throw ':object not set' unless defined?(list)
+promotions = list
+if promotions.empty?
+%>
+<div>None at this time.</div>
+<% elsif admin_logged_in? %>
+<table class="datatable">
+  <thead>
+    <tr>
+      <th>Headline</th>
+      <th>Store</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <% promotions.each do |promotion| %>
+      <tr>
+        <td>
+          <%= promotion.headline %>
+        </td>
+        <td>
+          <% if promotion.store_id.nil? %>
+            All Stores
+          <% else %>
+            <%= promotion.store.location %>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to('view', promotion_path(promotion)) %>
+          <%= link_to('edit', edit_promotion_path(promotion)) %>
+          <%= link_to 'remove', promotion, :confirm => 'Are you sure?', :method => :delete %>
+        </td>
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>
+
+<% else # browser/member %>
+
+  <%= render(:partial => 'promotions/item', :collection => promotions) %>
+
+<% end %>

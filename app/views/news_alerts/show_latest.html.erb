@@ -1,0 +1,21 @@
+<% if @news_alert %>
+  <h4>Latest News Alert:</h4>
+
+  <p>
+    <strong>Date:</strong>
+    <%= @news_alert.created_at.to_date %>
+  </p>
+
+  <h1>
+    <%=h @news_alert.title %>
+  </h1>
+
+  <p>
+    <%= simple_format @news_alert.body %>
+  </p>
+
+  <%= link_to "Back to Latest News", news_items_path %>
+<% else %>
+  There aren't any news alerts yet.<br/>
+  <%= link_to "Back to Latest News", news_items_path %>
+<% end %>

@@ -1,0 +1,63 @@
+<h1>Site Settings</h1>
+
+<%= error_messages_for :user, :site_settings %>
+
+<% form_for(:user, @user, :url => {:action => 'update'}, :html => { :method => :put }) do |f| %>
+
+
+
+<table cellpadding="5" cellspacing="1" border="0" width="100%">
+
+  <tr>
+    <td colspan="2"><%= heading_tag('Administrator Account') %></td>
+  </tr>
+  <tr>
+    <td class="label mandatory">Email:</td>
+    <td ><%= f.text_field :email, :class => 'inputtext' %></td>
+  </tr>
+  <tr>
+    <td class="label mandatory">Password:</td>
+    <td><%= f.password_field :password, :class => 'inputtext' %></td>
+  </tr>
+  <tr>
+    <td class="label mandatory">Confirm Password:</td>
+    <td><%= f.password_field :password_confirmation, :class => 'inputtext' %></td>
+  </tr>
+
+<% end %>
+
+<% fields_for(:site_settings) do |f| %>
+
+  <tr>
+    <td colspan="2"><%= heading_tag('Site Settings') %></td>
+  </tr>
+  <tr>
+    <td class="label mandatory">Membership Cost ($):</td>
+    <td ><%= f.text_field :membership_cost, :class => 'inputtext', :size => 6, :maxlength=>6 %></td>
+  </tr>
+  <tr>
+    <td class="label mandatory">Membership Length:</td>
+    <td style="white-space: nowrap;"><%= f.text_field :membership_length, :class => 'inputtext', :size => 6, :maxlength=>2 %> months</td>
+  </tr>
+  <tr>
+    <td class="label mandatory">GST (%):</td>
+    <td ><%= f.text_field :tax_percent, :class => 'inputtext', :size => 6, :maxlength=>6 %></td>
+  </tr>
+  
+  <tr>
+    <td class="label mandatory">Referral Discount Amount ($):</td>
+    <td ><%= f.text_field :signup_discount_amount, :class => 'inputtext', :size => 6, :maxlength=>6 %></td>
+  </tr>
+
+  <tr>
+    <td class="label mandatory">Number of Referral Fields on the Signup Form:</td>
+    <td><%= f.text_field :signup_discount_referrals, :class => 'inputtext', :size => 6, :maxlength=>2 %></td>
+  </tr>
+</table>
+
+<div>
+  <%= submit_tags(:cancel_url => user_path(@user)) %>
+</div>
+
+<% end %>
+

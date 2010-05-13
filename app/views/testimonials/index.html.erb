@@ -1,0 +1,49 @@
+<h1>Testimonials</h1>
+
+<% if current_user and current_user.is_role?(:administrator) %>
+  <table cellpadding="5" cellspacing="1" border="0" width="100%">
+    <thead>
+      <tr>
+        <th>Person</th>
+        <th>Visibility</th>
+        <th>Quote</th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @testimonials.each do |testimonial| %>
+        <tr class=<%= cycle('odd','even') %>>
+          <td><div class="clippingColumn"><%= h testimonial.person %></div></td>
+          <td><div class="clippingColumn"><%= h testimonial.visibility %></div></td>
+          <td><div class="clippingColumn"><%= h testimonial.quote %></div></td>
+          <td>
+            <%= link_to('edit', edit_testimonial_path(testimonial)) %>
+            <%= link_to('remove', testimonial_path(testimonial), 
+                        :confirm => 'Are you sure?', :method => :delete) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <% content_for :sidebar do %>
+    <div class="statsContainer">
+      <%= heading_tag('Actions') %>
+      <div><%= link_to('Add Testimonial', new_testimonial_path) %></div>
+    </div>
+  <% end %>
+
+<% else %>
+  <% if Testimonial.count(:conditions => ['visibility = ?', 'Featured']) == 0 %>
+    <p> There are currently no testimonials. </p>
+  <% else %>
+    <% @testimonials.each do |testimonial| %>
+      <% if testimonial.visibility == 'Featured' %>
+        <p>"<%= h testimonial.quote %>"</p>
+        <p> -- <%= h testimonial.person %></p>
+        <br/>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+

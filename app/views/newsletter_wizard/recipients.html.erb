@@ -1,0 +1,108 @@
+<h1><%= t('.title') %></h1>
+
+<p><%= t('.help') %></p>
+
+<% form_tag newsletter_wizard_recipients_path do %>
+  <%= hidden_field_tag :newsletter_id, params[:newsletter_id] %>
+
+  <p>
+    <%= radio_button_tag :recipients, Newsletter::ALL_RECIPIENTS, @newsletter.recipient_method == Newsletter::ALL_RECIPIENTS %>
+    <%= label_tag :recipients_all_recipients, t('.all') %>
+  </p>
+
+  <p>
+    <%= radio_button_tag :recipients, Newsletter::RECIPIENTS_BY_CATEGORY, @newsletter.recipient_method == Newsletter::RECIPIENTS_BY_CATEGORY %>
+    <%= label_tag :recipients_recipients_by_category, t('.by_category') %>
+  </p>
+
+  <p class="recipients"><%= t('.select') %>: <%= link_to_function t('.all'), "setChecked('category', true)" %>, <%= link_to_function t('.none'), "setChecked('category', false)" %></p>
+  <table class="recipients">
+    <%- @categories.in_groups_of(2).each do |group| -%>
+      <tr>
+        <%- group.each do |category| -%>
+          <% next unless category %>
+          <td>
+            <%= check_box_tag 'categories[]', category.id, @newsletter.categories.include?(category), :id => "category_#{category.id}", :class => 'category' %>
+            <%= label_tag "category_#{category.id}", category.to_s %>
+          </td>
+        <%- end -%>
+      </tr>
+    <%- end -%>
+  </table>
+
+  <br/>
+
+  <p>
+    <%= radio_button_tag :recipients, Newsletter::SELECT_RECIPIENTS, @newsletter.recipient_method == Newsletter::SELECT_RECIPIENTS %>
+    <%= label_tag :recipients_select_recipients, t('.select_members') %>
+  </p>
+
+  <h2 class="recipient_header"><%= t('.members') %></h2>
+  <p class="recipients"><%= t('.select') %>: <%= link_to_function t('.all'), "setChecked('member', true)" %>, <%= link_to_function t('.none'), "setChecked('member', false)" %></p>
+  <table class="recipients sortable">
+    <thead>
+      <tr>
+        <th class="nosort"></th>
+        <th class="sortfirstasc" style="width: 22px;">#</th>
+        <th style="width: 88px;"><%= t('.first_name') %></th>
+        <th style="width: 88px;"><%= t('.last_name') %></th>
+        <th><%= t('.email') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%- @members.each_with_index do |member, i| -%>
+        <tr>
+          <td><%= check_box_tag 'subscribers[]', member.id, @newsletter.users.include?(member), :id => "subscriber_#{member.id}", :class => 'member' %></td>
+          <td><%= i + 1 %></td>
+          <td><%= member.first_name %></td>
+          <td><%= member.last_name %></td>
+          <td><%= member.email %></td>
+        </tr>
+        <% unless  member.partner_first_name.blank? %>
+           <tr>
+             <td><%= check_box_tag 'subscribers[]', member.id, @newsletter.users.include?(member), :id => "subscriber_#{member.id}", :class => 'member' %></td>
+            <td><%= i + 1 %></td>
+            <td><%= member.partner_first_name %></td>
+            <td><%= member.partner_last_name %></td>
+            <td><%= member.partner_email %></td>
+          </tr>
+         <%- end -%>
+      <%- end -%>
+    </tbody>
+  </table>
+
+  <br/>
+
+  <h2 class="recipient_header"><%= t('.non_members') %></h2>
+  <p class="recipients"><%= t('.select') %>: <%= link_to_function t('.all'), "setChecked('non_member', true)" %>, <%= link_to_function t('.none'), "setChecked('non_member', false)" %></p>
+  <table class="recipients sortable">
+    <thead>
+      <tr>
+        <th class="nosort"></th>
+        <th class="sortfirstasc" style="width: 22px;">#</th>
+        <th><%= t('.email') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%- @non_members.each_with_index do |non_member, i| -%>
+        <tr>
+          <td><%= check_box_tag 'subscribers[]', non_member.id, @newsletter.users.include?(non_member), :id => "subscriber_#{non_member.id}", :class => 'non_member' %></td>
+          <td><%= i + 1 %></td>
+          <td><%= non_member.email %></td>
+        </tr>
+      <%- end -%>
+    </tbody>
+  </table>
+
+  <br/>
+
+  <p>
+    <%= submit_tag t('newsletter_wizard.back') %>
+    <%= submit_tag t('newsletter_wizard.next') %>
+    <span class="cancel_link">
+      <%= link_to t('newsletter_wizard.cancel'), account_path %>
+    </span>
+  </p>
+<% end %>
+
+<%= sidebar :recipients %>

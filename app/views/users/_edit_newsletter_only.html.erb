@@ -1,0 +1,39 @@
+<% if @user == current_user %>
+<h1>My Account</h1>
+<% else %>
+<h1><%= @user.email %></h1>
+<% end %>
+
+<%= error_messages_for :user, :billing %>
+
+<% form_for(
+  :user,
+  :url => { :action => 'update' },
+  :html => { :multipart => true, :method => :put }
+)  do |f| -%>
+
+<table cellpadding="5" cellspacing="0" class="account_details" width="100%">
+  <colgroup>
+    <col/>
+    <col width="100%"/>
+  </colgroup>
+  <tr>
+    <td class="label mandatory">Email:</td>
+    <td class="value"><%= f.text_field :email, :class => 'inputtext' %></td>
+  </tr>
+  <tr>
+    <td class="label">Registered on:</td>
+    <td><%= l(@user.created_at, :format => :long_date)  %></td>
+  </tr>
+  <tr>
+    <td class="label">Member type:</td>
+    <td>Electronic Newsletter Only</td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <%= submit_tags(:submit_key => nil, :cancel_url => users_path) %>
+    </td>
+  </tr>
+</table>
+
+<% end -%>

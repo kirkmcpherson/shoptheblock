@@ -1,0 +1,45 @@
+<%= f.error_messages %>
+
+<p>
+  <%= f.label :title %><br />
+  <%= f.text_field :title %>
+</p>
+<p>
+  <%= f.label :description %><br />
+  <%= f.text_area :description %>
+</p>
+
+<p>
+  <%= f.label :image %><br />
+  <% if @news_item.image_file_name %>
+    <%= image_tag(@news_item.image.url) %><br/>
+  <% end %>
+  <%= f.file_field :image, :class => 'inputtext' %>
+</p>
+
+<p>
+  <%= f.label :website, t('news_items.url.name') %><br />
+  <%= f.text_field :website, :value => @news_item.website.blank? ? 'http://' : @news_item.website %>
+</p>
+
+ <p>
+    <%= f.label :address, "Address" %><br />
+    <%= f.text_field :address %><br />    
+  </p>
+  <p>
+    <%= f.label :city, "City" %><br />
+    <%= f.text_field :city %>
+  </p>
+  <p>
+    <%= f.label :postalcode, "Postal Code" %><br />
+    <%= f.text_field :postalcode %>
+  </p>
+
+<p>
+  <%= f.label :expiration_date %><br />
+  <%= calendar_date_select_tag("news_item_expiration_date", 
+                               @news_item.expiration_date || '', 
+                               :popup => true,
+                               :style => 'width: 140px;',
+                               :name => "news_item[expiration_date]") %>
+</p>

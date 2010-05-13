@@ -1,0 +1,7 @@
+Thank you for signing up at <%= t('site_name') %>.  Your account has been created.
+
+Your member number is: <%= @user.member_id %>
+
+Your card will be shipped to you within the next 72 hours.
+You can print out a temporary card by using the following link:
+<%= return_from_paypal_url(:code => @user.activation_code) %>

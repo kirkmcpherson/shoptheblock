@@ -1,0 +1,33 @@
+<%= @sent_on.strftime("%B %d, %Y") %>
+
+Dear <%=@user.gift_giver_name%>,
+
+Thank you for purchasing a one-year gift membership to Shop the Block for <%= @user.name %><%unless @user.partner_name.blank?  %> (and  <%=@user.partner_name  %>)  <%  end %>!
+ 
+Shop the Block is Toronto’s only exclusive discount card designed to help you save money while supporting independent businesses in your neighbourhood. 
+
+Your order is currently being processed and <%=  @user.first_name%><% unless @user.partner_first_name.blank?  %> (and <%= @user.partner_first_name  %>)<%  end %> will be notified on <%= @user.gift_start_date.strftime("%B %d, %Y") %> that a gift has been purchased  on his/her behalf.  Their membership to Shop the Block will begin on <%= @user.gift_start_date.strftime("%B %d, %Y") %>  and will be valid for one year.
+
+Should you have any questions or concerns, please don’t hesitate to contact us.  
+
+Shop the Block
+
+info@shoptheblock.ca
+
+www.shoptheblock.ca
+
+Shop locally. Save endlessly.
+
+
+                                                            Partial List of Participating Stores
+
+ Li'l Niblets & Baby Sprouts * Steve's Restaurant * Dickson Home Hardware * Orange Dot * Le Pain Quotidien *
+ Bella * Oink Oink  * Boom Restaurant & Co *  Spynga * Tutto Pronto * The Pooch Parlor * Sabatino’s  Ristorante *
+ City Fish Marker * Kiddieproofers *Toy Town * Tony's on the Block * St.Urbain Bagel Bakery * Body + Soul Fitness and many many more!
+                                                 
+
+
+
+
+
+

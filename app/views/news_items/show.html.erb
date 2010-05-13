@@ -1,0 +1,36 @@
+<h4>Latest News:</h4>
+<h1>
+  <%=h @news_item.title %>
+</h1>
+
+<p>
+  <b>Description:</b></p>
+
+<% if @news_item.image? %>
+  <%= image_tag(@news_item.image.url(:original), :align=>"left", :style => " padding: 5px 10px 5px 5px;", :alt=>"News Image") %>
+<% end %>
+<p>
+	  <%= simple_format @news_item.description %><br clear="all"/>
+</p>
+
+<% unless @news_item.website.blank? %>
+  <b><%= t('news_items.url.name') %>:</b></p>
+  <p>
+    <%= link_to h(@news_item.website), @news_item.website_url, {:target => '_blank'} %>
+  </p>
+<% end %>
+
+<%- if @news_item.location -%>
+  <p>
+    <b>Location:</b>
+    <%= @news_item.location.full_address %><br/>
+    <% create_map('map', @news_item.location) %>
+    <%- add_map_marker(@news_item.location, 'store_marker.png') do -%>
+      <div><b><%= @news_item.title %></b></div>
+      <div><%= @news_item.address %></div>
+    <%- end -%>
+  </p>
+<%- end -%>
+
+<%= current_user && current_user.administrator? ? link_to('Edit', edit_news_item_path(@news_item)) + " | " : "" %>
+<%= link_to 'Back to Index', news_items_path %>

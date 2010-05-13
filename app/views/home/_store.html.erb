@@ -1,0 +1,20 @@
+<% mapped_content_tag(:div, store.location, :marker => 'store_marker.png') do %>
+
+<table border="0" cellpadding="0" cellspacing="0" class="item_container">
+  <tr>
+    <td rowspan="4" class="item_image">
+      <%= image_tag(store.merchant.logo.url(:thumb)) %>
+    </td>
+    <td class="item_title" width="100%"><%= link_to(store.merchant.name, store)  %></td>
+    <td class="item_date" rowspan="3" valign="middle">&nbsp;<%= sprintf('%1$.1fkm', store.distance)  %></td>
+  </tr>
+  <tr>
+    <td class="item_description"><%= h(store.merchant.categories.to_sentence)  %></td>
+  </tr>
+  <tr>
+    <td class="item_description"><%= h(store.location.address) %></td>
+  </tr>
+  <tr><td>&nbsp;</td></tr>
+</table>
+<% end %>
+

@@ -1,0 +1,94 @@
+<h1>Newsletter Recipients</h1>
+
+<p>Use this page to add or remove newsletter subscribers who aren't
+registered members.</p>
+
+<%= heading_tag('Add Subscribers') %>
+<% form_tag(
+    {:action => 'edit_newsletter_recipients'},
+    {:method => :post}
+) do |f| %>
+<table>
+    <tr><td class="value">
+    <%# Text area to enter 1 or more new email addresses %>
+    <%= text_area_tag(
+        'add_recipients',
+        nil,
+        :rows => 5,
+        :cols => 40
+    ) %>
+    </td></tr>
+    <tr><td>
+    <%# Submit/cancel controls for add form %>
+    <%= submit_tags(:submit_key => 'input.add') %>
+    </td></tr>
+</table>
+<% end %>
+
+<%
+#
+# Display a list of users that receive the newsletter
+# but arent' full members
+#
+
+
+if !@recipients.blank?
+%>
+<p><br/></p>
+<%= heading_tag('Remove Subscribers') %>
+<% form_tag(
+    {:action => 'edit_newsletter_recipients'},
+    {:method => :post}
+) do |f| %>
+
+<%# List of checkboxes to remove existing recipients %>
+
+<table cellpadding="5" cellspacing="1" border="0" width="100%">
+<tbody>
+<% @recipients.each do |recipient| %>
+<tr valign="middle" class=<%= cycle('odd','even') %>>
+    <td class="value"><%= check_box_tag(
+        'remove_recipients[]',
+        recipient.id,
+        false
+    ) %></td>
+    <td width="60%"><%= h(recipient.email)  %></td>
+    <td width="40%"><%= h(recipient.friendly_status)  %></td>
+</tr>
+<% end # each recipient %>
+
+<%  unless @members.nil?  %>
+ <%- @members.each do |member | -%>
+    <tr valign="middle" class=<%= cycle('odd','even') %>>
+      <td class="value"><%= check_box_tag(
+          'remove_recipients[]',
+          member.id,
+          false
+      ) %></td>
+      <td width="60%"><%= h(member.email)  %></td>
+       <td width="40%"><%= h(member.friendly_status)  %></td>
+
+       <%if !member.partner_email.blank? && member.partner_newsletter == User::NewsletterPreference[:weekly] %>
+       <tr valign="middle" class=<%= cycle('odd','even') %>>
+          <td class="value"><%= check_box_tag(
+              'remove_partner_recipients[]',
+              member.partner_email,
+              false
+          ) %></td>
+          <td width="60%"><%= h(member.partner_email)  %></td>
+          <td width="40%"><%=  h(member.friendly_status) %></td>
+       </tr>
+      <% end %>
+  </tr>
+<% end # each member %>
+<% end  %>
+</tbody>
+</table>
+
+<p>
+    <%# Submit/cancel controls for remove form %>
+    <%= submit_tags(:submit_key => 'input.remove') %>
+</p>
+
+<% end # form %>
+<% end # !recipients.blank? %>

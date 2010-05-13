@@ -1,0 +1,49 @@
+<p> <%= @sent_on.strftime("%B %d, %Y") %> </p>
+
+<p>Dear <%= @user.gift_giver_name %>,</p>
+
+<p>Thank you for purchasing a one year gift membership to Shop the Block for <%= @user.name %><% unless @user.partner_name.blank?  %> (and  <%= @user.partner_name  %>)<% end %>!</p>
+
+<p>Shop the Block is Toronto’s only exclusive discount card designed to help you save<br/>
+  money while supporting independent businesses in your neighbourhood.</p>
+
+<p>Your order is currently being processed and <%=  @user.first_name %>
+  <%unless @user.partner_first_name.blank?  %>
+    (and  <%= @user.partner_first_name  %>)
+ <%  end %>
+will be notified on <%= @user.gift_start_date.strftime("%B %d, %Y") %><br/>
+that a gift has been purchased on his/her behalf.  Their membership to Shop the Block will begin<br/>
+on <%= @user.gift_start_date.strftime("%B %d, %Y") %>  and will be valid for one year.</p>
+
+<p>Should you have any questions or concerns, please do not hesitate to contact us.</p>
+
+
+<p>
+Shop the Block<br/>
+<a href="mailto:info@shoptheblock.ca">info@shoptheblock.ca</a><br/>
+<a href="http://www.shoptheblock.ca">www.shoptheblock.ca></a><br/>
+</p>
+
+
+<p>Shop locally. Save endlessly.</p>
+
+
+<div>
+<span style="font-family: arial,sans-serif; font-size: 13px; border-collapse: collapse;">
+<div>
+<p align="center" style="text-align: center;">
+<b>
+<i>
+<span style="font-family: Arial;">Partial List of Participating Stores</span>
+</i>
+</b>
+</p>
+</div>
+
+<p align="center" style="text-align: center;">
+<b>
+<i>
+<span style="font-family: Arial;">&bull; Li'l Niblets & Baby Sprouts &bull; Steve's Restaurant  &bull; Dickson Home Hardware &bull; Orange Dot &bull; Le Pain Quotidien &bull; Bella &bull; Oink Oink &bull; Boom Restaurant & Co &bull; Spynga &bull; Tutto Pronto &bull; The Pooch Parlor &bull; Sabatino’s Ristorante &bull; City Fish Market &bull; Kiddieproofers &bull; Toy Town &bull; Tony's on the Block &bull; St. Urbain Bagel Bakery &bull; Body + Soul Fitness and many many more!</span>
+</i>
+</b>
+</p>

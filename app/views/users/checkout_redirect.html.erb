@@ -1,0 +1,37 @@
+<style type="text/css">   
+#body {
+    background-color:#3b1771;
+    color:#ffffff;
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:14px;
+}    
+
+a {
+color:#aaaaaa;
+}
+</style>
+
+<script type="text/javascript">
+  onload = function() {
+
+    document.getElementById('submit_form').style.visibility = "hidden";
+    setTimeout("document.getElementById('paypal_form').submit()",10000);
+
+  }
+</script>
+<span id="wait_text"></span>
+<%- form_tag PAYPAL_URL, :id => "paypal_form" do -%>
+  <%= hidden_field_tag :cmd, "_s-xclick" %>
+  <%= hidden_field_tag :encrypted, params[:encrypted] %>
+  <%= submit_tag "Checkout", :id => "submit_form" %>
+<%- end -%>
+
+
+
+<div style="width:100%; text-align:center; margin-top:20px;">
+
+Please wait, you are being redirected to PayPal for Payment<br>
+If you are not automatically redirected, <%= link_to_function('click here','document.getElementById("paypal_form").submit();') %>.<br>
+<%=image_tag('stb-checkout.jpg', :border=>0)%>
+
+</div>
