@@ -103,13 +103,20 @@ class ApplicationController < ActionController::Base
     end
 
 
-    def paypal_encrypted(num_cards, address, renewal=false, gift=false)
+    def paypal_encrypted(num_cards, cost, address, renewal=false, gift=false)
 
-      amount = SiteSettings.get.membership_cost - SiteSettings.get.signup_discount_amount
+      amount = cost
       amount += PARTNER_MEMBERSHIP_COST if num_cards > 1
-      item_name = "#{t('site_name')} Membership"
+      item_name = renewal ? "#{t('site_name')} Renewal" : "#{t('site_name')} Membership"
       item_name += " with an Extra Membership Card" if num_cards > 1
-      return_url = gift ? return_from_paypal_gift_url(:code => @user.activation_code) : return_from_paypal_url(:code => @user.activation_code)
+      
+      if(renewal)
+        return_url = return_from_paypal_renewal_url(:code => @user.activation_code) 
+      elsif gift
+        return_url = return_from_paypal_gift_url(:code => @user.activation_code)        
+      else
+        return_url = return_from_paypal_url(:code => @user.activation_code)        
+      end
       
       notify_url = defined?(PAYPAL_INBOUND_URL) \
         ? "#{PAYPAL_INBOUND_URL}/verify/#{@user.activation_code}?gift=#{gift}" \
@@ -150,8 +157,8 @@ class ApplicationController < ActionController::Base
 
     def encrypt_for_paypal(values)
       paypal_cert_pem = File.read("#{Rails.root}/certs/#{PAYPAL_CERT}")
-      app_cert_pem = File.read("#{Rails.root}/certs/app_cert.pem")
-      app_key_pem = File.read("#{Rails.root}/certs/app_key.pem")
+      app_cert_pem = File.read("#{Rails.root}/certs/kirk_cert.pem")
+      app_key_pem = File.read("#{Rails.root}/certs/kirk_key.pem")
 
       signed = OpenSSL::PKCS7::sign(OpenSSL::X509::Certificate.new(app_cert_pem), OpenSSL::PKey::RSA.new(app_key_pem, ''), values.map { |k, v| "#{k}=#{v}" }.join("\n"), [], OpenSSL::PKCS7::BINARY)
       OpenSSL::PKCS7::encrypt([OpenSSL::X509::Certificate.new(paypal_cert_pem)], signed.to_der, OpenSSL::Cipher::Cipher::new("DES3"), OpenSSL::PKCS7::BINARY).to_s.gsub("\n", "")

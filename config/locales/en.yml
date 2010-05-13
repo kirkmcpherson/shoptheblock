@@ -154,6 +154,8 @@ en:
           no_match:         "Could not find an account for that address"
           success:          "Your password reset request has been processed. You should receive an email shortly."
           failed:           "An error occurred processing your request. Please try again later."
+      renew_membership:
+          no_match:         "Could not find an account for that email address or card number"
       reset_password:
           submit:           "Submit"
           email_mismatch:   "The email address does not match the reset code."
@@ -314,7 +316,8 @@ en:
         pending:
           Registration for this account was not completed successfully.
           Please try again.
-
+        expired:
+            Your account has expired.
     user_mailer:
         signup_notification:
             subject:        "Welcome to Shop the Block"
@@ -325,9 +328,9 @@ en:
         daily_status:
             subject:        "Shop the Block Daily Status"
         account_expired:
-            subject:        "Your account has expired"
+            subject:        "It’s time to renew your Shop the Block card!"
         renewal_reminder:
-            subject:        "Renew your account now!"
+            subject:        "It’s time to renew your Shop the Block card!"
         forgot_password:
             subject:        "Password reset request"
         referrer_mail:

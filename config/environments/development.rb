@@ -13,12 +13,8 @@ config.action_controller.consider_all_requests_local = true
 config.action_view.debug_rjs                         = true
 config.action_controller.perform_caching             = false
 
-# Don't care if the mailer can't send
-config.action_mailer.raise_delivery_errors = false
-config.action_mailer.delivery_method = :test
-
 begin
-  GOOGLE_API_KEY = File.open('config/google_maps_api_key').read
+  GOOGLE_API_KEY = File.open('config/google_maps_api_key.txt').read
 rescue => e
   raise 'No Google Maps API key found. Create a file named google_maps_api_key in config/ with just the API key in it. You can get one from http://code.google.com/apis/maps/signup.html'
 end
@@ -36,14 +32,21 @@ end
 # Sandbox password: brightspark
 PAYPAL_INBOUND_URL="http://toronto.brightspark.com:3032"
 PAYPAL_TOKEN="Ex1Rj0rgLX2aQhFoOVFUykdtXhMSRiG75ay3JJ4JKlhMCYc4mEHCY0NU-du"
-PAYPAL_EMAIL = "stbsel_1239723311_biz@brightspark3.com"
-PAYPAL_CERT_ID = "ZK4MGBCJHDF32"
+PAYPAL_EMAIL = "kirk.m_1273075958_biz@gmail.com"
+#PAYPAL_CERT_ID = "ZK4MGBCJHDF32"
+PAYPAL_CERT_ID = "MN7CHLTTW383G"
 PAYPAL_URL = "https://www.sandbox.paypal.com/cgi-bin/webscr"
 PAYPAL_CERT = "paypal_sandbox_cert.pem"
 
-config.action_mailer.default_url_options = { :host => "shoptheblock.local" }
+# Don't care if the mailer can't send
+#config.action_mailer.raise_delivery_errors = false
+#config.action_mailer.delivery_method = :test
 
-ActionController::Base.asset_host = 'http://shoptheblock.local'
+config.action_mailer.default_url_options = { :host => "localhost:3000" }
+config.action_mailer.raise_delivery_errors = true
+config.action_mailer.delivery_method = :smtp
+
+ActionController::Base.asset_host = 'http://localhost:3000'
 
 if File.exists?(File.join(RAILS_ROOT,'tmp', 'debug.txt'))
   require 'ruby-debug'

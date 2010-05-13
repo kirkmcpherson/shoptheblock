@@ -126,12 +126,12 @@ footer_links = [
                            <% end %>
 													  <li class="margin"><%= link_to("FAQ", faq_path) %></li>
 													  <li class="margin"><%= link_to("Contact Us", contact_path) %></li>
-												           <% if !logged_in? %>
+												           <% if !logged_in?  %>
 														<li><%= link_to("sign up today!", signup_path, :id=>"MenuSignupButton") -%></li>
 
-													<% end %>
-
-
+													<% else %>
+														<li><%= link_to(t('users.action.renew'), :renew_user)  %></li>
+													<% end%>
                           </ul>
 
                        <%- end -%>

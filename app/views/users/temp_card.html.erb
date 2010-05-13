@@ -18,15 +18,15 @@
     </div>
     <p>
       <%= image_tag(
-        temp_card_image_path(:id=> current_user.id),
+        temp_card_image_path(:id=> @user.id),
         :alt=>t('users.temp_card.wait'),
         :class => 'membership_card_image'
       ) %>
     </p>
-    <% if  current_user  && current_user.partner_name? %>
+    <% if  @user  && @user.partner_name? %>
       <p>
         <%= image_tag(
-          temp_card_image_path(:partner => 1,:id=> current_user.id),
+          temp_card_image_path(:partner => 1,:id=> @user.id),
           :alt=>t('users.temp_card.wait'),
           :class => 'membership_card_image'
           

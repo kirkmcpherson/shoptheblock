@@ -5,7 +5,7 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.3.2' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.4' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -78,10 +78,29 @@ Rails::Initializer.run do |config|
     ENV['RECAPTCHA_PRIVATE_KEY'] = "6LfDygQAAAAAAMPjjn0rkyZBYJMRx8eYFbhNUfk5"
 
     config.gem "calendar_date_select"
+    
+    config.gem "geokit"
 
 end
 
-ERROR_RECIPIENTS = %w(juan@planeteye.com)
+module ActionMailer
+  class Base
+    def perform_delivery_smtp(mail)
+      destinations = mail.destinations
+      mail.ready_to_send
+      sender = (mail['return-path'] && mail['return-path'].spec) || Array(mail.from).first
+ 
+      smtp = Net::SMTP.new(smtp_settings[:address], smtp_settings[:port])
+      smtp.enable_starttls_auto if smtp_settings[:enable_starttls_auto] && smtp.respond_to?(:enable_starttls_auto)
+      smtp.start(smtp_settings[:domain], smtp_settings[:user_name], smtp_settings[:password],
+                 smtp_settings[:authentication]) do |smtp|
+        smtp.sendmail(mail.encoded, sender, destinations)
+      end
+    end
+  end
+end
+
+ERROR_RECIPIENTS = %w(kirk_mcpherson@yahoo.com)
 ERROR_SENDER     = %("Shop the Block Error" <exception@shoptheblock.ca>)
 ExceptionNotifier.exception_recipients = ERROR_RECIPIENTS
 ExceptionNotifier.sender_address       = ERROR_SENDER

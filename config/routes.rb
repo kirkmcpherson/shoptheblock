@@ -37,11 +37,14 @@ ActionController::Routing::Routes.draw do |map|
     map.verify_payment  '/verify/:code',    :controller => 'users', :action => 'verify_payment', :code => nil
     map.send_send_signup_email 'users/send_signup_email', :controller => 'users',:action => 'send_signup_email'
 
+    map.expired '/expired', :controller => 'users', :action => 'expired'
+
     # just in case paypal hits the wrong URL
     map.verify_payment_incorrect  '/verify//:code',    :controller => 'users', :action => 'verify_payment', :code => nil
 
     map.return_from_paypal '/return/:code',       :controller => 'users', :action => 'return_from_paypal'
     map.return_from_paypal_gift '/return_gift/:code',       :controller => 'gifts', :action => 'return_from_paypal_gift'
+    map.return_from_paypal_renewal '/return_renewal/:code',       :controller => 'users', :action => 'return_from_paypal_renewal'
     map.confirm_gift '/confirm_gift/:id', :controller => 'gifts', :action => 'edit'
 
 
@@ -61,6 +64,10 @@ ActionController::Routing::Routes.draw do |map|
 
     map.give_a_gift '/give_a_gift', :controller => 'gifts', :action => 'new'
 
+    map.renew_membership '/renew_membership', :controller => 'users', :action => 'renew_membership', :method => [:get, :post]
+    #map.renew_membership '/renew_membership', :controller => 'users', :action => 'renew_membership_verify', :method => [:post]
+    map.renew '/renew', :controller => 'users', :action => 'renew', :method => [:get, :post]
+    
     map.resources :users
     map.resource  :session
     map.resources :categories

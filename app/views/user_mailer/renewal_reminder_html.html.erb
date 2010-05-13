@@ -1,11 +1,28 @@
 <p>Dear <b><%= @user.first_name %></b>,</p>
 
-<p>
-  This is a reminder from <%= t('site_name') %> that your membership is due
-  to expire on <b><%= @user.membership_expiration.strftime("%B %d, %Y") %></b>.
-</p>
+<p><b>It’s time to renew your <%= t('site_name') %> card!</b></p>
+
+<p>Happy Anniversary! You’ve now almost been a <%= t('site_name') %> cardholder for 1 year. We hope you’ve been having a great time shopping and saving at all of your favourite neighbourhood stores!</p>
+
+<p>Your current card will expire on <b><%= @user.membership_expiration.strftime("%B %d, %Y") %></b>.</p> 
+
+<p><b>Click <%= link_to('here', renew_membership_url) %> to renew your card now</b> so you can continue enjoying the EXCLUSIVE benefits of <%= t('site_name') %>, while also supporting local independent merchants.</p>
+
+<p>Renew your card BEFORE <%= @user.membership_expiration.strftime("%B %d, %Y") %> and you’ll get an additional one month added to your 12 month membership, absolutely FREE. That’s 13 months for the price of 12! It’s our way of saying thanks for being part of <%= t('site_name') %>!</p>
+
+<p>Here are some of the great reasons to renew your membership now:</p>
 
 <p>
-  To renew, login to <%= link_to_site %> and go to your <b>My Account</b> page.
+	<ul>
+		<li>Savings of up to <b>20%</b> at some of the best stores in your neighbourhood.</li>
+		<li>Exclusive, limited time offers ONLY for <%= t('site_name') %> cardholders. Think extra savings, above your day-to-day discounts from some of your favourite merchants, just for being a STB cardholder.</li>
+		<li>Savings at over 150 merchants, including clothing boutiques, restaurants, cafes and spas.</li>
+		<li>New merchants joining Shop the Block WEEKLY, which means more opportunities to save are coming your way every week!</li>
+	</ul>
 </p>
+
+<p>Click <%= link_to('HERE', renew_membership_url) %> to renew your card now!</p>
+
+<p>Best,<br/>
+Lauren</p>
 

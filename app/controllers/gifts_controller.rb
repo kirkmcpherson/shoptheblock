@@ -23,6 +23,7 @@ class GiftsController < ApplicationController
 
       params[:encrypted] = paypal_encrypted(
         @user.card_num,
+        site_settings.membership_cost - site_settings.signup_discount_amount,
         params[:billing_use_shipping] ? params[:user][:gift_location] : nil,
         false,
         true

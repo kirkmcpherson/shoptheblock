@@ -8,31 +8,56 @@
 <table cellpadding="5" cellspacing="0" class="account_details" width="100%">
 
   <tr>
+    <td class="label">First Name:</td>
+    <td class="value"><%= @user.first_name  %>
+	<%= f.hidden_field :user_id, :value => @user.id %>	
+	</td>
+  </tr>
+
+  <tr>
+    <td class="label">Last Name:</td>
+    <td class="value"><%= @user.last_name  %></td>
+  </tr>
+  <tr>
+    <td class="label">Phone Number:</td>
+    <td class="value"><%= f.text_field :phone_number %></td>
+  </tr>
+
+  <tr>
+    <td colspan="2" style="padding-top: 15px">
+	  <div class="searchBar">Renewal Info</div>
+	  </td>
+  </tr>
+
+  <tr>
     <td class="label">Membership Cost:</td>
-    <td class="value"><%= sprintf("$%.2f", @site_settings.membership_cost)  %></td>
+    <td class="value"><%= sprintf("$%.2f", @site_settings.renewal_cost)  %> (<%= sprintf("$%.2f", @site_settings.early_renewal_cost)  %> before <%= @user.membership_expiration.strftime("%B %d, %Y") %>)</td>
   </tr>
 
   <tr>
     <td class="label">New Expiration Date:</td>
-    <td class="value"><%= @user.membership_expiration.advance(:months => @site_settings.membership_length).strftime("%B %d, %Y") %></td>
+    <td class="value"><%= @renewal_date.strftime("%B %d, %Y") %></td>
   </tr>
   
   <tr>
     <td class="label">
-      Purchase An Extra Card<br/>for a Family Member<br/>(Child or Spouse)
+      Purchase An Extra Card<br/>(for spouse only)
     </td>
     <td class="value">
       <%= f.check_box :card_num, { :onclick => "if(this.checked) $('extra_names').show(); else $('extra_names').hide();" }, 2, 1 %> Buy an extra card for an additional $10<br/>
-      <%  if @user.card_num != 2 %>
            <div id="extra_names"">
       First name: <%= f.text_field :partner_first_name %><br/>
       Last name: <%= f. text_field :partner_last_name %><br/>
       E-mail: <%= f.text_field :partner_email %>
           </div>
-    <% end %>
     </td>
   </tr>
-
+<% if false %>
+  <tr>
+    <td class="label">Promo Code:</td>
+    <td class="value"><%= f.text_field :promo_code_code, :class => 'inputtext' %></td>
+  </tr>
+<% end %>
   
   <!--
   ==============================================================================

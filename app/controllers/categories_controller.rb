@@ -1,5 +1,4 @@
 class CategoriesController < ApplicationController
-    requires_role :administrator
     
   # GET /categories
   # GET /categories.xml

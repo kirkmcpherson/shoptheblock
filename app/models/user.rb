@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
 
     validate :promo_code_must_be_valid, :if => Proc.new { |user| user.new_record? }
 
-    validates_presence_of :phone_number, :if => Proc.new { |user| user.new_record? && user.role != :newsletter_only }
+    validates_presence_of :phone_number, :if => Proc.new { |user| user.role != :newsletter_only }
 
     validates_presence_of :shipping_address, :shipping_city, :shipping_province, :shipping_postalcode, 
                           :if => :not_administrator?, 
@@ -304,6 +304,13 @@ class User < ActiveRecord::Base
 
     end
 
+    def self.expired?(email)
+      
+      u = find_by_email(email)
+      u && (u.expired?)
+
+    end
+
     def email=(value)
         write_attribute :email, (value ? value.downcase : nil)
     end
@@ -556,12 +563,22 @@ class User < ActiveRecord::Base
 
     def self.find_members_who_should_renew(reminder_intervals)
       User.all(
-          :select => "first_name, last_name, email, membership_expiration, status, email_format",
+          #:select => "first_name, last_name, email, membership_expiration, status, email_format",
           :conditions => [
               "(user_type = ?) AND (DATEDIFF(membership_expiration, CURDATE()) IN (?))",
               ROLES[:member],
               reminder_intervals
           ])
+    end
+
+    def self.find_members_to_expire
+        User.all(
+            :conditions => [
+                "(user_type = ?) AND ((status & ?) = ?) AND (DATEDIFF(membership_expiration, CURDATE()) < 0)",
+                ROLES[:member],
+                StatusFlags[:expired],
+                0
+            ])
     end
 
     def self.find_members_who_expired

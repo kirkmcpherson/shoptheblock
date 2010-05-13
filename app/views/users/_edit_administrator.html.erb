@@ -40,7 +40,23 @@
     <td style="white-space: nowrap;"><%= f.text_field :membership_length, :class => 'inputtext', :size => 6, :maxlength=>2 %> months</td>
   </tr>
   <tr>
-    <td class="label mandatory">GST (%):</td>
+    <td class="label mandatory">Renewal Cost ($):</td>
+    <td ><%= f.text_field :renewal_cost, :class => 'inputtext', :size => 6, :maxlength=>6 %></td>
+  </tr>
+  <tr>
+    <td class="label mandatory">Early Renewal Cost ($):</td>
+    <td ><%= f.text_field :early_renewal_cost, :class => 'inputtext', :size => 6, :maxlength=>6 %></td>
+  </tr>
+  <tr>
+    <td class="label mandatory">Renewal Length:</td>
+    <td style="white-space: nowrap;"><%= f.text_field :renewal_length, :class => 'inputtext', :size => 6, :maxlength=>2 %> months</td>
+  </tr>
+  <tr>
+    <td class="label mandatory">Early Renewal Length:</td>
+    <td style="white-space: nowrap;"><%= f.text_field :early_renewal_length, :class => 'inputtext', :size => 6, :maxlength=>2 %> months</td>
+  </tr>
+  <tr>
+    <td class="label mandatory">HST (%):</td>
     <td ><%= f.text_field :tax_percent, :class => 'inputtext', :size => 6, :maxlength=>6 %></td>
   </tr>
   

@@ -64,6 +64,26 @@ site_settings = SiteSettings.get
     <td class="label">Membership Length:</td>
     <td class="value"><%= site_settings.membership_length %> months</td>
   </tr>
+  <tr>
+    <td class="label">Renewal Cost:</td>
+    <td class="value"><%= sprintf("$%.2f", site_settings.renewal_cost) %></td>
+  </tr>
+  <tr>
+    <td class="label">Early Renewal Cost:</td>
+    <td class="value"><%= sprintf("$%.2f", site_settings.early_renewal_cost) %></td>
+  </tr>
+  <tr>
+    <td class="label">Renewal Length:</td>
+    <td class="value"><%= site_settings.renewal_length %> months</td>
+  </tr>
+  <tr>
+    <td class="label">Early Renewal Length:</td>
+    <td class="value"><%= site_settings.early_renewal_length %> months</td>
+  </tr>
+  <tr>
+    <td class="label">HST:</td>
+    <td class="value"><%= site_settings.tax_percent %></td>
+  </tr>
   <% if false %>
   <tr>
     <td class="label">Referral Discount Amount:</td>

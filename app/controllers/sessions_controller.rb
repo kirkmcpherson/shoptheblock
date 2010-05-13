@@ -18,8 +18,13 @@ class SessionsController < ApplicationController
       handle_remember_cookie! new_cookie_flag
       set_location_to(user.neighbourhood_location)
       save_location()
-      redirect_back_or_default('/')
-      flash[:notice] = t('session.logged_in')
+      if User.expired?(params[:email])
+        flash[:error] = t('session.expired')
+        redirect_to :controller => 'users', :action => 'renew'
+      else  
+        redirect_back_or_default('/')
+        flash[:notice] = t('session.logged_in')
+      end
     elsif User.pending?(params[:email])
       flash[:error] = t('session.pending')
       redirect_to :signup

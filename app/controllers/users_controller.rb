@@ -52,6 +52,7 @@ class UsersController < ApplicationController
       else
         params[:encrypted] = paypal_encrypted(
           @user.card_num,
+          site_settings.membership_cost - site_settings.signup_discount_amount,
           params[:billing_use_shipping] ? params[:user][:shipping_location] : nil
         )
          render :template => '/users/checkout_redirect',:layout => false
@@ -148,6 +149,7 @@ class UsersController < ApplicationController
   end
 
   def temp_card
+    @user =  current_user.nil? ? User.find(params[:id]) : current_user
     render :template => 'users/temp_card', :layout => false
   end
 
@@ -232,12 +234,28 @@ class UsersController < ApplicationController
   def renew
     @user = current_user
     @site_settings = SiteSettings.get
+    #@renew_length = ( Time.zone.now <= @user.membership_expiration ) ? @site_settings.early_renewal_length : @site_settings.renewal_length
+    
+    @renewal_date = ( Time.zone.now <= @user.membership_expiration ) ? @user.membership_expiration.advance(:months => @site_settings.early_renewal_length) : Time.zone.now.advance(:months => @site_settings.renewal_length)
+    
+    if @user.nil?
+      @user_id = params[:user_id]
+      @user = User.find_by_id(@user_id)
+      
+      if @user.nil?
+        @user_id = params[:user][:user_id]
+        @user = User.find_by_id(@user_id)
+      end
+    end
     if request.method == :post
       @user.attributes = params[:user]
       @user.renewing
+      @user.date_card_requested = Time.zone.now    
+      @user.date_card_shipped = nil
       if @user.save
         params[:encrypted] = paypal_encrypted(
           @user.card_num,
+          ( Time.zone.now <= @user.membership_expiration ) ? SiteSettings.get.early_renewal_cost : SiteSettings.get.renewal_cost,
           params[:billing_use_shipping] ? params[:user][:shipping_location] : nil,
           true
         )
@@ -251,6 +269,22 @@ class UsersController < ApplicationController
 
   end
 
+  def renew_membership
+
+    if request.method == :post
+      @email = params[:email]
+      @card_number = params[:card_number]
+      @user = User.find_by_email(@email)
+      
+      if !@user.nil?
+        redirect_to :action => "renew", :user_id => @user.id        
+      else
+        flash[:error] = t('users.renew_membership.no_match')
+        
+      end
+    end
+  end
+  
   def forgot_password
 
     if request.method == :post
@@ -426,13 +460,19 @@ class UsersController < ApplicationController
   def sign_up_complete user ,gift = false
     # Make sure we don't process anything twice      
       return   if user.member_since && user.renewing? == false
-      
-     user.membership_expiration = user.membership_expiration.advance(:months => SiteSettings.get.membership_length)  if user.renewing?
+      @site_settings = SiteSettings.get
+    
+      @renewal_date = ( Time.zone.now <= user.membership_expiration ) ? user.membership_expiration.advance(:months => @site_settings.early_renewal_length) : Time.zone.now.advance(:months => @site_settings.renewal_length) if user.renewing?
+    
+     #renewal_length = ( Time.zone.now <= @user.membership_expiration ) ? SiteSettings.get.early_renewal_length : SiteSettings.get.renewal_length    
+     user.membership_expiration = @renewal_date  if user.renewing?
      user.update_attribute(:member_since,Time.zone.now) if user.member_since == nil
      end_date =  user.gift_start_date || Time.zone.now
      user.membership_expiration =  end_date.advance(:months => SiteSettings.get.membership_length) if  user.membership_expiration.nil?
+     user.renew
      user.update_attribute(:membership_expiration,user.membership_expiration )
-
+     
+     
       if gift == true
          UserMailer.deliver_gift_receipt(user)
          UserMailer.deliver_gift_purchased(user) if user.gift_start_date <= Date.today
@@ -464,6 +504,27 @@ class UsersController < ApplicationController
     
   end
 
+  def return_from_paypal_renewal
+    @user = User.find_by_activation_code(params[:code])
+
+    if @user == nil
+      flash[:error] = t('users.return_from_paypal.fail_not_found')
+      redirect_to :welcome
+    end
+
+    #self.current_user = @user
+    #if @user.neighbourhood_location
+    #    set_location_to(@user.neighbourhood_location)
+    #    save_location
+    #end
+
+    sign_up_complete  @user
+   
+    flash.now[:notice] = t('users.renew.success')
+    render :template => 'users/renewal_confirmation'
+    
+  end
+
   def send_signup_email
     @user = User.find(params[:id])
     if @user
@@ -473,6 +534,20 @@ class UsersController < ApplicationController
     redirect_to user_path(@user)
   end
 
+  #klm - just a test action
+  def expired
+    #@users = User.find_members_who_should_renew([30, 14,7])
+    @users = User.find_members_who_expired
+    @grouped_users = @users.group_by(&:friendly_status)    
+    @count_extracard_cardholders = User.extra_cards_cardholders.count
+    @count_extracard_members = User.extra_cards_members.count
+    
+    respond_to do |format|
+      format.html
+      format.js { render :partial => "members_table", :layout => false }
+    end
+     
+  end
 
   
   private # Internal Helper Methods
@@ -629,4 +704,5 @@ class UsersController < ApplicationController
       end
   end
 
+  
 end
