@@ -6,6 +6,12 @@ class UserMailer < ActionMailer::Base
       @subject    = t('user_mailer.signup_notification.subject')
     end
   end
+
+  def renew_notification(user)
+    setup_email(user) do
+      @subject    = t('user_mailer.renew_notification.subject')
+    end
+  end
   
   def activation(user)
     setup_email(user) do
@@ -27,15 +33,35 @@ class UserMailer < ActionMailer::Base
   end
 
   def account_expired(user)
-    setup_email(user) do
-      @subject        = t('user_mailer.account_expired.subject')
+    if(user.card_num == 2) 
+      setup_partner_email(user) do
+        @subject        = t('user_mailer.account_expired.subject')
+      end
+    
+    else 
+
+      setup_email(user) do
+        @subject        = t('user_mailer.account_expired.subject')
+      end
+      
     end
+    
   end
 
   def renewal_reminder(user)
-    setup_email(user) do
-      @subject        = t('user_mailer.renewal_reminder.subject')
+    
+    if(user.card_num == 2) 
+      setup_partner_email(user) do
+        @subject        = t('user_mailer.account_expired.subject')
+      end
+    
+    else 
+      setup_email(user) do
+        @subject        = t('user_mailer.renewal_reminder.subject')
+      end
+      
     end
+    
   end
 
   def forgot_password(user)
@@ -103,6 +129,35 @@ class UserMailer < ActionMailer::Base
 
   def setup_email(user, no_recipient=false, &block)
     @recipients     = "#{user.full_name} <#{user.email}>" unless no_recipient
+    @from           = "#{t('site_name')} <lauren@shoptheblock.ca>"
+    @subject        = ""
+    @sent_on        = Time.now
+    @body[:user]    = user
+
+    block.call if block_given?
+        
+    case user.email_format
+    when User::EmailFormat[:html] then
+
+      @content_type = "multipart/alternative"
+
+      part "text/plain" do |p|
+        p.body = render_message(@template + '_text', @body)
+      end
+
+      part "text/html" do |p|
+        p.body = render_message(@template + '_html', @body)
+      end
+
+      else
+
+      @template += '_text'
+
+    end
+  end
+
+  def setup_partner_email(user, no_recipient=false, &block)
+    @recipients     = ["#{user.full_name} <#{user.email}>", "#{user.partner_first_name} #{user.partner_last_name} <#{user.partner_email}>"] unless no_recipient
     @from           = "#{t('site_name')} <lauren@shoptheblock.ca>"
     @subject        = ""
     @sent_on        = Time.now

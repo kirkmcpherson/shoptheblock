@@ -1,28 +1,46 @@
+<% if @user.card_num == 2 %>
+<p>Dear <b><%= @user.first_name %> and <%= @user.partner_first_name %></b>,</p>
+<% else %>
 <p>Dear <b><%= @user.first_name %></b>,</p>
-
-<p><b>It’s time to renew your <%= t('site_name') %> card!</b></p>
+<% end %>
 
 <p>Happy Anniversary! You’ve now almost been a <%= t('site_name') %> cardholder for 1 year. We hope you’ve been having a great time shopping and saving at all of your favourite neighbourhood stores!</p>
 
 <p>Your current card will expire on <b><%= @user.membership_expiration.strftime("%B %d, %Y") %></b>.</p> 
 
-<p><b>Click <%= link_to('here', renew_membership_url) %> to renew your card now</b> so you can continue enjoying the EXCLUSIVE benefits of <%= t('site_name') %>, while also supporting local independent merchants.</p>
+<p>Renew your card BEFORE <%= @user.membership_expiration.strftime("%B %d, %Y") %> and you’ll get an additional 1 month FREE added to your 12 month membership. That’s 13 months for the price of 12! It’s our way of saying thanks for being part of <%= t('site_name') %>!</p>
 
-<p>Renew your card BEFORE <%= @user.membership_expiration.strftime("%B %d, %Y") %> and you’ll get an additional one month added to your 12 month membership, absolutely FREE. That’s 13 months for the price of 12! It’s our way of saying thanks for being part of <%= t('site_name') %>!</p>
+<p>Renewing your card is quick and easy and can be completed in a few simple steps. Click <%= link_to('HERE', renew_membership_url(:code => @user.activation_code) ) %> to get started.</p> 
+
+<p>
+    <ul> 
+	<li>Enter your email address and password and click Log in.</li>
+    <li>If you don’t remember your password, click Forgot your password? You will be prompted to enter your email address. An email will be sent to you allowing you to reset your password.</li>
+    <li>Once you are logged in, click My Account at the top right corner of the page.</li>
+    <li>Next, click Renew Your Membership.</li>
+    <li>Confirm that the information and shipping address listed are still correct and click Renew.</li>
+    <li>You will be taken to the PayPal site. Please note that you do NOT have to log in to PayPal in order to make your Shop the Block purchase.</li>
+    <li>Pay for your Shop the Block card with a credit card by selecting the buttons that say 'Continue' and 'Continue without logging in’.</li>
+	</ul>
+</p>
+
+<p>Renew your card now to continue enjoying the EXCLUSIVE benefits of Shop the Block, while also supporting local independent merchants.</p>
 
 <p>Here are some of the great reasons to renew your membership now:</p>
 
 <p>
 	<ul>
-		<li>Savings of up to <b>20%</b> at some of the best stores in your neighbourhood.</li>
-		<li>Exclusive, limited time offers ONLY for <%= t('site_name') %> cardholders. Think extra savings, above your day-to-day discounts from some of your favourite merchants, just for being a STB cardholder.</li>
-		<li>Savings at over 150 merchants, including clothing boutiques, restaurants, cafes and spas.</li>
-		<li>New merchants joining Shop the Block WEEKLY, which means more opportunities to save are coming your way every week!</li>
+		<li>Savings of up to <b>20%</b> at over 150 merchants, including clothing boutiques, children’s programs, restaurants, cafes and spas.</li>
+		<li>Exclusive, limited time offers ONLY for <%= t('site_name') %> cardholders. Think extra savings, above your day-to-day discounts from some of your favourite merchants, just for being a <%= t('site_name') %> cardholder.</li>
+		<li>More great chances to save every week with new merchants joining Shop the Block all the time. Every new merchant means more savings for you!</li>
 	</ul>
 </p>
 
-<p>Click <%= link_to('HERE', renew_membership_url) %> to renew your card now!</p>
+<p>Click <%= link_to('HERE', renew_membership_url(:code => @user.activation_code)) %> to renew your card now!</p>
 
-<p>Best,<br/>
-Lauren</p>
+<p>For any assistance, please contact us at info@shoptheblock.ca or at 416-938-8551.</p>
+
+<p>Best</p>
+
+<p>Shop the Block team</p>
 

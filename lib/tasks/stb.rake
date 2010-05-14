@@ -40,7 +40,7 @@ namespace :stb do
 
         puts "Checking for accounts that need to be renewed..."
 
-        User.find_members_who_should_renew([30, 14,7]).each do |user|
+        User.find_members_who_should_renew([14,7]).each do |user|
             puts "Sending #{user.full_name} renewal notice"
             UserMailer.deliver_renewal_reminder(user)
         end
@@ -60,7 +60,7 @@ namespace :stb do
 
         puts "Checking for expired accounts..."
 
-        User.find_members_who_expired.each do |user|
+        User.find_members_to_expire.each do |user|
 
             puts "Sending #{user.full_name} expiration notice"
             user.expire!

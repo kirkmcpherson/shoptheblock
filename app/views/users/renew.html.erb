@@ -29,11 +29,17 @@
 	  </td>
   </tr>
 
+<% if @site_settings.renewal_cost != @site_settings.early_renewal_cost %>
   <tr>
     <td class="label">Membership Cost:</td>
     <td class="value"><%= sprintf("$%.2f", @site_settings.renewal_cost)  %> (<%= sprintf("$%.2f", @site_settings.early_renewal_cost)  %> before <%= @user.membership_expiration.strftime("%B %d, %Y") %>)</td>
   </tr>
+<% else %>
+  <td class="label">Membership Cost:</td>
+  <td class="value"><%= sprintf("$%.2f", @site_settings.renewal_cost)  %></td>
+</tr>
 
+<% end %>
   <tr>
     <td class="label">New Expiration Date:</td>
     <td class="value"><%= @renewal_date.strftime("%B %d, %Y") %></td>

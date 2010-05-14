@@ -1,10 +1,14 @@
+<% if @user.card_num == 2 %>
+Dear <%= @user.first_name %> and <%= @user.partner_first_name %>,
+<% else %>
 Dear <%= @user.first_name %>,
+<% end %>
 
-It’s time to renew your <%= t('site_name') %> card!
+Your current card has EXPIRED and will no longer be accepted at any of our participating <%= t('site_name') %> merchants. We hope you’ve had a great time shopping and saving in your neighbourhood! 
 
-Your current card has EXPIRED and will no longer be accepted at any of our participating <%= t('site_name') %> merchants. We hope you’ve had a great time shopping and saving in your neighbourhood! If you want to continue enjoying the many benefits of the <%= t('site_name') %> program, including fantastic savings at all of your favourite stores visit <%= renew_membership_url %> to renew your card now.
+In order to continue enjoying the many benefits of the Shop the Block program, including fantastic savings at all of your favourite stores, you must renew your card now. Renewing your card is quick and easy and can be completed in a few simple steps. Visit <%= renew_membership_url(:code => @user.activation_code) %> to get started. 
 
-Renewing your card now will allow you to continue enjoying the EXCLUSIVE benefits of <%= t('site_name') %>, while also supporting local independent merchants.
+Renew your card now to continue enjoying the EXCLUSIVE benefits of Shop the Block, while also supporting local independent merchants.
 
 Here are some of the great reasons to renew your membership now:
 
@@ -13,8 +17,12 @@ Here are some of the great reasons to renew your membership now:
 •	Savings at over 150 merchants, including clothing boutiques, restaurants, cafes and spas.
 •	New merchants joining Shop the Block WEEKLY, which means more opportunities to save are coming your way every week!
 
-Visit <%= renew_membership_url %> to renew your card now!
+Visit <%= renew_membership_url(:code => @user.activation_code) %> to renew your card now!
+
+
+For any assistance, please contact us at info@shoptheblock.ca or at 416-938-8551.
 
 Best,
-Lauren
+
+Shop the Block team
 

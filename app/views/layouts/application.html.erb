@@ -111,7 +111,9 @@ footer_links = [
                                      <div><%= link_to("Edit Member", edit_user_path(@user))  %></div>                                
                            <%- end -%>
                          <%- else # if not administrator -%>
+							<% if !@user.expired? %>
                            <div><%= link_to(t('users.action.edit'), edit_user_path(current_user))  %></div>
+							<% end %>
                            <div><%= link_to(t('users.action.renew'), :renew_user)  %></div>
                          <%- end -%>
                        <%- else -%>

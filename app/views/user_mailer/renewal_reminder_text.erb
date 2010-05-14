@@ -1,26 +1,40 @@
+<% if @user.card_num == 2 %>
+Dear <%= @user.first_name %> and <%= @user.partner_first_name %>,
+<% else %>
 Dear <%= @user.first_name %>,
-
-It’s time to renew your <%= t('site_name') %> card!
+<% end %>
 
 Happy Anniversary! You’ve now almost been a <%= t('site_name') %> cardholder for 1 year. We hope you’ve been having a great time shopping and saving at all of your favourite neighbourhood stores! 
 
 Your current card will expire on <%= @user.membership_expiration.strftime("%B %d, %Y") %>. 
 
-Visit <%= root_url %> to renew your card now so you can continue enjoying the EXCLUSIVE benefits of <%= t('site_name') %>, while also supporting local independent merchants.
+Visit <%= renew_membership_url(:code => @user.activation_code) %> to renew your card now so you can continue enjoying the EXCLUSIVE benefits of <%= t('site_name') %>, while also supporting local independent merchants.
 
-Renew your card BEFORE <%= @user.membership_expiration.strftime("%B %d, %Y") %> and you’ll get an additional one month added to your 12 month membership, absolutely FREE. That’s 13 months for the price of 12! It’s our way of saying thanks for being part of <%= t('site_name') %>!
+Renew your card BEFORE <%= @user.membership_expiration.strftime("%B %d, %Y") %> and you’ll get an additional 1 month FREE added to your 12 month membership. That’s 13 months for the price of 12! It’s our way of saying thanks for being part of <%= t('site_name') %>!
 
-Here are some of the great reasons to renew your membership now:
+Renewing your card is quick and easy and can be completed in a few simple steps. Visit <%= root_url %> to get started.
 
-•	Savings of up to 20% at some of the best stores in your neighbourhood.
-•	Exclusive, limited time offers ONLY for <%= t('site_name') %> cardholders. Think extra savings, above your day-to-day discounts from some of your favourite merchants, just for being a STB cardholder.
-•	Savings at over 150 merchants, including clothing boutiques, restaurants, cafes and spas.
-•	New merchants joining Shop the Block WEEKLY, which means more opportunities to save are coming your way every week!
+* Enter your email address and password and click Log in.
+* If you don’t remember your password, click Forgot your password? You will be prompted to enter your email address. An email will be sent to you allowing you to reset your password.
+* Once you are logged in, click My Account at the top right corner of the page.
+* Next, click Renew Your Membership.
+* Confirm that the information and shipping address listed are still correct and click Renew.
+* You will be taken to the PayPal site. Please note that you do NOT have to log in to PayPal in order to make your Shop the Block purchase. 
+* Pay for your Shop the Block card with a credit card by selecting the buttons that say 'Continue' and 'Continue without logging in’.
 
-Visit <%= root_url %> to renew your card now!
+Renew your card now to continue enjoying the EXCLUSIVE benefits of Shop the Block, while also supporting local independent merchants. 
 
-Best,
-Lauren
+Here are some of the great reasons to renew your membership now: 
 
+    * Savings of up to 20% at over 150 merchants, including clothing boutiques, children’s programs, restaurants, cafes and spas.
+    * Exclusive, limited time offers ONLY for Shop the Block cardholders. Think extra savings, above your day-to-day discounts from some of your favourite merchants, just for being a Shop the Block cardholder.
+    * More great chances to save every week with new merchants joining Shop the Block all the time. Every new merchant means more savings for you!
 
+Visit <%= renew_membership_url(:code => @user.activation_code) %> to renew your card now!
+
+For any assistance, please contact us at info@shoptheblock.ca or at 416-938-8551.
+
+Best, 
+
+Shop the Block team
 

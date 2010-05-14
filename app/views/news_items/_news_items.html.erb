@@ -1,3 +1,4 @@
+<% if !current_user.nil? || (!current_user.nil? && !current_user.expired?) %>
 <b style="font-size: 13pt">NEWS ALERTS</b>
 <div id="news">
   <% news_items.each_with_index do |ni,i| %>
@@ -12,3 +13,4 @@
   <% end %>
 </div>
 <%= link_to "More news...", news_items_path %>
+<% end%>

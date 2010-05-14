@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
 
     validates_presence_of :phone_number, :if => Proc.new { |user| user.role != :newsletter_only }
 
+    validates_presence_of :partner_first_name, :partner_last_name, :if => Proc.new { |user| user.card_num == 2 }
+
     validates_presence_of :shipping_address, :shipping_city, :shipping_province, :shipping_postalcode, 
                           :if => :not_administrator?, 
                           :unless => :validate_gift_form?
@@ -373,6 +375,9 @@ class User < ActiveRecord::Base
       "#{self.gift_shipping_first_name}  #{self.gift_shipping_last_name}"
     end
 
+    def is_a_renewal?
+        date_card_requested.to_date != member_since.to_date      
+    end
 
     protected
 

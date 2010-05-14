@@ -60,7 +60,14 @@ class UsersController < ApplicationController
         #redirect_to paypal_url(@signup_cost, item_name, params[:billing_use_shipping] ? params[:user][:shipping_location]:nil, return_from_paypal_url , Rails.root + '/verify/' + @user.activation_code)
       end
     else
-      flash.now[:error]  = t('users.create.failed')
+      if(@user.errors.on(:email) == 'is already in use')
+        flash.now[:error]  = 'You already have an account with Shop the Block. In order to renew your Shop the Block card, please click <a href=\'login\'>Here</a> now.'
+        @user.errors.clear
+      else
+      
+        flash.now[:error]  = t('users.create.failed')
+      end
+      
       @user.card_num = 0 if @user.card_num == 1
       render :action => 'new'
     end
@@ -123,6 +130,11 @@ class UsersController < ApplicationController
 
   def view
     @user = current_user
+
+    if(current_user.expired?)
+      redirect_to renew_url
+    end
+    
   end
 
   def show
@@ -271,18 +283,16 @@ class UsersController < ApplicationController
 
   def renew_membership
 
-    if request.method == :post
-      @email = params[:email]
-      @card_number = params[:card_number]
-      @user = User.find_by_email(@email)
-      
-      if !@user.nil?
-        redirect_to :action => "renew", :user_id => @user.id        
-      else
-        flash[:error] = t('users.renew_membership.no_match')
-        
-      end
+    @user = User.find_by_activation_code(params[:code])
+
+    if @user == nil
+      flash[:error] = t('users.return_from_paypal.fail_not_found')
+      redirect_to :welcome
+    else
+      self.current_user = @user
+      redirect_to :action => "renew"
     end
+    
   end
   
   def forgot_password
@@ -457,7 +467,7 @@ class UsersController < ApplicationController
     head :ok
   end
 
-  def sign_up_complete user ,gift = false
+  def sign_up_complete user ,gift = false,renew = false
     # Make sure we don't process anything twice      
       return   if user.member_since && user.renewing? == false
       @site_settings = SiteSettings.get
@@ -477,8 +487,13 @@ class UsersController < ApplicationController
          UserMailer.deliver_gift_receipt(user)
          UserMailer.deliver_gift_purchased(user) if user.gift_start_date <= Date.today
       else
-         UserMailer.deliver_signup_notification(user)
-         Referral.send_emails(user)
+        if renew == true
+          UserMailer.deliver_renew_notification(user)
+          Referral.send_emails(user)
+        else
+          UserMailer.deliver_signup_notification(user)
+          Referral.send_emails(user)
+        end
       end
 
   end
@@ -512,13 +527,14 @@ class UsersController < ApplicationController
       redirect_to :welcome
     end
 
-    #self.current_user = @user
-    #if @user.neighbourhood_location
-    #    set_location_to(@user.neighbourhood_location)
-    #    save_location
-    #end
+    self.current_user = @user
+    
+    if @user.neighbourhood_location
+        set_location_to(@user.neighbourhood_location)
+        save_location
+    end
 
-    sign_up_complete  @user
+    sign_up_complete  @user, false, true
    
     flash.now[:notice] = t('users.renew.success')
     render :template => 'users/renewal_confirmation'
@@ -534,7 +550,6 @@ class UsersController < ApplicationController
     redirect_to user_path(@user)
   end
 
-  #klm - just a test action
   def expired
     #@users = User.find_members_who_should_renew([30, 14,7])
     @users = User.find_members_who_expired

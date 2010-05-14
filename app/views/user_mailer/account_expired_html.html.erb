@@ -1,10 +1,14 @@
+<% if @user.card_num == 2 %>
+<p>Dear <b><%= @user.first_name %> and <%= @user.partner_first_name %></b>,</p>
+<% else %>
 <p>Dear <b><%= @user.first_name %></b>,</p>
+<% end %>
 
-<p><b>It’s time to renew your <%= t('site_name') %> card!<b></p>
+<p>Your current card has <b>EXPIRED</b> and will no longer be accepted at any of our participating <%= t('site_name') %> merchants. We hope you’ve had a great time shopping and saving in your neighbourhood!</p>
 
-<p>Your current card has <b>EXPIRED</b> and will no longer be accepted at any of our participating <%= t('site_name') %> merchants. We hope you’ve had a great time shopping and saving in your neighbourhood! If you want to continue enjoying the many benefits of the <%= t('site_name') %> program, including fantastic savings at all of your favourite stores click <%= link_to('HERE', renew_membership_url) %> to renew your card now.</p>
+<p>In order to continue enjoying the many benefits of the <%= t('site_name') %> program, including fantastic savings at all of your favourite stores, you must renew your card now. Renewing your card is quick and easy and can be completed in a few simple steps. Click <%= link_to('HERE', renew_membership_url(:code => @user.activation_code)) %> to get started.</p>
 
-<p>Renewing your card now will allow you to continue enjoying the EXCLUSIVE benefits of <%= t('site_name') %>, while also supporting local independent merchants.</p>
+<p>Renew your card now to continue enjoying the EXCLUSIVE benefits of Shop the Block, while also supporting local independent merchants.</p>
 
 <p>Here are some of the great reasons to renew your membership now:</p>
 
@@ -17,8 +21,11 @@
 	</ul>
 </p>
 
-<p>Click <%= link_to('HERE', renew_membership_url) %> to renew your card now!</p>
+<p>Click <%= link_to('HERE', renew_membership_url(:code => @user.activation_code)) %> to renew your card now!</p>
 
-<p>Best,<br/>
-Lauren</p>
+<p>For any assistance, please contact us at info@shoptheblock.ca or at 416-938-8551.</p>
+
+<p>Best,</p>
+
+<p>Shop the Block team</p>
 

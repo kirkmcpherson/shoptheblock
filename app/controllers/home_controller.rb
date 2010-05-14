@@ -8,7 +8,12 @@ class HomeController < ApplicationController
   def welcome
     if logged_in?
       case current_user.role
-      when :member then redirect_to neighbourhood_url
+      when :member then 
+        if(!current_user.nil? && current_user.expired?)
+          redirect_to renew_url
+        else
+          redirect_to neighbourhood_url
+        end
         #TODO: when :merchant then ?
       when :administrator then redirect_to account_url
       end

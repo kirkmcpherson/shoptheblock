@@ -122,6 +122,7 @@ en:
           pending_cards:    "Pending Card Requests"
           index:            "View Members"
           new:              "Add a Member"
+          expired:          "Expired Members"
           send_news_alert:  "Create/Send News Alert e-mail"
           view_past_newsletters: "View Past Newsletters"
           send_newsletter:  "Create/Send Newsletter"
@@ -318,9 +319,13 @@ en:
           Please try again.
         expired:
             Your account has expired.
+        expires_soon:
+            You account expires soon.  Renew now!
     user_mailer:
         signup_notification:
             subject:        "Welcome to Shop the Block"
+        renew_notification:
+            subject:        "Thank you for renewing your Shop the Block membership"
         activation:
             subject:        "Your account has been activated!"
         lost_card:
@@ -328,9 +333,9 @@ en:
         daily_status:
             subject:        "Shop the Block Daily Status"
         account_expired:
-            subject:        "It’s time to renew your Shop the Block card!"
+            subject:        "Your Shop the Block card has EXPIRED…Renew NOW!"
         renewal_reminder:
-            subject:        "It’s time to renew your Shop the Block card!"
+            subject:        "Renew your Shop the Block card NOW!"
         forgot_password:
             subject:        "Password reset request"
         referrer_mail:

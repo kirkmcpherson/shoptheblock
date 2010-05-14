@@ -21,7 +21,10 @@ class SessionsController < ApplicationController
       if User.expired?(params[:email])
         flash[:error] = t('session.expired')
         redirect_to :controller => 'users', :action => 'renew'
-      else  
+      elsif((Time.now + 14.days) >= user.membership_expiration)
+        flash[:error] = t('session.expires_soon')
+        redirect_to :controller => 'users', :action => 'renew'      
+      else
         redirect_back_or_default('/')
         flash[:notice] = t('session.logged_in')
       end

@@ -1,10 +1,11 @@
 <h1>Renewal Complete</h1>
 
 <p>
-  Your renewal has been complete!  
+  Thank you for renewing your Shop the Block membership! You should be receiving a confirmation email at
+  <b><%= @user.email  %></b> in a few minutes.
 </p>
 
-<p>Print your temporary Shop the Block card now and start saving immediately. Happy Shopping!</p>
+<p>Print your new temporary Shop the Block card now and start saving immediately. Happy Shopping!</p>
 
 <%= render :partial => 'temp_card' 
 
@@ -12,6 +13,6 @@
  %>
 
 <p>
-  <%= link_to "Login", :login %>
+  <%= link_to "Go to My Neighbourhood Page", :neighbourhood %>
 </p>
 

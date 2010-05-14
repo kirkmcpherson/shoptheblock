@@ -16,14 +16,15 @@
 	<center><p style="color: #3B1771;">Buy a gift for a friend or loved one!</p></center>
 	</div>
 </div>
+<% if false %>
 <div style="width:520px; height:220px; margin-top:40px; margin-bottom:40px; text-align: center;">
 	<div style="width:255px; margin-left: auto ; margin-right: auto ;">
-	<%= link_to (image_tag 'card-gift.jpg'), renew_membership_path %>     	           
+	<%= link_to (image_tag 'card-gift.jpg'), login_path %>     	           
 	<center><p style="color: #3B1771;">Renew your membership!</p></center>
 	</div>
 
 </div>
-
+<% end %>
 
 
 <%= link_to (image_tag ('newsletter-promo.jpg', :style=>'float:left;')), news_items_path %><div style="width:500px;height:200px; margin-top:35px;"><p class="promoText">Sign up for <strong>Best of the Block</strong>, our FREE bi-weekly newsletter, to find out what’s new in your neighbourhood!</p><%= link_to (image_tag 'click-here.jpg', :style => 'margin-bottom:50px;'), news_items_path %>

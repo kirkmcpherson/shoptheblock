@@ -4,6 +4,7 @@
 
 <ul>
   <li><%= link_to(t('users.action.pending_cards'), :pending_cards)  %> (<%= User.needs_card.count %>)</li>
+  <li><%= link_to(t('users.action.expired'), :action => 'expired') %></li>
   <li><%= link_to(t('users.action.index'), :action => 'index') %></li>
   <li><%= link_to(t('users.action.new'), :action => 'new') %></li>
 </ul>

@@ -64,7 +64,7 @@ ActionController::Routing::Routes.draw do |map|
 
     map.give_a_gift '/give_a_gift', :controller => 'gifts', :action => 'new'
 
-    map.renew_membership '/renew_membership', :controller => 'users', :action => 'renew_membership', :method => [:get, :post]
+    map.renew_membership '/renew_membership/:code', :controller => 'users', :action => 'renew_membership'
     #map.renew_membership '/renew_membership', :controller => 'users', :action => 'renew_membership_verify', :method => [:post]
     map.renew '/renew', :controller => 'users', :action => 'renew', :method => [:get, :post]
     

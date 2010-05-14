@@ -13,6 +13,13 @@ class MerchantsController < ApplicationController
         end
     end
 
+    def faq
+      if (!current_user.nil? || (!current_user.nil? && !current_user.expired?))
+        redirect_to renew_url
+      end
+      
+    end
+    
     # GET /merchants/1
     # GET /merchants/1.xml
     def show

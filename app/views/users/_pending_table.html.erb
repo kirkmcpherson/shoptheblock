@@ -6,7 +6,7 @@
 	<%= sort_th 'Gift Start Date', 'gift_start_date', 'pending_table' %>
   <%= sort_th 'Date Requested', 'date_card_requested', 'pending_table', true %>
   <%= sort_th 'Payment Verified?', 'status', 'pending_table' %>
-  <th>Renewal?</th>
+  <%= sort_th 'Renewal?', 'is_a_renewal', 'pending_table' %>
   <th>Date Shipped</th>
 </thead>
 
@@ -26,7 +26,7 @@
 		<td><%= user.gift_start_date %></td>
     <td><%= user.date_card_requested.to_date %></td>
     <td><%= (user.status == User::StatusFlags[:needs_card]) ? 'Yes' : 'No' %></td>
-    <td><%= (user.date_card_requested.to_date != user.member_since.to_date) ? 'Yes' : '' %></td>
+    <td><%= (user.is_a_renewal? == true) ? 'Yes' : '' %></td>
     <td style="white-space:nowrap;">
       <%= calendar_date_select_tag("ship_date_#{user.id}", 
                                    user.date_card_shipped || '', 
