@@ -52,7 +52,7 @@ class UserMailer < ActionMailer::Base
     
     if(user.card_num == 2) 
       setup_partner_email(user) do
-        @subject        = t('user_mailer.account_expired.subject')
+        @subject        = t('user_mailer.renewal_reminder.subject')
       end
     
     else 
