@@ -4,18 +4,18 @@
 <p>Dear <b><%= @user.first_name %></b>,</p>
 <% end %>
 
-<p>Happy Anniversary! You’ve now almost been a <%= t('site_name') %> cardholder for 1 year. We hope you’ve been having a great time shopping and saving at all of your favourite neighbourhood stores!</p>
+<p>Happy Anniversary! You’ve now been a <%= t('site_name') %> cardholder for 1 year. We hope you’ve been having a great time shopping and saving at all of your favourite neighbourhood stores!</p>
 
 <p>Your current card will expire on <b><%= @user.membership_expiration.strftime("%B %d, %Y") %></b>.</p> 
 
 <p>Renew your card BEFORE <%= @user.membership_expiration.strftime("%B %d, %Y") %> and you’ll get an additional 1 month FREE added to your 12 month membership. That’s 13 months for the price of 12! It’s our way of saying thanks for being part of <%= t('site_name') %>!</p>
 
-<p>Renewing your card is quick and easy and can be completed in a few simple steps. Click <%= link_to('HERE', renew_membership_url(:code => @user.activation_code) ) %> to get started.</p> 
+<p>Renewing your card is quick and easy and can be completed in a few simple steps. </p> 
 
 <p>
     <ul> 
-	<li>Follow the link on this website to renew your membership.</li>
-    <li>Confirm that the information and shipping address listed are still correct and click Renew.</li>
+	<li>Click <%= link_to('HERE', renew_membership_url(:code => @user.activation_code) ) %> to get started.</li>
+    <li>Confirm that your personal information and shipping address listed are still correct and click Renew.</li>
     <li>You will be taken to the PayPal site. Please note that you do NOT have to log in to PayPal in order to make your Shop the Block purchase.</li>
     <li>Pay for your Shop the Block card with a credit card by selecting the buttons that say 'Continue' and 'Continue without logging in’.</li>
 	</ul>
@@ -35,9 +35,9 @@
 
 <p>Click <%= link_to('HERE', renew_membership_url(:code => @user.activation_code)) %> to renew your card now!</p>
 
-<p>For any assistance, please contact us at info@shoptheblock.ca or at 416-938-8551.</p>
+<p>For any assistance, please contact us at <a href="mailto:info@shoptheblock.ca">info@shoptheblock.ca</a> or at 416-938-8551.</p>
 
 <p>Best</p>
 
-<p>Shop the Block team</p>
+<p>The Shop the Block team</p>
 

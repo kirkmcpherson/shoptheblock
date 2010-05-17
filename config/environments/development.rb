@@ -42,11 +42,11 @@ PAYPAL_CERT = "paypal_sandbox_cert.pem"
 #config.action_mailer.raise_delivery_errors = false
 #config.action_mailer.delivery_method = :test
 
-config.action_mailer.default_url_options = { :host => "localhost:3000" }
+config.action_mailer.default_url_options = { :host => "shoptheblock.dyndns.org:3000" }
 config.action_mailer.raise_delivery_errors = true
 config.action_mailer.delivery_method = :smtp
 
-ActionController::Base.asset_host = 'http://localhost:3000'
+ActionController::Base.asset_host = 'http://shoptheblock.dyndns.org:3000'
 
 if File.exists?(File.join(RAILS_ROOT,'tmp', 'debug.txt'))
   require 'ruby-debug'

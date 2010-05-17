@@ -249,7 +249,7 @@ class UsersController < ApplicationController
     #@renew_length = ( Time.zone.now <= @user.membership_expiration ) ? @site_settings.early_renewal_length : @site_settings.renewal_length
     
     @renewal_date = ( Time.zone.now <= @user.membership_expiration ) ? @user.membership_expiration.advance(:months => @site_settings.early_renewal_length) : Time.zone.now.advance(:months => @site_settings.renewal_length)
-    
+        
     if @user.nil?
       @user_id = params[:user_id]
       @user = User.find_by_id(@user_id)
@@ -260,6 +260,14 @@ class UsersController < ApplicationController
       end
     end
     if request.method == :post
+      success = true
+      
+      if params[:accepted_agreement].nil?
+        flash[:error] = t('users.create.legal_not_accepted')
+        #@user.errors.add_to_base(t('users.create.legal_not_accepted'))
+        success = false
+      end
+      
       @user.attributes = params[:user]
       @user.renewing
       @user.date_card_requested = Time.zone.now    
@@ -273,7 +281,9 @@ class UsersController < ApplicationController
         )
       #  render :template => '/users/paypal_form', :layout => false
 
-        render :template => '/users/checkout_redirect',:layout => false
+        if(success)
+          render :template => '/users/checkout_redirect',:layout => false
+        end
       else
         @user.card_num = 0 if @user.card_num == 1
       end

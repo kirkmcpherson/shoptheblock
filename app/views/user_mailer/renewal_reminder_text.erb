@@ -4,16 +4,16 @@ Dear <%= @user.first_name %> and <%= @user.partner_first_name %>,
 Dear <%= @user.first_name %>,
 <% end %>
 
-Happy Anniversary! You’ve now almost been a <%= t('site_name') %> cardholder for 1 year. We hope you’ve been having a great time shopping and saving at all of your favourite neighbourhood stores! 
+Happy Anniversary! You’ve now been a <%= t('site_name') %> cardholder for 1 year. We hope you’ve been having a great time shopping and saving at all of your favourite neighbourhood stores! 
 
 Your current card will expire on <%= @user.membership_expiration.strftime("%B %d, %Y") %>. 
 
 Renew your card BEFORE <%= @user.membership_expiration.strftime("%B %d, %Y") %> and you’ll get an additional 1 month FREE added to your 12 month membership. That’s 13 months for the price of 12! It’s our way of saying thanks for being part of <%= t('site_name') %>!
 
-Renewing your card is quick and easy and can be completed in a few simple steps. Visit <%= renew_membership_url(:code => @user.activation_code) %> to get started.
+Renewing your card is quick and easy and can be completed in a few simple steps. 
 
-•	Follow the link on this website to renew your membership.
-•	Confirm that the information and shipping address listed are still correct and click Renew.
+•	Visit <%= renew_membership_url(:code => @user.activation_code) %> to get started.
+•	Confirm that your personal information and shipping address listed are still correct and click Renew.
 •	You will be taken to the PayPal site. Please note that you do NOT have to log in to PayPal in order to make your Shop the Block purchase. 
 •	Pay for your Shop the Block card with a credit card by selecting the buttons that say 'Continue' and 'Continue without logging in’.
 
@@ -31,5 +31,5 @@ For any assistance, please contact us at info@shoptheblock.ca or at 416-938-8551
 
 Best, 
 
-Shop the Block team
+The Shop the Block team
 

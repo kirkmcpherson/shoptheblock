@@ -112,6 +112,37 @@
       Billing address is the same as shipping address
     </td>
   </tr>
+
+<!--
+==============================================================================
+TERMS AND CONDITIONS
+==============================================================================
+-->
+<tr>
+  <td colspan="2" style="padding-top: 15px">
+	  <div class="searchBar">Terms and Conditions</div>
+	  </td>
+</tr>
+
+<tr>
+  <td colspan="2">
+    <div class="legal_agreement value">
+      <%= load_legal_agreement %>
+    </div>
+    
+    <div class="value">
+      <%= check_box_tag('accepted_agreement') %> I accept the terms and conditions
+    </div>
+  </td>
+</tr>
+<tr>
+  <td colspan="2" style="padding-top: 15px">
+    After clicking <b><%= t('users.renew.submit') %></b>
+    you will be redirected to Paypal to complete this transaction.       Please note that you can use your credit
+    card to purchase a Shop the Block card without logging in to Paypal by clicking the <b>"Continue" and "Continue without logging in" </b>buttons.
+     </td>
+</tr>
+
 </table>
 
 <div>

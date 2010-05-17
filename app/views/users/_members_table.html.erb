@@ -21,7 +21,7 @@
           <%= user.user_type == User::ROLES[:newsletter_only] ? '-' : link_to(h("#{user.last_name}, #{user.first_name} #{extra_card_text}"), user) %>
         </td>
         <td><%= user.email %><%= user.partner_email? ? '<br/>' + user.partner_email + ' (spouse)' : '' %></td>
-        <td><%= user.friendly_status %></td>
+        <td><%= user.complete_friendly_status %></td>
         <td>
           <% if user.heard_about_from != nil %>
             <%= t('users.heard_about_from')[user.heard_about_from] %>

@@ -21,7 +21,7 @@ set :repository,  "git@github.com:brightspark3/shoptheblock.git"
 set :branch, "master"
 set :scm, "git"
 
-
+set :port, 30745
 
 # Other
 set :db_host, "localhost"

@@ -376,7 +376,13 @@ class User < ActiveRecord::Base
     end
 
     def is_a_renewal?
-        date_card_requested.to_date != member_since.to_date      
+        @renewal = false
+        
+        if(!date_card_requested.nil? && !member_since.nil?)
+          if(date_card_requested.to_date != member_since.to_date)
+            @renewal = true
+          end
+        end
     end
 
     protected
@@ -488,6 +494,7 @@ class User < ActiveRecord::Base
                                               StatusFlags[:pending_gift],
                                               StatusFlags[:expired] ]
 
+    named_scope :expired, :conditions => ['(status & ?) = ?', StatusFlags[:expired], StatusFlags[:expired]]                                          
     named_scope :order_requested, :order => :date_card_requested
     named_scope :order_name, :order => :last_name
     named_scope :order_shipped, :order => :date_card_shipped
@@ -526,6 +533,22 @@ class User < ActiveRecord::Base
       has_status?(:needs_card)
     end
 
+    def complete_friendly_status
+      if user_type == ROLES[:newsletter_only]
+        'Newsletter'
+      elsif user_type == ROLES[:member]
+        if status == StatusFlags[:default] 
+          'Cardholder'
+        elsif status == StatusFlags[:needs_card]  || status == StatusFlags[:pending] || status == StatusFlags[:pending_gift]        
+          'Cardholder (No Renewal Reminder)'
+        else
+          'Member'
+        end
+      elsif user_type == ROLES[:administrator]
+        'Administrator'
+      end      
+    end
+    
     def friendly_status
       if user_type == ROLES[:newsletter_only]
         'Newsletter'
@@ -570,8 +593,9 @@ class User < ActiveRecord::Base
       User.all(
           #:select => "first_name, last_name, email, membership_expiration, status, email_format",
           :conditions => [
-              "(user_type = ?) AND (DATEDIFF(membership_expiration, CURDATE()) IN (?))",
+              "(user_type = ?) AND (status = ?) AND (DATEDIFF(membership_expiration, CURDATE()) IN (?))",
               ROLES[:member],
+              StatusFlags[:default],
               reminder_intervals
           ])
     end
@@ -579,10 +603,9 @@ class User < ActiveRecord::Base
     def self.find_members_to_expire
         User.all(
             :conditions => [
-                "(user_type = ?) AND ((status & ?) = ?) AND (DATEDIFF(membership_expiration, CURDATE()) < 0)",
+                "(user_type = ?) AND (status = ?) AND (DATEDIFF(membership_expiration, CURDATE()) < 0)",
                 ROLES[:member],
-                StatusFlags[:expired],
-                0
+                StatusFlags[:default]
             ])
     end
 

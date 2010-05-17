@@ -14,9 +14,9 @@ class MerchantsController < ApplicationController
     end
 
     def faq
-      if (!current_user.nil? || (!current_user.nil? && !current_user.expired?))
-        redirect_to renew_url
-      end
+      #if (!current_user.nil? || (!current_user.nil? && !current_user.expired?))
+      #  redirect_to renew_url
+      #end
       
     end
     

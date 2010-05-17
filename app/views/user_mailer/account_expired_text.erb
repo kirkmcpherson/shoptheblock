@@ -4,12 +4,12 @@ Dear <%= @user.first_name %> and <%= @user.partner_first_name %>,
 Dear <%= @user.first_name %>,
 <% end %>
 
-Your current card has EXPIRED and will no longer be accepted at any of our participating <%= t('site_name') %> merchants. We hope you’ve had a great time shopping and saving in your neighbourhood! 
+Your <%= t('site_name') %> card has EXPIRED and will no longer be accepted at any of our participating <%= t('site_name') %> merchants. We hope you’ve had a great time shopping and saving in your neighbourhood! 
 
-In order to continue enjoying the many benefits of the Shop the Block program, including fantastic savings at all of your favourite stores, you must renew your card now. Renewing your card is quick and easy and can be completed in a few simple steps. Visit <%= renew_membership_url(:code => @user.activation_code) %> to get started. 
+In order to continue enjoying the many benefits of the Shop the Block program, including fantastic savings at all of your favourite stores, you must renew your card now. Renewing your card is quick and easy and can be completed in a few simple steps. 
 
-•	Follow the link on this website to renew your membership.
-•	Confirm that the information and shipping address listed are still correct and click Renew.
+•	Visit <%= renew_membership_url(:code => @user.activation_code) %> to get started. 
+•	Confirm that your personal information and shipping address listed are still correct and click Renew.
 •	You will be taken to the PayPal site. Please note that you do NOT have to log in to PayPal in order to make your Shop the Block purchase. 
 •	Pay for your Shop the Block card with a credit card by selecting the buttons that say 'Continue' and 'Continue without logging in’.
 
@@ -29,5 +29,5 @@ For any assistance, please contact us at info@shoptheblock.ca or at 416-938-8551
 
 Best,
 
-Shop the Block team
+The Shop the Block team
 

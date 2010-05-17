@@ -155,6 +155,7 @@ en:
           no_match:         "Could not find an account for that address"
           success:          "Your password reset request has been processed. You should receive an email shortly."
           failed:           "An error occurred processing your request. Please try again later."
+          submit:           "Send Password"          
       renew_membership:
           no_match:         "Could not find an account for that email address or card number"
       reset_password:
@@ -234,7 +235,7 @@ en:
           last_name:    "can't be blank"
           email:    "can't be blank"
           complete_registration: "Complete Registration"
-
+          
     merchants:
       action:
           index:            "View Merchants"
