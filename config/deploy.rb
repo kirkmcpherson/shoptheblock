@@ -16,10 +16,15 @@ default_run_options[:pty] = true
 
 
 # SCM Info
-set :repository,  "git@github.com:brightspark3/shoptheblock.git"
+set :repository,  "git@github.com:kirkmcpherson/shoptheblock.git"
+#set :repository,  "git@github.com:brightspark3/shoptheblock.git"
 #set :local_repository,  "git@github-az:brightspark3/shoptheblock.git"
 set :branch, "master"
 set :scm, "git"
+ssh_options[:username] = 'deploy'
+ssh_options[:keys] = %w(/Users/kirk/.ssh/shoptheblock-kirk)
+
+set :deploy_via, :copy
 
 set :port, 30745
 
