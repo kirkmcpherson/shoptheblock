@@ -1,5 +1,6 @@
 # This file is automatically copied into RAILS_ROOT/initializers
 
+#klm - uncomment!
 #require "smtp_tls"
 
 config_file = "#{RAILS_ROOT}/config/smtp_gmail.yml"

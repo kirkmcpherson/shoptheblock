@@ -14,6 +14,7 @@ config.action_view.debug_rjs                         = true
 config.action_controller.perform_caching             = false
 
 begin
+  #klm - change!
   GOOGLE_API_KEY = File.open('config/google_maps_api_key.txt').read
 rescue => e
   raise 'No Google Maps API key found. Create a file named google_maps_api_key in config/ with just the API key in it. You can get one from http://code.google.com/apis/maps/signup.html'
