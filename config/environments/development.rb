@@ -47,7 +47,9 @@ config.action_mailer.default_url_options = { :host => "shoptheblock.dyndns.org:3
 config.action_mailer.raise_delivery_errors = true
 config.action_mailer.delivery_method = :smtp
 
-ActionController::Base.asset_host = 'http://shoptheblock.dyndns.org:3000'
+#klm
+#ActionController::Base.asset_host = 'http://shoptheblock.dyndns.org:3000'
+ActionController::Base.asset_host = 'http://localhost:3000'
 
 if File.exists?(File.join(RAILS_ROOT,'tmp', 'debug.txt'))
   require 'ruby-debug'

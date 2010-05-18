@@ -600,6 +600,16 @@ class User < ActiveRecord::Base
           ])
     end
 
+    def self.find_admin
+      User.all(
+          #:select => "first_name, last_name, email, membership_expiration, status, email_format",
+          :conditions => [
+              "(user_type = ?)",
+              ROLES[:administrator]
+          ])
+      
+    end
+    
     def self.find_members_to_expire
         User.all(
             :conditions => [

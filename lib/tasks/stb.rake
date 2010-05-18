@@ -40,9 +40,16 @@ namespace :stb do
 
         puts "Checking for accounts that need to be renewed..."
 
+        @s = ""
+        
         User.find_members_who_should_renew([14,7]).each do |user|
             puts "Sending #{user.full_name} renewal notice"
+            @s = @s + "#{user.full_name}<br/>"
             UserMailer.deliver_renewal_reminder(user)
+        end
+
+        User.find_admin.each do |user|
+            UserMailer.deliver_admin_message(user, 'Renewal Reminders Sent', @s.to_s)
         end
 
         puts "Done!"

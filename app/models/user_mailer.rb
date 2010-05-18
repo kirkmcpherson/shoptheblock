@@ -64,6 +64,14 @@ class UserMailer < ActionMailer::Base
     
   end
 
+  def admin_message(user, headline, message)
+    setup_email(user) do
+      @subject        = "Shop the Block Admin: #{headline}"
+      @body[:headline] = headline
+      @body[:message] = message
+    end
+  end
+
   def forgot_password(user)
     setup_email(user) do
       @subject        = t('user_mailer.forgot_password.subject')
