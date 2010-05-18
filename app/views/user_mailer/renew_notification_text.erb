@@ -1,0 +1,9 @@
+Thank you for renewing your <%= t('site_name')  %> membership.  Please click on the link below to print your temporary card. Your STB card will be shipped to you within the next 72 hours.
+  
+<%=return_from_paypal_renewal_url(:code => @user.activation_code)%>
+
+For any assistance, please contact us at info@shoptheblock.ca.
+
+Happy Shopping & Saving!
+
+The Shop the Block team
