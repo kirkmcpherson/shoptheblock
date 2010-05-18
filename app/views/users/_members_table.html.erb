@@ -5,6 +5,7 @@
   <%= sort_th 'Heard About', 'heard_about_from', 'members_table' %>
   <%= sort_th 'Card Requested', 'date_card_requested', 'members_table' %>
   <%= sort_th 'Card Shipped', 'date_card_shipped', 'members_table' %>
+  <%= sort_th 'Card Expiration', 'membership_expiration', 'members_table' %>
   <th>&nbsp;</th>
 </thead>
 <tbody>
@@ -36,6 +37,10 @@
         <td>
            <% date =  user.date_card_shipped != nil ? user.date_card_shipped.utc.to_date : '-'    %>
           <%=  user.user_cardholder?  ? date : "-" %>
+        </td>       
+        <td>
+           <% date =  user.membership_expiration != nil ? user.membership_expiration.utc.to_date : '-'    %>
+          <%=  user.membership_expiration?  ? date : "-" %>
         </td>       
         <td>
           <%= link_to('view', user) %>          
