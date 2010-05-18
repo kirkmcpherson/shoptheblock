@@ -48,9 +48,16 @@ namespace :stb do
             UserMailer.deliver_renewal_reminder(user)
         end
 
-        User.find_admin.each do |user|
-            UserMailer.deliver_admin_message(user, 'Renewal Reminders Sent', @s.to_s)
-        end
+        puts "Sending admin renewal notices"
+        
+        admins = User.find_all_by_user_type(User::ROLES[:administrator])
+        
+        admins.each do |admin|
+            UserMailer.deliver_admin_message(admin, 'Renewal Reminders Sent', @s.to_s)
+
+
+        end # each admin
+
 
         puts "Done!"
 

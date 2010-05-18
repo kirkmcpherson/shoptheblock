@@ -80,6 +80,7 @@ class UsersController < ApplicationController
     if validate_user(user_id)
       if current_user.administrator?
         @user = User.find(user_id)
+        
         @site_settings = SiteSettings.get if @user.administrator?
       else
         @user = current_user
@@ -101,6 +102,13 @@ class UsersController < ApplicationController
       if current_user.administrator? && params[:user][:membership_expiration]
         @user.membership_expiration = params[:user][:membership_expiration]
       end
+      
+      if(@user.expired?)
+          if(@user.membership_expiration > Time.now)
+            @user.pending!
+          end
+      end
+      
       success = success && @user.valid?
       
             

@@ -510,7 +510,7 @@ class User < ActiveRecord::Base
     end
 
     def pending!
-      set_status(:pending)
+      set_status(:pending, :clear => [:expired])
     end
     
     def pending?
@@ -541,6 +541,8 @@ class User < ActiveRecord::Base
           'Cardholder'
         elsif status == StatusFlags[:needs_card]  || status == StatusFlags[:pending] || status == StatusFlags[:pending_gift]        
           'Cardholder (No Renewal Reminder)'
+        elsif status == StatusFlags[:expired]
+          'Cardholder (Expired)'
         else
           'Member'
         end
