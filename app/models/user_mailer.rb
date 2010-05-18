@@ -33,7 +33,7 @@ class UserMailer < ActionMailer::Base
   end
 
   def account_expired(user)
-    if(user.card_num == 2) 
+    if(user.card_num == 2 && !user.partner_email.nil?) 
       setup_partner_email(user) do
         @subject        = t('user_mailer.account_expired.subject')
       end
@@ -50,7 +50,7 @@ class UserMailer < ActionMailer::Base
 
   def renewal_reminder(user)
     
-    if(user.card_num == 2) 
+    if(user.card_num == 2 && !user.partner_email.nil?) 
       setup_partner_email(user) do
         @subject        = t('user_mailer.renewal_reminder.subject')
       end
