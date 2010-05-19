@@ -126,7 +126,21 @@ h4 {
 	font-style:italic;
 	font-size:18px !important;
 	line-height:20px !important;
+}
+
+.promoText2 {
+	font-family:times,serif !important;
+	color:#666666; 
+	font-style:italic;
+	font-size:18px !important;
 } 
+
+.promoText2 strong {
+	font-family:times,serif;
+	font-size:18px !important;
+	color:#A11367; 
+} 
+
 .promoText strong {
 	font-family:times,serif;
 	font-size:18px !important;
