@@ -138,8 +138,12 @@ h4 {
 .promoText2 a {
 	font-family:times,serif !important;
 	font-size:26px !important;
-	color:#A11367 !important; 
-} 
+	color:#A11367 !important;
+}
+
+.promoText2 a img {
+	padding-top:10px !important;
+	} 
 
 .promoText strong {
 	font-family:times,serif;
