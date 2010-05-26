@@ -524,6 +524,11 @@ class UsersController < ApplicationController
       redirect_to :welcome
     end
 
+    #klm
+    #if(@user.is_a_renewal == true)
+    #  redirect_to :return_from_paypal_renewal
+    #end
+    
     self.current_user = @user
     if @user.neighbourhood_location
         set_location_to(@user.neighbourhood_location)
