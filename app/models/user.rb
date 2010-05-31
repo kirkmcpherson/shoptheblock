@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
 
     validate :promo_code_must_be_valid, :if => Proc.new { |user| user.new_record? }
 
-    validates_presence_of :phone_number, :if => Proc.new { |user| user.role != :newsletter_only }
+    #validates_presence_of :phone_number, :if => Proc.new { |user| user.role != :newsletter_only }
 
     validates_presence_of :partner_first_name, :partner_last_name, :if => Proc.new { |user| user.card_num == 2 }
 
