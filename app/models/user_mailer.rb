@@ -33,18 +33,18 @@ class UserMailer < ActionMailer::Base
   end
 
   def account_expired(user)
-    if(user.card_num == 2 && !user.partner_email.nil?) 
-      setup_partner_email(user) do
-        @subject        = t('user_mailer.account_expired.subject')
-      end
+    #if(user.card_num == 2 && !user.partner_email.nil?) 
+    #  setup_partner_email(user) do
+    #    @subject        = t('user_mailer.account_expired.subject')
+    #  end
     
-    else 
+    #else 
 
       setup_email(user) do
         @subject        = t('user_mailer.account_expired.subject')
       end
       
-    end
+    #end
     
   end
 
