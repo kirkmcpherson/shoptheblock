@@ -615,7 +615,7 @@ class User < ActiveRecord::Base
     def self.find_members_to_expire
         User.all(
             :conditions => [
-                "(user_type = ?) AND (status = ?) AND (DATEDIFF(membership_expiration, CURDATE()) < 0)",
+                "(user_type = ?) AND (status = ?) AND (DATEDIFF(membership_expiration, CURDATE()) < 0) AND (DATEDIFF(membership_expiration, member_since) != 0)",
                 ROLES[:member],
                 StatusFlags[:default]
             ])
