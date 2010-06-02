@@ -507,7 +507,7 @@ class UsersController < ApplicationController
       else
         if renew == true
           UserMailer.deliver_renew_notification(user)
-          Referral.send_emails(user)
+          #Referral.send_emails(user)
         else
           UserMailer.deliver_signup_notification(user)
           Referral.send_emails(user)
