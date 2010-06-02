@@ -256,7 +256,7 @@ class UsersController < ApplicationController
     @site_settings = SiteSettings.get
     #@renew_length = ( Time.zone.now <= @user.membership_expiration ) ? @site_settings.early_renewal_length : @site_settings.renewal_length
     
-    @renewal_date = ( Time.zone.now <= @user.membership_expiration ) ? @user.membership_expiration.advance(:months => @site_settings.early_renewal_length) : Time.zone.now.advance(:months => @site_settings.renewal_length)
+    @renewal_date = ( Time.zone.now <= @user.membership_expiration.advance(:days => 1) ) ? @user.membership_expiration.advance(:months => @site_settings.early_renewal_length) : Time.zone.now.advance(:months => @site_settings.renewal_length)
         
     if @user.nil?
       @user_id = params[:user_id]
