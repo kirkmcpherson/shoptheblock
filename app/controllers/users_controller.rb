@@ -489,11 +489,14 @@ class UsersController < ApplicationController
     # Make sure we don't process anything twice      
       return   if user.member_since && user.renewing? == false
       @site_settings = SiteSettings.get
-    
+      @send_renew = false
+      
       @renewal_date = ( Time.zone.now <= user.membership_expiration ) ? user.membership_expiration.advance(:months => @site_settings.early_renewal_length) : Time.zone.now.advance(:months => @site_settings.renewal_length) if user.renewing?
     
      #renewal_length = ( Time.zone.now <= @user.membership_expiration ) ? SiteSettings.get.early_renewal_length : SiteSettings.get.renewal_length    
      user.membership_expiration = @renewal_date  if user.renewing?
+     @send_renew = true if user.renewing?
+     
      user.update_attribute(:member_since,Time.zone.now) if user.member_since == nil
      end_date =  user.gift_start_date || Time.zone.now
      user.membership_expiration =  end_date.advance(:months => SiteSettings.get.membership_length) if  user.membership_expiration.nil?
@@ -505,7 +508,7 @@ class UsersController < ApplicationController
          UserMailer.deliver_gift_receipt(user)
          UserMailer.deliver_gift_purchased(user) if user.gift_start_date <= Date.today
       else
-        if renew == true
+        if @send_renew == true
           UserMailer.deliver_renew_notification(user)
           #Referral.send_emails(user)
         else
@@ -552,10 +555,10 @@ class UsersController < ApplicationController
 
     self.current_user = @user
     
-    if @user.neighbourhood_location
-        set_location_to(@user.neighbourhood_location)
-        save_location
-    end
+    #if @user.neighbourhood_location
+    #    set_location_to(@user.neighbourhood_location)
+    #    save_location
+    #end
 
     sign_up_complete  @user, false, true
    
