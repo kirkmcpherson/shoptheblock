@@ -21,9 +21,6 @@ class SessionsController < ApplicationController
       if User.expired?(params[:email])
         flash[:error] = t('session.expired')
         redirect_to :controller => 'users', :action => 'renew'
-      elsif User.pending?(params[:email])
-        flash[:error] = t('session.pending')
-        redirect_to :signup
       elsif(!user.membership_expiration.nil? && ( (Time.now + 14.days) >= user.membership_expiration) )
         flash[:error] = t('session.expires_soon')
         redirect_to :controller => 'users', :action => 'renew'      
@@ -31,6 +28,14 @@ class SessionsController < ApplicationController
         redirect_back_or_default('/')
         flash[:notice] = t('session.logged_in')
       end
+    elsif User.expired?(params[:email])
+      self.current_user = User.find_by_email(params[:email])
+      flash[:error] = t('session.expired')
+      redirect_to :controller => 'users', :action => 'renew'      
+    elsif User.pending?(params[:email])
+      self.current_user = User.find_by_email(params[:email])
+      flash[:error] = t('session.pending')
+      redirect_to :signup
     else
       note_failed_signin
       @email       = params[:email]

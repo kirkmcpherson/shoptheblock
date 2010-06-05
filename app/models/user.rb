@@ -296,9 +296,13 @@ class User < ActiveRecord::Base
     def self.authenticate(email, password)
         return nil if email.blank? || password.blank?
         u = find_by_email(email)
-        (u && u.authenticated?(password)) ? u : nil
+        (u && !u.pending? && u.authenticated?(password)) ? u : nil
     end
 
+    def self.find_by_email(email)
+      u = find_by_email(email)
+    end
+    
     def self.pending?(email)
       
       u = find_by_email(email)
