@@ -28,6 +28,9 @@ class SessionsController < ApplicationController
         redirect_back_or_default('/')
         flash[:notice] = t('session.logged_in')
       end
+    elsif User.expired?(params[:email])
+      flash[:error] = t('session.expired')
+      redirect_to :controller => 'users', :action => 'renew'      
     elsif User.pending?(params[:email])
       flash[:error] = t('session.pending')
       redirect_to :signup
