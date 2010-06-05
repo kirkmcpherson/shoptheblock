@@ -29,11 +29,11 @@ class SessionsController < ApplicationController
         flash[:notice] = t('session.logged_in')
       end
     elsif User.expired?(params[:email])
-      self.current_user = User.find_by_email(params[:email])
+      self.current_user = User.get_user_by_email(params[:email])
       flash[:error] = t('session.expired')
       redirect_to :controller => 'users', :action => 'renew'      
     elsif User.pending?(params[:email])
-      self.current_user = User.find_by_email(params[:email])
+      self.current_user = User.get_user_by_email(params[:email])
       flash[:error] = t('session.pending')
       redirect_to :signup
     else

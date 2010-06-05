@@ -299,7 +299,7 @@ class User < ActiveRecord::Base
         (u && !u.pending? && u.authenticated?(password)) ? u : nil
     end
 
-    def self.find_by_email(email)
+    def self.get_user_by_email(email)
       u = find_by_email(email)
     end
     
