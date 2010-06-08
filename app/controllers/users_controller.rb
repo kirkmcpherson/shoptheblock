@@ -253,6 +253,11 @@ class UsersController < ApplicationController
 
   def renew
     @user = current_user
+    
+    if @user.nil?
+      @user = User.find_by_id(params[:user_id])
+    end
+    
     @site_settings = SiteSettings.get
     #@renew_length = ( Time.zone.now <= @user.membership_expiration ) ? @site_settings.early_renewal_length : @site_settings.renewal_length
     
