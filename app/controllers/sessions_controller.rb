@@ -31,7 +31,7 @@ class SessionsController < ApplicationController
     elsif User.expired?(params[:email])
       self.current_user = User.get_user_by_email(params[:email])
       flash[:error] = t('session.expired')
-      redirect_to :controller => 'users', :action => 'renew', :user_id => self.current_user.id  
+      redirect_to :controller => 'users', :action => 'renew', :activation_code => self.current_user.activation_code  
     elsif User.pending?(params[:email])
       self.current_user = User.get_user_by_email(params[:email])
       flash[:error] = t('session.pending')

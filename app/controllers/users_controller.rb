@@ -255,7 +255,7 @@ class UsersController < ApplicationController
     @user = current_user
     
     if @user.nil?
-      @user = User.find_by_id(params[:user_id])
+      @user = User.find_by_activation_code(params[:activation_code])
     end
     
     @site_settings = SiteSettings.get
