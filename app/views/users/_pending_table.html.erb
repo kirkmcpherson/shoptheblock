@@ -45,7 +45,7 @@
         <% end %>
     </td>
     <td colspan="3">
-      cards requested: <%= user.card_num %><%= " (#{user.partner_name})" if user.card_num == 2 %>
+      cards requested: <%= user.card_num %><%= " (#{user.partner_first_name} #{user.partner_last_name})" if user.card_num == 2 %>
     </td>
   </tr>
   </tbody>
